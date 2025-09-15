@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concert Booking App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        font-family: "Montserrat", sans-serif !important;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+      }
+      /* {
+        color: blue;
+      } */
+    </style>
+    <link rel="stylesheet" href="./CSS/styles.css" />
+  </head>
+  <body class="bg-slate-50">
+    <!-- Section - 1 -->
+    <section class="relative h-[75dvh] overflow-hidden inria-serif-regular">
+      <img
+        src="./ASSETS/nainoa-shizuru-NcdG9mK3PBY-unsplash.jpg"
+        alt="concert background"
+        class="absolute inset-0 w-full h-full object-cover brightness-75"
+      />
+
+      <nav
+        class="relative z-20 flex justify-between items-center px-6 md:px-12 py-4 md:py-6 text-white font-semibold text-lg"
+      >
+        <div class="brand text-2xl tracking-widest select-none">LOGO</div>
+        <ul class="hidden md:flex space-x-8 md:space-x-12 uppercase text-2xl">
+          <li class="cursor-pointer">HOME</li>
+          <li class="cursor-pointer">ABOUT</li>
+          <li class="relative group cursor-pointer">
+            <span class="inline-flex items-center select-none">
+              FACILITIES
+              <svg
+                class="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </span>
+          </li>
+          <li class="relative group cursor-pointer">
+            <span class="inline-flex items-center select-none">
+              EVENTS
+              <svg
+                class="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </span>
+          </li>
+        </ul>
+
+        <div class="flex items-center space-x-4 cursor-pointer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 text-gray-200"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-width="2" d="M4 8h16M4 16h16" />
+          </svg>
+          <div
+            class="bg-slate-100 text-black font-semibold text-lg md:text-xl py-2 px-6 rounded-full shadow-lg hover:scale-105 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#603CC2]/70 transition duration-300"
+          >
+            Login
+          </div>
+        </div>
+      </nav>
+
+      <div
+        class="flex flex-col justify-center items-center w-[100%] md:w-[60%] lg:w-[40%] h-[calc(75vh-10vh)] sm:h-[calc(75vh-100px)] lg:h-[calc(75vh-100px)] text-white drop-shadow-lg select-none"
+      >
+        <h1
+          class="text-5xl md:text-6xl lg:text-6xl font-extrabold leading-tight tracking-tight stroke-slate-950"
+        >
+          INDIA’S<br />
+          LEADING<br />
+          CONCERT<br />
+          BOOKING APP
+          <br />
+          <div
+            class="md:mt-10 bg-slate-50 text-black font-semibold text-2xl md:text-3xl py-3 px-8 md:px-12 rounded-3xl shadow-2xl w-fit inline-flex hover:scale-105 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#603CC2]/70 transition duration-300"
+          >
+            Go to Booking
+          </div>
+        </h1>
+      </div>
+    </section>
+
+    <!-- Section - 2 -->
+
+    <section>
+      <div
+        class="text-slate-800 w-full grid grid-cols-2 md:grid-cols-4 place-items-center gap-6 py-8"
+      >
+        <div class="text-center space-y-2 inria-serif-bold">
+          <div class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            375
+          </div>
+          <div class="text-sm sm:text-base md:text-lg lg:text-xl">
+            Total Events
+          </div>
+        </div>
+        <div class="text-center space-y-2 inria-serif-bold">
+          <div class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            9.5K
+          </div>
+          <div class="text-sm sm:text-base md:text-lg lg:text-xl">
+            Satisfied Client
+          </div>
+        </div>
+        <div class="text-center space-y-2 inria-serif-bold">
+          <div class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            4.5/5
+          </div>
+          <div class="text-sm sm:text-base md:text-lg lg:text-xl">
+            Customer Rating
+          </div>
+        </div>
+        <div class="text-center space-y-2 inria-serif-bold">
+          <div class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            93K
+          </div>
+          <div class="text-sm sm:text-base md:text-lg lg:text-xl">
+            Tickets Sold
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section - 3 -->
+    <div class="w-vw h-dvh flex justify-center items-center relative">
+      <section class="w-[90vw] h-[90vh]" >
+        <div class="carousel">
+          <div class="list">
+            <!-- ITEM - 1 -->
+            <div
+              class="item"
+              style="
+                background-image: url(./ASSETS/actionvance-eXVd7gDPO9A-unsplash.jpg);
+              "
+            >
+              <div class="content">
+                <div class="title">New York</div>
+                <div class="des">
+                  "In New York, music is not just played, it’s lived. Every
+                  street corner hums with rhythm, every skyline pulse feels like
+                  a drum, and concerts here are not events — they’re anthems of
+                  the city that never sleeps."
+                </div>
+                <div class="btn">
+                  <button style="display: none">See More</button>
+                  <button>Explore More</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITME - 2 -->
+            <div
+              class="item"
+              style="background-image: url(ASSETS/audience-1850119_1280.jpg)"
+            >
+              <div class="content">
+                <div class="title">LONDON</div>
+                <div class="des">
+                  "London’s nights are never silent; when the stage lights glow
+                  and the first chord strikes, the whole city turns into one
+                  giant choir, echoing in harmony with every beat."
+                </div>
+                <div class="btn">
+                  <button style="display: none">See More</button>
+                  <button>Explore More</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- item - 3 -->
+            <div
+              class="item"
+              style="
+                background-image: url(ASSETS/nainoa-shizuru-NcdG9mK3PBY-unsplash.jpg);
+              "
+            >
+              <div class="content">
+                <div class="title">Paris</div>
+                <div class="des">
+                  "Paris is more than the Eiffel Tower; it’s the city where
+                  violins breathe, guitars whisper, and the crowd sways like
+                  poetry written in sound beneath the shimmering lights."
+                </div>
+                <div class="btn">
+                  <button style="display: none">See More</button>
+                  <button>Explore More</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- item -4  -->
+            <div
+              class="item"
+              style="background-image: url(ASSETS/pexels-caio-60783.jpg)"
+            >
+              <div class="content">
+                <div class="title">Tokyo</div>
+                <div class="des">
+                  "Tokyo doesn’t just host concerts; it builds galaxies of
+                  sound. Under neon skies and dazzling screens, every note feels
+                  like a spark, lighting up the heartbeat of millions."
+                </div>
+                <div class="btn">
+                  <button style="display: none">See More</button>
+                  <button>Explore More</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- item - 5 -->
+            <div
+              class="item"
+              style="background-image: url(ASSETS/pexels-cottonbro-5648350.jpg)"
+            >
+              <div class="content">
+                <div class="title">Los Angeles</div>
+                <div class="des">
+                  "In Los Angeles, every strum feels cinematic. The city of
+                  stars turns concerts into stories, where lights, dreams, and
+                  songs blend into unforgettable scenes."
+                </div>
+                <div class="btn">
+                  <button style="display: none">See More</button>
+                  <button>Explore More</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- item - 6 -->
+            <div
+              class="item"
+              style="
+                background-image: url(ASSETS/pexels-eric-esma-302047-894156.jpg);
+              "
+            >
+              <div class="content">
+                <div class="title">Dubai</div>
+                <div class="des">
+                  "In Dubai, golden deserts meet global stages. Every concert
+                  becomes a festival of lights, blending tradition with modern
+                  beats under a sky that glitters like sound itself."
+                </div>
+                <div class="btn">
+                  <button style="display: none">See More</button>
+                  <button>Explore More</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--button-->
+          <div class="arrows">
+            <button class="prev">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 md:w-6 md:h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button class="next">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 md:w-6 md:h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Section -4  -->
+
+    
+
+    <!-- Slide-Up Gallery Section -->
+    <section class="w-full py-16 px-4 bg-gray-50 font-sans">
+       <div class="max-w-3xl mx-auto text-center">
+        <div class="text-purple-700 text-sm tracking-widest font-semibold mb-2">
+          OUR BANDS
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-serif text-black mb-4">
+          Bands by Thigalzhi® Concert Management System
+        </h2>
+
+        <p class="text-base md:text-lg text-gray-800 mb-6">
+          Thigalzhi® provides professional music bands, live performers, and
+          artists for concerts, festivals, and private events—spanning rock,
+          jazz, classical, fusion, Bollywood, and more.
+        </p>
+
+        <!-- Decorative divider -->
+        <div class="flex justify-center items-center gap-2 mb-12">
+          <span class="h-0.5 w-8 bg-purple-300 rounded"></span>
+          <svg width="24" height="24" fill="none" class="text-purple-300">
+            <circle cx="12" cy="12" r="6" fill="currentColor" />
+          </svg>
+          <span class="h-0.5 w-8 bg-purple-300 rounded"></span>
+        </div>
+      </div>
+
+      <!-- Slide-Up Gallery Grid -->
+      <div class="max-w-7xl mx-auto">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+        >
+          <!-- Slide-Up Gallery Item 1 -->
+          <div
+            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+          >
+            <img
+              src="./ASSETS/Band6.jpg"
+              alt="Classical Ensemble"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <!-- Slide-up details section -->
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+            >
+              <h3 class="text-lg md:text-xl font-bold mb-2">
+                Classical Symphony Orchestra
+              </h3>
+              <p class="text-sm md:text-base mb-3 opacity-90">
+                Experience the elegance of classical music with our world-class
+                symphony orchestra featuring renowned musicians.
+              </p>
+              <a
+                href="#"
+                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+              >
+                Explore
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide-Up Gallery Item 2 -->
+          <div
+            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+          >
+            <img
+              src="/ASSETS/Band1.jpg"
+              alt="Bollywood Stars"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+            >
+              <h3 class="text-lg md:text-xl font-bold mb-2">
+                Bollywood Extravaganza
+              </h3>
+              <p class="text-sm md:text-base mb-3 opacity-90">
+                Celebrate with vibrant Bollywood performances featuring top
+                playback singers and choreographed dance numbers.
+              </p>
+              <a
+                href="#"
+                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+              >
+                Explore
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide-Up Gallery Item 3 -->
+          <div
+            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+          >
+            <img
+              src="./ASSETS/Band2.jpg"
+              alt="Solo Acoustic Performance"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+            >
+              <h3 class="text-lg md:text-xl font-bold mb-2">
+                Acoustic Solo Sessions
+              </h3>
+              <p class="text-sm md:text-base mb-3 opacity-90">
+                Intimate acoustic performances perfect for smaller venues and
+                personal celebrations.
+              </p>
+              <a
+                href="#"
+                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+              >
+                Explore
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide-Up Gallery Item 4 -->
+          <div
+            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+          >
+            <img
+              src="./ASSETS/Band3.jpg"
+              alt="Electronic DJ Performance"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+            >
+              <h3 class="text-lg md:text-xl font-bold mb-2">
+                Electronic Dance Music
+              </h3>
+              <p class="text-sm md:text-base mb-3 opacity-90">
+                High-energy electronic performances with top DJs and
+                state-of-the-art sound systems for unforgettable nights.
+              </p>
+              <a
+                href="#"
+                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+              >
+                Explore
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide-Up Gallery Item 5 -->
+          <div
+            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+          >
+            <img
+              src="./ASSETS/Band4.jpg"
+              alt="World Music Ensemble"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+            >
+              <h3 class="text-lg md:text-xl font-bold mb-2">
+                World Music Fusion
+              </h3>
+              <p class="text-sm md:text-base mb-3 opacity-90">
+                Cultural music experiences blending traditional instruments with
+                contemporary arrangements from around the globe.
+              </p>
+              <a
+                href="#"
+                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+              >
+                Explore
+              </a>
+            </div>
+          </div>
+
+          <!-- Slide-Up Gallery Item 6 -->
+          <div
+            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+          >
+            <img
+              src="./ASSETS/Band5.jpg"
+              alt="Gospel Choir Performance"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+            >
+              <h3 class="text-lg md:text-xl font-bold mb-2">
+                Inspirational Gospel
+              </h3>
+              <p class="text-sm md:text-base mb-3 opacity-90">
+                Uplifting gospel performances with powerful vocals and spiritual
+                harmonies for meaningful celebrations.
+              </p>
+              <a
+                href="#"
+                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+              >
+                Explore
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="./JS/main.js"></script>
+  </body>
+</html>

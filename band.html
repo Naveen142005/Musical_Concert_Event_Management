@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <section
+      class="w-full bg-[#232838] py-10 px-4 md:px-12 relative overflow-x-hidden"
+    >
+      <!-- Section Title + Nav -->
+      <div class="flex items-center justify-between mb-5">
+        <h2
+          class="inria-serif-bold text-white text-2xl md:text-3xl lg:text-4xl tracking-wide"
+        >
+          OUR EXCELLENT BANDS
+        </h2>
+        <div class="flex gap-4">
+          <button
+            id="band-prev"
+            class="w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center shadow-md hover:bg-white/30 active:scale-95 transition"
+            aria-label="Previous band"
+          >
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            id="band-next"
+            class="w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center shadow-md hover:bg-white/30 active:scale-95 transition"
+            aria-label="Next band"
+          >
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- Carousel Row -->
+      <div class="flex w-full justify-center relative overflow-visible">
+        <div
+          id="band-carousel"
+          class="flex gap-6 w-full max-w-4xl px-2 md:px-0 select-none transition-all duration-500 ease-in-out"
+          style="scroll-behavior: smooth"
+        >
+          <!-- Cards injected by JS, see below -->
+        </div>
+      </div>
+      <!-- View more link -->
+      <div class="mt-7">
+        <a
+          href="/bands"
+          class="text-white font-semibold underline underline-offset-4 hover:text-indigo-300 transition text-lg"
+          >View more &rarr;</a
+        >
+      </div>
+    </section>
+
+    <script>
+      const bands = [
+        {
+          name: "Silo Band",
+          genre: "Rap Fusion",
+          img: "./bands/silo-band.jpg",
+          socials: [
+            { icon: "fab fa-instagram", url: "#" },
+            { icon: "fab fa-facebook-f", url: "#" },
+            { icon: "fab fa-twitter", url: "#" },
+            { icon: "fab fa-spotify", url: "#" },
+          ],
+        },
+        {
+          name: "Nova Pulse",
+          genre: "Electro Pop",
+          img: "./bands/nova-pulse.jpg",
+          socials: [
+            { icon: "fab fa-instagram", url: "#" },
+            { icon: "fab fa-youtube", url: "#" },
+            { icon: "fab fa-twitter", url: "#" },
+          ],
+        },
+        {
+          name: "Aurora Strings",
+          genre: "Classical",
+          img: "./bands/aurora-strings.jpg",
+          socials: [
+            { icon: "fab fa-facebook-f", url: "#" },
+            { icon: "fab fa-soundcloud", url: "#" },
+          ],
+        },
+        {
+          name: "Skyline Groove",
+          genre: "Rock",
+          img: "./bands/skyline-groove.jpg",
+          socials: [
+            { icon: "fab fa-instagram", url: "#" },
+            { icon: "fab fa-spotify", url: "#" },
+          ],
+        },
+      ];
+
+      const carousel = document.getElementById("band-carousel");
+      const prevBtn = document.getElementById("band-prev");
+      const nextBtn = document.getElementById("band-next");
+
+      let current = 0;
+
+      function getCardsToShow() {
+        if (window.innerWidth < 640) return 1;
+        else if (window.innerWidth < 1024) return 2;
+        else return 3;
+      }
+
+      function renderCarousel() {
+        carousel.innerHTML = "";
+        const cardsToShow = getCardsToShow();
+        // Center the active card for swipe/desktop experience
+        let start = Math.max(
+          0,
+          Math.min(
+            current - Math.floor(cardsToShow / 2),
+            bands.length - cardsToShow
+          )
+        );
+        let end = start + cardsToShow;
+        if (end > bands.length) {
+          end = bands.length;
+          start = end - cardsToShow;
+        }
+        for (let i = start; i < end; i++) {
+          const band = bands[i];
+          const isActive = i === current;
+          // Gradient with slight variation (use a fixed or random pastel gradient for each)
+          const gradients = [
+            "from-[#a770ef] to-[#fdb99b]",
+            "from-[#f5d100] to-[#f538a0]",
+            "from-[#43cea2] to-[#185a9d]",
+            "from-[#4568dc] to-[#b06ab3]",
+          ];
+          const gradient = gradients[i % gradients.length];
+          carousel.innerHTML += `
+      <div
+        class="flex flex-col items-center rounded-3xl shadow-xl transition-all duration-300
+        ${isActive ? "scale-105 shadow-2xl z-20" : "scale-100 shadow-md z-10"} 
+        hover:scale-110 hover:shadow-2xl bg-gradient-to-tr ${gradient}
+        px-6 py-8 w-64 max-w-[90vw] mx-auto my-2 relative cursor-pointer"
+        style="min-width:240px;"
+      >
+        <div class="rounded-full overflow-hidden border-4 border-white mb-5 w-28 h-28 flex items-center justify-center bg-black/5">
+          <img src="${band.img}" alt="${
+            band.name
+          }" class="w-24 h-24 object-cover rounded-full"/>
+        </div>
+        <div class="text-white font-semibold text-xl mb-1">${band.name}</div>
+        <div class="text-white/80 text-base mb-6">${band.genre}</div>
+        <div class="flex justify-center gap-5 mt-auto">
+          ${band.socials
+            .map(
+              (s) =>
+                `<a href="${s.url}" target="_blank" class="text-white/90 hover:text-white text-lg transition"><i class="${s.icon}"></i></a>`
+            )
+            .join("")}
+        </div>
+      </div>
+    `;
+        }
+      }
+
+      function slideTo(dir) {
+        const cardsToShow = getCardsToShow();
+        if (dir === "prev" && current > 0) current--;
+        else if (dir === "next" && current < bands.length - 1) current++;
+        else if (dir === "prev") current = bands.length - 1;
+        else if (dir === "next") current = 0;
+        renderCarousel();
+      }
+
+      // Swipe support (mobile)
+      let startX = 0,
+        moved = false;
+      carousel.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        moved = false;
+      });
+      carousel.addEventListener("touchmove", (e) => {
+        moved = true;
+      });
+      carousel.addEventListener("touchend", (e) => {
+        if (!moved) return;
+        let dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) {
+          slideTo(dx < 0 ? "next" : "prev");
+        }
+      });
+
+      prevBtn.onclick = () => slideTo("prev");
+      nextBtn.onclick = () => slideTo("next");
+      window.addEventListener("resize", renderCarousel);
+
+      // Initial render
+      renderCarousel();
+    </script>
+</body>
+</html>
