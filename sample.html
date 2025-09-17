@@ -1,31 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thigalzhi® Concert Management - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind config for custom purple theme
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "music-purple": {
+                50: "#f3f1ff",
+                100: "#ebe5ff",
+                200: "#d9ceff",
+                300: "#bea6ff",
+                400: "#9f75ff",
+                500: "#843dff",
+                600: "#7916ff",
+                700: "#6b04fd",
+                800: "#5a03d4",
+                900: "#4b05ad",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <!-- Demo Button to Open Modal -->
+    <button
+      id="openModalBtn"
+      class="bg-music-purple-600 hover:bg-music-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2"
+    >
+      <i class="fas fa-user-circle"></i>
+      Open Login/Signup
+    </button>
 
-    <style>
-        .main{
-            width: 100px;
-            height: 100px;
-            background-color: ;
-            position: relative;
-            top:100px;
-            left:100px;
+    <!-- Modal Overlay -->
+    <div
+      id="modalOverlay"
+      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+    >
+      <!-- Modal Container -->
+      <div
+        id="modalContainer"
+        class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-95 opacity-0"
+      >
+        <!-- Modal Header -->
+        <div
+          class="relative bg-gradient-to-r from-music-purple-600 to-music-purple-700 rounded-t-2xl p-6 text-white"
+        >
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-music text-2xl"></i>
+              <h2 class="text-xl font-bold">Thigalzhi® Access</h2>
+            </div>
+            <button
+              id="closeModalBtn"
+              class="text-white hover:text-gray-200 transition-colors duration-200 text-xl"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Tab Buttons -->
+          <div
+            class="flex mt-4 bg-white bg-opacity-20 rounded-lg p-1 space-x-1"
+          >
+            <button
+              id="loginTab"
+              class="flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 text-white bg-white bg-opacity-30"
+            >
+              <i class="fas fa-sign-in-alt mr-1"></i>Login
+            </button>
+            <button
+              id="signupTab"
+              class="flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 text-white hover:bg-white hover:bg-opacity-10"
+            >
+              <i class="fas fa-user-plus mr-1"></i>Signup
+            </button>
+            <button
+              id="forgotTab"
+              class="flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200 text-white hover:bg-white hover:bg-opacity-10"
+            >
+              <i class="fas fa-key mr-1"></i>Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6">
+          <!-- Login Form -->
+          <form id="loginForm" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-envelope text-music-purple-600 mr-2"></i>Email
+                Address
+              </label>
+              <input
+                type="email"
+                id="loginEmail"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200"
+                placeholder="your.email@example.com"
+                required
+              />
+              <span
+                id="loginEmailError"
+                class="text-red-500 text-xs mt-1 hidden"
+              ></span>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-lock text-music-purple-600 mr-2"></i>Password
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200 pr-12"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="loginPasswordToggle"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-music-purple-600"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <span
+                id="loginPasswordError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <button
+              type="submit"
+              id="loginBtn"
+              class="w-full bg-music-purple-600 hover:bg-music-purple-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-sign-in-alt"></i>
+              <span>Sign In to Thigalzhi®</span>
+            </button>
+
+            <div class="text-center">
+              <button
+                type="button"
+                id="switchToForgot"
+                class="text-sm text-music-purple-600 hover:text-music-purple-700 underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          </form>
+
+          <!-- Signup Form -->
+          <form id="signupForm" class="space-y-4 hidden">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-user text-music-purple-600 mr-2"></i>Full Name
+              </label>
+              <input
+                type="text"
+                id="signupName"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200"
+                placeholder="Enter your full name"
+                required
+              />
+              <span
+                id="signupNameError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-envelope text-music-purple-600 mr-2"></i>Email
+                Address
+              </label>
+              <input
+                type="email"
+                id="signupEmail"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200"
+                placeholder="your.email@example.com"
+                required
+              />
+              <span
+                id="signupEmailError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-lock text-music-purple-600 mr-2"></i>Password
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="signupPassword"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200 pr-12"
+                  placeholder="Create a strong password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="signupPasswordToggle"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-music-purple-600"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <span
+                id="signupPasswordError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-shield-alt text-music-purple-600 mr-2"></i
+                >Confirm Password
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="signupConfirmPassword"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200 pr-12"
+                  placeholder="Confirm your password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="signupConfirmPasswordToggle"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-music-purple-600"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <span
+                id="signupConfirmPasswordError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-users text-music-purple-600 mr-2"></i>Role
+              </label>
+              <select
+                id="signupRole"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200"
+                required
+              >
+                <option value="">Select your role</option>
+                <option value="organizer">Concert Organizer</option>
+                <option value="audience">Audience Member</option>
+              </select>
+              <span
+                id="signupRoleError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <button
+              type="submit"
+              id="signupBtn"
+              class="w-full bg-music-purple-600 hover:bg-music-purple-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-user-plus"></i>
+              <span>Join Thigalzhi® Community</span>
+            </button>
+
+            <div class="text-center text-xs text-gray-500">
+              By signing up, you agree to our Terms of Service and Privacy
+              Policy
+            </div>
+          </form>
+
+          <!-- Forgot Password Form -->
+          <form id="forgotForm" class="space-y-4 hidden">
+            <div class="text-center mb-4">
+              <i class="fas fa-key text-4xl text-music-purple-600 mb-3"></i>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                Reset Your Password
+              </h3>
+              <p class="text-sm text-gray-600">
+                Enter your email address and we'll send you instructions to
+                reset your password.
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-envelope text-music-purple-600 mr-2"></i>Email
+                Address
+              </label>
+              <input
+                type="email"
+                id="forgotEmail"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-music-purple-500 focus:border-music-purple-500 transition-colors duration-200"
+                placeholder="Enter your registered email"
+                required
+              />
+              <span
+                id="forgotEmailError"
+                class="text-red-500 text-xs mt-1 hidden "
+              ></span>
+            </div>
+
+            <button
+              type="submit"
+              id="forgotBtn"
+              class="w-full bg-music-purple-600 hover:bg-music-purple-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-paper-plane"></i>
+              <span>Send Reset Instructions</span>
+            </button>
+
+            <div class="text-center">
+              <button
+                type="button"
+                id="backToLogin"
+                class="text-sm text-music-purple-600 hover:text-music-purple-700 underline"
+              >
+                Back to Login
+              </button>
+            </div>
+
+            <!-- Success Message (hidden by default) -->
+            <div
+              id="resetSuccessMessage"
+              class="hidden bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+            >
+              <i class="fas fa-check-circle text-green-600 text-xl mb-2"></i>
+              <p class="text-green-800 font-medium mb-1">Reset Link Sent!</p>
+              <p class="text-green-700 text-sm">
+                Check your email for password reset instructions. The link will
+                expire in 24 hours.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* -------------------
+         Helpers
+      ------------------- */
+      const overlay = document.getElementById("modalOverlay");
+      const container = document.getElementById("modalContainer");
+
+      const openBtn = document.getElementById("openModalBtn");
+      const closeBtn = document.getElementById("closeModalBtn");
+
+      const loginTab = document.getElementById("loginTab");
+      const signupTab = document.getElementById("signupTab");
+      const forgotTab = document.getElementById("forgotTab");
+
+      const switchToForgot = document.getElementById("switchToForgot");
+      const backToLogin = document.getElementById("backToLogin");
+
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const forgotForm = document.getElementById("forgotForm");
+
+      let currentForm = "login";
+
+      /* -------------------
+         Modal
+      ------------------- */
+      function openModal() {
+        overlay.classList.remove("hidden");
+        setTimeout(() => {
+          container.classList.remove("scale-95", "opacity-0");
+          container.classList.add("scale-100", "opacity-100");
+        }, 10);
+        focusFirstInput();
+      }
+      function closeModal() {
+        container.classList.remove("scale-100", "opacity-100");
+        container.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+        }, 300);
+      }
+
+      /* -------------------
+         Tab switching
+      ------------------- */
+      function showForm(type) {
+        loginForm.classList.add("hidden");
+        signupForm.classList.add("hidden");
+        forgotForm.classList.add("hidden");
+        if (type === "login") loginForm.classList.remove("hidden");
+        if (type === "signup") signupForm.classList.remove("hidden");
+        if (type === "forgot") forgotForm.classList.remove("hidden");
+      }
+      function updateTabStyles(active) {
+        [loginTab, signupTab, forgotTab].forEach((tab) =>
+          tab.classList.remove("bg-white", "bg-opacity-30")
+        );
+        if (active === "login")
+          loginTab.classList.add("bg-white", "bg-opacity-30");
+        if (active === "signup")
+          signupTab.classList.add("bg-white", "bg-opacity-30");
+        if (active === "forgot")
+          forgotTab.classList.add("bg-white", "bg-opacity-30");
+      }
+      function switchToLogin() {
+        currentForm = "login";
+        showForm("login");
+        updateTabStyles("login");
+        focusFirstInput();
+      }
+      function switchToSignup() {
+        currentForm = "signup";
+        showForm("signup");
+        updateTabStyles("signup");
+        focusFirstInput();
+      }
+      function switchToForgotForm() {
+        currentForm = "forgot";
+        showForm("forgot");
+        updateTabStyles("forgot");
+        focusFirstInput();
+      }
+
+      /* -------------------
+         Input Validation
+      ------------------- */
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+      function showError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const error = document.getElementById(fieldId + "Error");
+        error.textContent = message;
+        error.classList.remove("hidden");
+        input.classList.add("border-red-500");
+      }
+      function hideError(fieldId) {
+        const input = document.getElementById(fieldId);
+        const error = document.getElementById(fieldId + "Error");
+        error.classList.add("hidden");
+        input.classList.remove("border-red-500");
+      }
+
+      // Real-time validation
+      document.querySelectorAll("input, select").forEach((el) => {
+        el.addEventListener("blur", () => validateField(el.id));
+        el.addEventListener("input", () => validateField(el.id));
+      });
+
+      function validateField(id) {
+        const value = document.getElementById(id).value.trim();
+        let error = "";
+
+        switch (id) {
+          /* ---------- LOGIN ---------- */
+          case "loginEmail":
+            if (!value) error = "Email is required.";
+            else if (!isValidEmail(value)) error = "Invalid email format.";
+            break;
+          case "loginPassword":
+            if (!value) error = "Password is required.";
+            break;
+
+          /* ---------- SIGNUP ---------- */
+          case "signupName":
+            if (!value) error = "Full name is required.";
+            break;
+          case "signupEmail":
+            if (!value) error = "Email is required.";
+            else if (!isValidEmail(value)) error = "Invalid email format.";
+            break;
+          case "signupPassword":
+            if (!value) error = "Password is required.";
+            else if (value.length < 6)
+              error = "Password must be at least 6 characters.";
+            break;
+          case "signupConfirmPassword":
+            const pwd = document.getElementById("signupPassword").value;
+            if (!value) error = "Please confirm your password.";
+            else if (value !== pwd) error = "Passwords do not match.";
+            break;
+          case "signupRole":
+            if (!value) error = "Please select a role.";
+            break;
+
+          /* ---------- FORGOT ---------- */
+          case "forgotEmail":
+            if (!value) error = "Email is required.";
+            else if (!isValidEmail(value)) error = "Invalid email format.";
+            break;
         }
-    </style>
-</head>
-<body>
-    <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus libero quisquam, doloribus adipisci laboriosam nulla eum amet consectetur sunt aut vero ipsa delectus? Quibusdam possimus, deserunt praesentium iure nemo impedit!
-    </div>
-    <div class="main">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum id, iste non accusantium, cupiditate harum qui, possimus rem ipsum delectus asperiores nemo! Ab quos facilis labore accusamus. Excepturi, ab hic?
-    </div>
-    
-    <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, necessitatibus voluptate? Accusamus natus iste velit nulla voluptate, quo laborum vero mollitia, amet pariatur consectetur eligendi debitis ratione ut! Porro, obcaecati.
-    </div>
-</body>
+
+        if (error) showError(id, error);
+        else hideError(id);
+      }
+
+      /* -------------------
+         Loading Animation Functions
+      ------------------- */
+      function disableButtonWithLoading(btnId, loadingText) {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = `<i class='fas fa-spinner fa-spin mr-2'></i> ${loadingText}`;
+        }
+      }
+
+      function resetButton(btnId, originalHtml) {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+        }
+      }
+
+      /* -------------------
+         Form Submission with Loading
+      ------------------- */
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        validateField("loginEmail");
+        validateField("loginPassword");
+        if (
+            document.getElementById("loginEmailError").classList.contains('hidden') &&
+            document.getElementById("loginPasswordError").classList.contains('hidden')
+        ) {
+          disableButtonWithLoading("loginBtn", "Signing In...");
+          setTimeout(() => {
+            alert("Login successful (simulate DB check later).");
+            closeModal();
+            resetButton("loginBtn", `<i class='fas fa-sign-in-alt'></i> <span>Sign In to Thigalzhi®</span>`);
+          }, 2000);
+        }
+        else {
+            console.log(document.getElementById("loginEmailError").textContent)
+            console.log(document.getElementById("loginPasswordError").textContent);
+            
+        }
+      });
+
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        [
+          "signupName",
+          "signupEmail",
+          "signupPassword",
+          "signupConfirmPassword",
+          "signupRole",
+        ].forEach(validateField);
+        
+        if (
+          document.getElementById("signupNameError").classList.contains('hidden') &&
+          document.getElementById("signupEmailError").classList.contains('hidden') &&
+          document.getElementById("signupPasswordError").classList.contains('hidden') &&
+          document.getElementById("signupConfirmPasswordError").classList.contains('hidden') &&
+          document.getElementById("signupRoleError").classList.contains('hidden')
+        ) {
+          disableButtonWithLoading("signupBtn", "Signing Up...");
+          setTimeout(() => {
+            alert("Signup successful (store user in DB later).");
+            closeModal();
+            resetButton("signupBtn", `<i class='fas fa-user-plus'></i> <span>Join Thigalzhi® Community</span>`);
+          }, 2000);
+        }
+      });
+
+      forgotForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        validateField("forgotEmail");
+        if (document.getElementById("forgotEmailError").classList.contains('hidden')) {
+          disableButtonWithLoading("forgotBtn", "Sending...");
+          setTimeout(() => {
+            document
+              .getElementById("resetSuccessMessage")
+              .classList.remove("hidden");
+            resetButton("forgotBtn", `<i class='fas fa-paper-plane'></i> <span>Send Reset Instructions</span>`);
+          }, 2000);
+        }
+      });
+
+      /* -------------------
+         Password Toggles
+      ------------------- */
+      function togglePasswordVisibility(toggleId, inputId) {
+        const toggle = document.getElementById(toggleId);
+        const input = document.getElementById(inputId);
+        toggle.addEventListener("click", () => {
+          if (input.type === "password") {
+            input.type = "text";
+            toggle.innerHTML = '<i class="fas fa-eye-slash"></i>';
+          } else {
+            input.type = "password";
+            toggle.innerHTML = '<i class="fas fa-eye"></i>';
+          }
+        });
+      }
+
+      togglePasswordVisibility("loginPasswordToggle", "loginPassword");
+      togglePasswordVisibility("signupPasswordToggle", "signupPassword");
+      togglePasswordVisibility("signupConfirmPasswordToggle", "signupConfirmPassword");
+
+      /* -------------------
+         Event Listeners
+      ------------------- */
+      openBtn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+
+      loginTab.addEventListener("click", switchToLogin);
+      signupTab.addEventListener("click", switchToSignup);
+      forgotTab.addEventListener("click", switchToForgotForm);
+
+      switchToForgot.addEventListener("click", switchToForgotForm);
+      backToLogin.addEventListener("click", switchToLogin);
+
+      function focusFirstInput() {
+        if (currentForm === "login") document.getElementById("loginEmail").focus();
+        if (currentForm === "signup") document.getElementById("signupName").focus();
+        if (currentForm === "forgot") document.getElementById("forgotEmail").focus();
+      }
+    </script>
+  </body>
 </html>
+                
