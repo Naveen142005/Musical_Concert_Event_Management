@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thigazhi Concert Management - Book Your Event</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --background: #ffffff;
+            --foreground: #000000;
+            --card: #f9f9f9;
+            --card-foreground: #000000;
+            --primary: #4B0082; 
+            --primary-foreground: #ffffff;
+            --secondary: #9B59B6;
+            --secondary-foreground: #ffffff;
+            --muted: #f1f1f1;
+            --muted-foreground: #4B0082;
+            --accent: #9B59B6;
+            --accent-foreground: #ffffff;
+            --destructive: #e74c3c;
+            --border: #e0e0e0;
+            --input: #ffffff;
+            --ring: rgba(75, 0, 130, 0.2);
+            --radius: 0.5rem;
+        }
+        
+        .font-heading { font-family: 'Playfair Display', serif; }
+        .font-body { font-family: 'Source Sans Pro', sans-serif; }
+        
+        .primary-bg { background-color: var(--primary); }
+        .primary-text { color: var(--primary); }
+        .secondary-bg { background-color: var(--secondary); }
+        .secondary-text { color: var(--secondary); }
+        .accent-bg { background-color: var(--accent); }
+        .accent-text { color: var(--accent); }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+        
+        .step-indicator.completed {
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .calendar-cell {
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-cell:hover {
+            transform: translateY(-2px);
+        }
+        
+        .calendar-cell.available {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .calendar-cell.unavailable {
+            background-color: #ef4444;
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .calendar-cell.selected {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .item-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .item-card.selected {
+            border-color: var(--primary);
+            background-color: rgba(75, 0, 130, 0.05);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        /* Hide scrollbar but keep scroll functionality */
+            #scrollbar {
+            overflow-x: scroll;   
+            scrollbar-width: none;  
+            }
+
+            #scrollbar::-webkit-scrollbar {
+            display: none;   /* Chrome, Safari, Edge */
+            }
+
+    </style>
+    
+</head>
+<body class="font-body bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="primary-bg text-white py-6 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="font-heading text-3xl md:text-4xl font-bold text-center">
+                <i class="fas fa-music mr-3"></i>
+                Thigazhi Concert Management
+            </h1>
+            <p class="text-center mt-2 text-purple-200">Premium Concert Booking Experience</p>
+        </div>
+    </header>
+
+    <!-- Progress Indicator -->
+    <div class="bg-white shadow-sm py-4 px-4 sticky top-0 z-40" id="scrollbar">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <div class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">1</div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200"></div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">2</div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200"></div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">3</div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200"></div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">4</div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200"></div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">5</div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200"></div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">6</div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200"></div>
+                    <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">7</div>
+                </div>
+            </div>
+            <div class="progress-bar h-2 rounded-full" style="width: 14.28%"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Section -->
+            <div class="lg:col-span-2">
+                <!-- Step 1: Basic Details -->
+                <div id="step1" class="step-content fade-in">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-user-circle mr-3"></i>
+                            Basic Details
+                        </h2>
+                        
+                        <form id="basicDetailsForm" class="space-y-6">
+                            <div>
+                                <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-user mr-2"></i>Full Name *
+                                </label>
+                                <input type="text" id="fullName" name="fullName" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-envelope mr-2"></i>Email Address *
+                                </label>
+                                <input type="email" id="email" name="email" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="mobile" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-phone mr-2"></i>Mobile Number *
+                                </label>
+                                <input type="tel" id="mobile" name="mobile" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                    placeholder="Enter 7-15 digits">
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-4">
+                                    <i class="fas fa-clock mr-2"></i>Concert Time *
+                                </label>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="concertTime" value="morning" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold">Morning</div>
+                                            <div class="text-sm text-gray-500">6:00 AM - 12:00 PM</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="concertTime" value="afternoon" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold">Afternoon</div>
+                                            <div class="text-sm text-gray-500">12:00 PM - 6:00 PM</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="concertTime" value="night" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold">Night</div>
+                                            <div class="text-sm text-gray-500">6:00 PM - 12:00 AM</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+                        </form>
+                        
+                        <div class="flex justify-end mt-8">
+                            <button id="nextStep1" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all transform hover:scale-105">
+                                Next Step <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Venues & Bands -->
+                <div id="step2" class="step-content hidden">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-building mr-3"></i>
+                            Venues & Bands
+                        </h2>
+                        
+                        <!-- Venue Selection -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold">Do you want a venue?</h3>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="wantVenue" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div id="venueSection" class="hidden">
+                                <!-- Venue Filters -->
+                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                    <h4 class="font-semibold mb-4">Filter Venues</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Min Price</label>
+                                            <input type="number" id="venueMinPrice" class="w-full px-3 py-2 border rounded-lg" placeholder="0">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Max Price</label>
+                                            <input type="number" id="venueMaxPrice" class="w-full px-3 py-2 border rounded-lg" placeholder="100000">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Location</label>
+                                            <input type="text" id="venueLocation" class="w-full px-3 py-2 border rounded-lg" placeholder="Any location">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Min Rating</label>
+                                            <select id="venueMinRating" class="w-full px-3 py-2 border rounded-lg">
+                                                <option value="0">Any Rating</option>
+                                                <option value="3">3+ Stars</option>
+                                                <option value="4">4+ Stars</option>
+                                                <option value="4.5">4.5+ Stars</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Venue List -->
+                                <div id="venueList" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"></div>
+                                
+                                <!-- Venue Pagination -->
+                                <div id="venuePagination" class="flex justify-center items-center space-x-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Band Selection -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold">Do you want a band?</h3>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="wantBand" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div id="bandSection" class="hidden">
+                                <!-- Band Filters -->
+                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                    <h4 class="font-semibold mb-4">Filter Bands</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Min Price</label>
+                                            <input type="number" id="bandMinPrice" class="w-full px-3 py-2 border rounded-lg" placeholder="0">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Max Price</label>
+                                            <input type="number" id="bandMaxPrice" class="w-full px-3 py-2 border rounded-lg" placeholder="100000">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Genre</label>
+                                            <select id="bandGenre" class="w-full px-3 py-2 border rounded-lg">
+                                                <option value="">Any Genre</option>
+                                                <option value="Rock">Rock</option>
+                                                <option value="Pop">Pop</option>
+                                                <option value="Jazz">Jazz</option>
+                                                <option value="Classical">Classical</option>
+                                                <option value="Electronic">Electronic</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Min Rating</label>
+                                            <select id="bandMinRating" class="w-full px-3 py-2 border rounded-lg">
+                                                <option value="0">Any Rating</option>
+                                                <option value="3">3+ Stars</option>
+                                                <option value="4">4+ Stars</option>
+                                                <option value="4.5">4.5+ Stars</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Band List -->
+                                <div id="bandList" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"></div>
+                                
+                                <!-- Band Pagination -->
+                                <div id="bandPagination" class="flex justify-center items-center space-x-2"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button id="prevStep2" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button id="nextStep2" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all transform hover:scale-105">
+                                Next Step <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Extras -->
+                <div id="step3" class="step-content hidden">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-star mr-3"></i>
+                            Extras & Add-ons
+                        </h2>
+                        
+                        <!-- Decoration Selection -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold">Do you want decorations?</h3>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="wantDecoration" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div id="decorationSection" class="hidden">
+                                <!-- Decoration Filters -->
+                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                    <h4 class="font-semibold mb-4">Filter Decoration Teams</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Min Price</label>
+                                            <input type="number" id="decorationMinPrice" class="w-full px-3 py-2 border rounded-lg" placeholder="0">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Max Price</label>
+                                            <input type="number" id="decorationMaxPrice" class="w-full px-3 py-2 border rounded-lg" placeholder="200000">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Package Type</label>
+                                            <select id="decorationPackageType" class="w-full px-3 py-2 border rounded-lg">
+                                                <option value="">Any Package</option>
+                                                <option value="Basic">Basic</option>
+                                                <option value="Premium">Premium</option>
+                                                <option value="Luxury">Luxury</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Decoration List -->
+                                <div id="decorationList" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"></div>
+                                
+                                <!-- Decoration Pagination -->
+                                <div id="decorationPagination" class="flex justify-center items-center space-x-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Food/Snacks Selection -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold">Do you want food/snacks?</h3>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="wantFood" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div id="foodSection" class="hidden">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <label for="snackCount" class="block text-sm font-semibold text-gray-700 mb-2">
+                                        <i class="fas fa-cookie-bite mr-2"></i>Number of Snack Boxes
+                                    </label>
+                                    <input type="number" id="snackCount" min="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" placeholder="Enter number of snack boxes">
+                                    <p class="text-sm text-gray-500 mt-2">Each snack box serves approximately 10 people. Price: ₹500 per box</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button id="prevStep3" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button id="nextStep3" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all transform hover:scale-105">
+                                Next Step <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Calendar -->
+                <div id="step4" class="step-content hidden">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-calendar-alt mr-3"></i>
+                            Select Date & Check Availability
+                        </h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <button id="prevMonth" class="p-2 rounded-lg hover:bg-gray-100">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h3 id="currentMonth" class="text-xl font-semibold"></h3>
+                                <button id="nextMonth" class="p-2 rounded-lg hover:bg-gray-100">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="grid grid-cols-7 gap-2 mb-4">
+                                <div class="text-center font-semibold text-gray-600 py-2">Sun</div>
+                                <div class="text-center font-semibold text-gray-600 py-2">Mon</div>
+                                <div class="text-center font-semibold text-gray-600 py-2">Tue</div>
+                                <div class="text-center font-semibold text-gray-600 py-2">Wed</div>
+                                <div class="text-center font-semibold text-gray-600 py-2">Thu</div>
+                                <div class="text-center font-semibold text-gray-600 py-2">Fri</div>
+                                <div class="text-center font-semibold text-gray-600 py-2">Sat</div>
+                            </div>
+                            
+                            <div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                                <span class="text-sm">Available</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-red-500 rounded mr-2"></div>
+                                <span class="text-sm">Unavailable</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 primary-bg rounded mr-2"></div>
+                                <span class="text-sm">Selected</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Alternatives Panel -->
+                        <div id="alternativesPanel" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                            <h4 class="font-semibold text-yellow-800 mb-3">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Some items are unavailable for this date. Here are alternatives:
+                            </h4>
+                            <div id="alternativesList"></div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button id="prevStep4" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button id="nextStep4" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                Next Step <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Ticketing -->
+                <div id="step5" class="step-content hidden">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-ticket-alt mr-3"></i>
+                            Ticketing Options
+                        </h2>
+                        
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-semibold">Will you provide tickets?</h3>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="provideTickets" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div id="ticketingSection" class="hidden space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div class="bg-gradient-to-br from-yellow-400 to-yellow-600 p-6 rounded-lg text-white">
+                                        <h4 class="font-bold text-lg mb-3">
+                                            <i class="fas fa-crown mr-2"></i>Platinum
+                                        </h4>
+                                        <label for="platinumPrice" class="block text-sm mb-2">Price per ticket (₹)</label>
+                                        <input type="number" id="platinumPrice" min="1" class="w-full px-3 py-2 rounded-lg text-black" placeholder="5000">
+                                        <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-br from-gray-400 to-gray-600 p-6 rounded-lg text-white">
+                                        <h4 class="font-bold text-lg mb-3">
+                                            <i class="fas fa-medal mr-2"></i>Gold
+                                        </h4>
+                                        <label for="goldPrice" class="block text-sm mb-2">Price per ticket (₹)</label>
+                                        <input type="number" id="goldPrice" min="1" class="w-full px-3 py-2 rounded-lg text-black" placeholder="3000">
+                                        <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-br from-orange-400 to-orange-600 p-6 rounded-lg text-white">
+                                        <h4 class="font-bold text-lg mb-3">
+                                            <i class="fas fa-award mr-2"></i>Silver
+                                        </h4>
+                                        <label for="silverPrice" class="block text-sm mb-2">Price per ticket (₹)</label>
+                                        <input type="number" id="silverPrice" min="1" class="w-full px-3 py-2 rounded-lg text-black" placeholder="1500">
+                                        <div class="error-message text-red-200 text-sm mt-1 hidden"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="ticketBookingDate" class="block text-sm font-semibold text-gray-700 mb-2">
+                                        <i class="fas fa-calendar-check mr-2"></i>Ticket Booking Opens On
+                                    </label>
+                                    <input type="datetime-local" id="ticketBookingDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                                    <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                                    <p class="text-sm text-gray-500 mt-2">Must be after today and before the event date</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button id="prevStep5" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button id="nextStep5" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all transform hover:scale-105">
+                                Next Step <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6: Summary -->
+                <div id="step6" class="step-content hidden">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-clipboard-list mr-3"></i>
+                            Booking Summary
+                        </h2>
+                        
+                        <div id="summaryContent" class="space-y-6">
+                            <!-- Summary will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button id="prevStep6" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button id="nextStep6" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all transform hover:scale-105">
+                                Proceed to Payment <i class="fas fa-credit-card ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7: Payment -->
+                <div id="step7" class="step-content hidden">
+                    <div class="bg-white rounded-lg card-shadow p-6 md:p-8">
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold primary-text mb-6">
+                            <i class="fas fa-credit-card mr-3"></i>
+                            Payment Details
+                        </h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Payment Amount</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="paymentAmount" value="full" class="sr-only" checked>
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full"></div>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold">Full Amount</div>
+                                            <div id="fullAmount" class="text-sm text-gray-500">₹0</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="paymentAmount" value="deposit" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold">50% Deposit</div>
+                                            <div id="depositAmount" class="text-sm text-gray-500">₹0</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Payment Method</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="paymentMethod" value="upi" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div class="text-center">
+                                            <i class="fas fa-mobile-alt text-2xl text-purple-600 mb-2"></i>
+                                            <div class="font-semibold">UPI</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="paymentMethod" value="card" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div class="text-center">
+                                            <i class="fas fa-credit-card text-2xl text-purple-600 mb-2"></i>
+                                            <div class="font-semibold">Card</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-all">
+                                        <input type="radio" name="paymentMethod" value="netbanking" class="sr-only">
+                                        <div class="radio-custom w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-purple-600 rounded-full hidden"></div>
+                                        </div>
+                                        <div class="text-center">
+                                            <i class="fas fa-university text-2xl text-purple-600 mb-2"></i>
+                                            <div class="font-semibold">Net Banking</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="error-message text-red-500 text-sm mt-2 hidden"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button id="prevStep7" class="bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button id="completeBooking" class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all transform hover:scale-105">
+                                <i class="fas fa-check mr-2"></i>Complete Booking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Panel -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg card-shadow p-6 sticky top-32">
+                    <h3 class="font-heading text-xl font-bold primary-text mb-4">
+                        <i class="fas fa-receipt mr-2"></i>
+                        Booking Summary
+                    </h3>
+                    
+                    <div id="liveSummary" class="space-y-4">
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-clipboard-list text-4xl mb-4"></i>
+                            <p>Your selections will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <div id="totalCost" class="border-t pt-4 mt-4 hidden">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold">Total Cost:</span>
+                            <span id="totalAmount" class="text-xl font-bold primary-text">₹0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4 text-center">
+            <div class="text-green-500 text-6xl mb-4">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Booking Confirmed!</h3>
+            <p class="text-gray-600 mb-6">Your concert booking has been successfully submitted. Check the console for detailed booking information.</p>
+            <button id="closeModal" class="primary-bg text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

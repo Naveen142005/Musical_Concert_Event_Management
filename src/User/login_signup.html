@@ -6,22 +6,30 @@
     <title>Thigalzhi® Concert Management - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      // Required scopes for sending emails
+const SCOPES = [
+    'https://www.googleapis.com/auth/gmail.send',
+    'https://www.googleapis.com/auth/gmail.compose',
+    'https://www.googleapis.com/auth/gmail.modify'
+];
+
       // Tailwind config for custom purple theme
       tailwind.config = {
         theme: {
           extend: {
             colors: {
               "music-purple": {
-                50: "#f3f1ff",
-                100: "#ebe5ff",
-                200: "#d9ceff",
-                300: "#bea6ff",
-                400: "#9f75ff",
-                500: "#843dff",
-                600: "#7916ff",
-                700: "#6b04fd",
-                800: "#5a03d4",
-                900: "#4b05ad",
+               50:  "#ffffff", // Pure White
+100: "#fafafa", // Paper White
+200: "#f0f0f0", // Light Neutral
+300: "#e5e5e5", // Subtle Border
+400: "#cccccc", // Soft Neutral
+500: "#999999", // Mid Neutral
+600: "#666666", // Text Gray
+700: "#333333", // Strong Gray
+800: "#1a1a1a", // Deep Black
+900: "#000000", // Pure Black
+
               },
             },
           },
@@ -32,6 +40,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   </head>
   <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <!-- Demo Button to Open Modal -->
@@ -46,12 +56,12 @@
     <!-- Modal Overlay -->
     <div
       id="modalOverlay"
-      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50  flex items-center justify-center p-4"
     >
       <!-- Modal Container -->
       <div
         id="modalContainer"
-        class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-95 opacity-0"
+        class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-95 opacity-1"
       >
         <!-- Modal Header -->
         <div
@@ -97,6 +107,11 @@
 
         <!-- Modal Body -->
         <div class="p-6">
+          <!-- Success/Error Message -->
+          <div id="messageContainer" class="mb-4 hidden">
+            <p id="messageText" class="text-center font-medium"></p>
+          </div>
+
           <!-- Login Form -->
           <form id="loginForm" class="space-y-4">
             <div>
@@ -139,7 +154,7 @@
               </div>
               <span
                 id="loginPasswordError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -178,7 +193,7 @@
               />
               <span
                 id="signupNameError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -196,7 +211,7 @@
               />
               <span
                 id="signupEmailError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -222,7 +237,7 @@
               </div>
               <span
                 id="signupPasswordError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -249,7 +264,7 @@
               </div>
               <span
                 id="signupConfirmPasswordError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -263,12 +278,12 @@
                 required
               >
                 <option value="">Select your role</option>
-                <option value="organizer">Concert Organizer</option>
+                <option value="organizers">Concert Organizer</option>
                 <option value="audience">Audience Member</option>
               </select>
               <span
                 id="signupRoleError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -314,7 +329,7 @@
               />
               <span
                 id="forgotEmailError"
-                class="text-red-500 text-xs mt-1 hidden "
+                class="text-red-500 text-xs mt-1 hidden"
               ></span>
             </div>
 
@@ -355,11 +370,17 @@
     </div>
 
     <script>
+      // API Configuration
+      const API_URL =
+        "https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2";
+
       /* -------------------
-         Helpers
+         DOM Elements
       ------------------- */
       const overlay = document.getElementById("modalOverlay");
       const container = document.getElementById("modalContainer");
+      const messageContainer = document.getElementById("messageContainer");
+      const messageText = document.getElementById("messageText");
 
       const openBtn = document.getElementById("openModalBtn");
       const closeBtn = document.getElementById("closeModalBtn");
@@ -378,16 +399,117 @@
       let currentForm = "login";
 
       /* -------------------
-         Modal
+         API Functions
+      ------------------- */
+
+      // Fetch data from API
+      async function fetchAPIData() {
+        try {
+          const response = await fetch(API_URL);
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+          return await response.json();
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          showMessage("Error connecting to server. Please try again.", "error");
+          return null;
+        }
+      }
+
+      // Update data in API
+      async function updateAPIData(data) {
+        try {
+          const response = await fetch(API_URL, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+          if (!response.ok) {
+            throw new Error("Failed to update data");
+          }
+          return await response.json();
+        } catch (error) {
+          console.error("Error updating data:", error);
+          showMessage("Error saving data. Please try again.", "error");
+          return null;
+        }
+      }
+
+      // Check if email exists in a specific role array
+      function emailExists(users, email) {
+        return users.some(
+          (user) => user.email.toLowerCase() === email.toLowerCase()
+        );
+      }
+
+      // Find user by email and password in both arrays
+      function findUser(data, email, password) {
+        const organizers = data.Organizers || [];
+        const audience = data.Audience || [];
+
+        // Check in Organizers array
+        let user = organizers.find(
+          (user) =>
+            user.email.toLowerCase() === email.toLowerCase() &&
+            user.password === password
+        );
+
+        if (user) {
+          return { user, role: "organizer" };
+        }
+
+        // Check in Audience array
+        user = audience.find(
+          (user) =>
+            user.email.toLowerCase() === email.toLowerCase() &&
+            user.password === password
+        );
+
+        if (user) {
+          return { user, role: "audience" };
+        }
+
+        return null;
+      }
+
+      /* -------------------
+         Message Display
+      ------------------- */
+      function showMessage(message, type = "success") {
+        messageText.textContent = message;
+        messageContainer.className = `mb-4 p-3 rounded-lg text-center ${
+          type === "success"
+            ? "bg-green-50 border border-green-200 text-green-800"
+            : "bg-red-50 border border-red-200 text-red-800"
+        }`;
+        messageContainer.classList.remove("hidden");
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          messageContainer.classList.add("hidden");
+        }, 5000);
+      }
+
+      function hideMessage() {
+        messageContainer.classList.add("hidden");
+      }
+
+      /* -------------------
+         Modal Functions
       ------------------- */
       function openModal() {
         overlay.classList.remove("hidden");
+        hideMessage(); // Clear any previous messages
         setTimeout(() => {
           container.classList.remove("scale-95", "opacity-0");
           container.classList.add("scale-100", "opacity-100");
         }, 10);
         focusFirstInput();
       }
+
       function closeModal() {
         container.classList.remove("scale-100", "opacity-100");
         container.classList.add("scale-95", "opacity-0");
@@ -397,16 +519,18 @@
       }
 
       /* -------------------
-         Tab switching
+         Tab Switching Functions
       ------------------- */
       function showForm(type) {
         loginForm.classList.add("hidden");
         signupForm.classList.add("hidden");
         forgotForm.classList.add("hidden");
+        hideMessage(); // Clear messages when switching forms
         if (type === "login") loginForm.classList.remove("hidden");
         if (type === "signup") signupForm.classList.remove("hidden");
         if (type === "forgot") forgotForm.classList.remove("hidden");
       }
+
       function updateTabStyles(active) {
         [loginTab, signupTab, forgotTab].forEach((tab) =>
           tab.classList.remove("bg-white", "bg-opacity-30")
@@ -418,31 +542,35 @@
         if (active === "forgot")
           forgotTab.classList.add("bg-white", "bg-opacity-30");
       }
+
       function switchToLogin() {
         currentForm = "login";
         showForm("login");
         updateTabStyles("login");
-        focusFirstInput();
+        // focusFirstInput();
       }
+
       function switchToSignup() {
         currentForm = "signup";
         showForm("signup");
         updateTabStyles("signup");
-        focusFirstInput();
+        // focusFirstInput();
       }
+
       function switchToForgotForm() {
         currentForm = "forgot";
         showForm("forgot");
         updateTabStyles("forgot");
-        focusFirstInput();
+        // focusFirstInput();
       }
 
       /* -------------------
-         Input Validation
+         Validation Functions
       ------------------- */
       function isValidEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       }
+
       function showError(fieldId, message) {
         const input = document.getElementById(fieldId);
         const error = document.getElementById(fieldId + "Error");
@@ -450,6 +578,7 @@
         error.classList.remove("hidden");
         input.classList.add("border-red-500");
       }
+
       function hideError(fieldId) {
         const input = document.getElementById(fieldId);
         const error = document.getElementById(fieldId + "Error");
@@ -511,7 +640,7 @@
       }
 
       /* -------------------
-         Loading Animation Functions
+         Loading Functions
       ------------------- */
       function disableButtonWithLoading(btnId, loadingText) {
         const btn = document.getElementById(btnId);
@@ -530,32 +659,73 @@
       }
 
       /* -------------------
-         Form Submission with Loading
+         Form Submission with API Integration
       ------------------- */
-      loginForm.addEventListener("submit", (e) => {
+
+      // Login Form
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        // Validate fields
         validateField("loginEmail");
         validateField("loginPassword");
+
+        // Check if there are validation errors
         if (
-            document.getElementById("loginEmailError").classList.contains('hidden') &&
-            document.getElementById("loginPasswordError").classList.contains('hidden')
+          !document
+            .getElementById("loginEmailError")
+            .classList.contains("hidden") ||
+          !document
+            .getElementById("loginPasswordError")
+            .classList.contains("hidden")
         ) {
-          disableButtonWithLoading("loginBtn", "Signing In...");
-          setTimeout(() => {
-            alert("Login successful (simulate DB check later).");
-            closeModal();
-            resetButton("loginBtn", `<i class='fas fa-sign-in-alt'></i> <span>Sign In to Thigalzhi®</span>`);
-          }, 2000);
+          return;
         }
-        else {
-            console.log(document.getElementById("loginEmailError").textContent)
-            console.log(document.getElementById("loginPasswordError").textContent);
-            
+
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+
+        // Show loading state
+        disableButtonWithLoading("loginBtn", "Signing In...");
+
+        // Fetch data and check credentials
+        const data = await fetchAPIData();
+        console.log(data);
+
+        if (data) {
+          const result = findUser(data, email, password);
+
+          if (result) {
+            localStorage.setItem("currentOrganizerId", result.user.id);
+            localStorage.setItem("currentOrganizerName", result.user.name);
+            localStorage.setItem("currentOrganizerEmail", result.user.email);
+
+            showMessage(
+              `Welcome back, ${result.user.name}! Login successful.`,
+              "success"
+            );
+            // You can redirect to dashboard here
+            console.log("User logged in:", result);
+          } else {
+            showMessage(
+              "Invalid email or password. Please try again.",
+              "error"
+            );
+          }
         }
+
+        // Reset button
+        resetButton(
+          "loginBtn",
+          `<i class='fas fa-sign-in-alt'></i> <span>Sign In to Thigalzhi®</span>`
+        );
       });
 
-      signupForm.addEventListener("submit", (e) => {
+      // Signup Form
+      signupForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        // Validate all fields
         [
           "signupName",
           "signupEmail",
@@ -563,39 +733,145 @@
           "signupConfirmPassword",
           "signupRole",
         ].forEach(validateField);
-        
+
+        // Check if there are validation errors
         if (
-          document.getElementById("signupNameError").classList.contains('hidden') &&
-          document.getElementById("signupEmailError").classList.contains('hidden') &&
-          document.getElementById("signupPasswordError").classList.contains('hidden') &&
-          document.getElementById("signupConfirmPasswordError").classList.contains('hidden') &&
-          document.getElementById("signupRoleError").classList.contains('hidden')
+          !document
+            .getElementById("signupNameError")
+            .classList.contains("hidden") ||
+          !document
+            .getElementById("signupEmailError")
+            .classList.contains("hidden") ||
+          !document
+            .getElementById("signupPasswordError")
+            .classList.contains("hidden") ||
+          !document
+            .getElementById("signupConfirmPasswordError")
+            .classList.contains("hidden") ||
+          !document
+            .getElementById("signupRoleError")
+            .classList.contains("hidden")
         ) {
-          disableButtonWithLoading("signupBtn", "Signing Up...");
-          setTimeout(() => {
-            alert("Signup successful (store user in DB later).");
-            closeModal();
-            resetButton("signupBtn", `<i class='fas fa-user-plus'></i> <span>Join Thigalzhi® Community</span>`);
-          }, 2000);
+          return;
         }
+
+        const name = document.getElementById("signupName").value.trim();
+        const email = document.getElementById("signupEmail").value.trim();
+        const password = document.getElementById("signupPassword").value;
+        const role = document.getElementById("signupRole").value;
+
+        // Show loading state
+        disableButtonWithLoading("signupBtn", "Signing Up...");
+
+        // Fetch current data
+        const data = await fetchAPIData();
+
+        if (data) {
+          // Ensure arrays exist
+          if (!data.Organizers) data.Organizers = [];
+          if (!data.Audience) data.Audience = [];
+
+          // Determine which array to check and update
+          const targetArray =
+            role === "organizers" ? data.Organizers : data.Audience;
+
+          // Check if email already exists in the selected role
+          if (emailExists(targetArray, email)) {
+            showMessage(
+              `Email already exists for ${
+                role === "organizers" ? "Organizer" : "Audience"
+              } role.`,
+              "error"
+            );
+          } else {
+            // Create new user object
+            const newUser = {
+              id: Date.now().toString(), // Simple unique ID
+              name: name,
+              email: email,
+              password: password,
+            };
+
+            // Add to appropriate array
+            targetArray.push(newUser);
+
+            // Update API
+            const updated = await updateAPIData(data);
+
+            if (updated) {
+              showMessage(
+                `Account created successfully! Welcome to Thigalzhi®, ${name}!\n Redirecting to Login Page...`,
+                "success"
+              );
+              // Clear form
+              setTimeout(() => {
+                switchToLogin();
+              }, 3000);
+              signupForm.reset();
+
+              // You can redirect to dashboard here
+              console.log("New user created:", newUser);
+            }
+          }
+        }
+
+        // Reset button
+        resetButton(
+          "signupBtn",
+          `<i class='fas fa-user-plus'></i> <span>Join Thigalzhi® Community</span>`
+        );
       });
 
+      // Forgot Password Form (mock functionality)
       forgotForm.addEventListener("submit", (e) => {
         e.preventDefault();
         validateField("forgotEmail");
-        if (document.getElementById("forgotEmailError").classList.contains('hidden')) {
-          disableButtonWithLoading("forgotBtn", "Sending...");
-          setTimeout(() => {
-            document
-              .getElementById("resetSuccessMessage")
-              .classList.remove("hidden");
-            resetButton("forgotBtn", `<i class='fas fa-paper-plane'></i> <span>Send Reset Instructions</span>`);
-          }, 2000);
+
+        if (
+          !document
+            .getElementById("forgotEmailError")
+            .classList.contains("hidden")
+        ) {
+          return;
         }
+
+        disableButtonWithLoading("forgotBtn", "Sending...");
+
+        setTimeout(() => {
+          document
+            .getElementById("resetSuccessMessage")
+            .classList.remove("hidden");
+          resetButton(
+            "forgotBtn",
+            `<i class='fas fa-paper-plane'></i> <span>Send Reset Instructions</span>`
+          );
+        }, 2000);
+
+
+        emailjs.init("I6tYBX3EfLe8f1DWQ"); // Get from emailjs.com
+        
+        const userEmail = document.getElementById("forgotEmail").value.trim();
+        console.log(userEmail)
+        function sendPasswordResetEmail(userEmail) {
+          const templateParams = {
+            email: userEmail,
+            from_name: "Thigalzhi® Support Team",
+          };
+
+          emailjs
+            .send("service_b67hzma", "template_p0szdc8", templateParams)
+            .then(function (response) {
+              alert("Password reset email sent successfully!");
+            })
+            .catch(function (error) {
+              alert("Failed to send email: " + error);
+            });
+        }
+        sendPasswordResetEmail(userEmail);
       });
 
       /* -------------------
-         Password Toggles
+         Password Toggle Functions
       ------------------- */
       function togglePasswordVisibility(toggleId, inputId) {
         const toggle = document.getElementById(toggleId);
@@ -613,7 +889,10 @@
 
       togglePasswordVisibility("loginPasswordToggle", "loginPassword");
       togglePasswordVisibility("signupPasswordToggle", "signupPassword");
-      togglePasswordVisibility("signupConfirmPasswordToggle", "signupConfirmPassword");
+      togglePasswordVisibility(
+        "signupConfirmPasswordToggle",
+        "signupConfirmPassword"
+      );
 
       /* -------------------
          Event Listeners
@@ -629,11 +908,29 @@
       backToLogin.addEventListener("click", switchToLogin);
 
       function focusFirstInput() {
-        if (currentForm === "login") document.getElementById("loginEmail").focus();
-        if (currentForm === "signup") document.getElementById("signupName").focus();
-        if (currentForm === "forgot") document.getElementById("forgotEmail").focus();
+        if (currentForm === "login")
+          document.getElementById("loginEmail").focus();
+        if (currentForm === "signup")
+          document.getElementById("signupName").focus();
+        if (currentForm === "forgot")
+          document.getElementById("forgotEmail").focus();
       }
+
+      // Close modal when clicking outside
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          closeModal();
+        }
+      });
     </script>
   </body>
 </html>
-                
+
+<!-- Add this to your HTML head -->
+
+<script>
+  // Initialize EmailJS
+</script>
+
+
+

@@ -93,6 +93,23 @@ toggles.forEach(toggle => {
 
 
 
+
+document.getElementById('openModalBtn').addEventListener('click', async () => {
+    console.log("naveen");
+    document.getElementById('modalOverlay').classList.remove('hidden')
+    async function injectComponent(file, rootId) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(rootId).innerHTML = html;
+    }
+
+    // Inject sidebar and nxavbar components
+    await Promise.all([
+        injectComponent('./src/User/login_signup.html', 'modalOverlay')]);
+
+        
+})
+
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("carouselContainer");
     const dots = document.querySelectorAll("#dotIndicators button");
@@ -147,4 +164,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateView();
     startAutoScroll();
+
 });
