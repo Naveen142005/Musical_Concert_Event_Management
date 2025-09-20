@@ -417,6 +417,7 @@ function showStep(stepNumber) {
   document.getElementById(`step${stepNumber}`).classList.add("fade-in")
 
   currentStep = stepNumber
+
   updateProgressBar()
   updateLiveSummary()
 
@@ -776,13 +777,7 @@ function selectBand(bandId) {
   const band = bandsData.find((b) => b.id === bandId)
   const existingIndex = bookingData.selections.bands.findIndex((b) => b.id === bandId)
 
-  if (existingIndex > -1) {
-    // Remove if already selected
-    bookingData.selections.bands.splice(existingIndex, 1)
-  } else {
-    // Add to selection (allowing multiple bands)
-    bookingData.selections.bands.push(band)
-  }
+  bookingData.selections.bands = [band]
 
   renderBands()
   updateLiveSummary()
@@ -1245,84 +1240,112 @@ function replaceDecoration(newDecorationId, dateString) {
 }
 
 // Ticketing Validation (keeping existing)
-function validateTicketing() {
-  if (!document.getElementById("provideTickets").checked) {
-    return true // Skip validation if not providing tickets
-  }
-
-  let isValid = true
-  const platinumPrice = Number.parseFloat(document.getElementById("platinumPrice").value)
-  const goldPrice = Number.parseFloat(document.getElementById("goldPrice").value)
-  const silverPrice = Number.parseFloat(document.getElementById("silverPrice").value)
-  const bookingDate = document.getElementById("ticketBookingDate").value
-
-  // Reset errors
-  ;["platinumPrice", "goldPrice", "silverPrice", "ticketBookingDate"].forEach((id) => {
-    const element = document.getElementById(id)
-    const errorDiv = element.parentNode.querySelector(".error-message")
-    if (errorDiv) {
-      errorDiv.classList.add("hidden")
-      element.classList.remove("border-red-500")
+function validateTicketBookingDate(bookingDate) {
+    const element = document.getElementById('ticketBookingDate');
+    
+    // Clear previous errors
+    hideError('ticketBookingDate');
+    
+    if (!bookingDate) {
+        showError('ticketBookingDate', 'Booking date is required');
+        return false;
     }
-  })
-
-  // Validate prices
-  if (!platinumPrice || platinumPrice <= 0) {
-    showError("platinumPrice", "Platinum price is required")
-    isValid = false
-  }
-
-  if (!goldPrice || goldPrice <= 0) {
-    showError("goldPrice", "Gold price is required")
-    isValid = false
-  }
-
-  if (!silverPrice || silverPrice <= 0) {
-    showError("silverPrice", "Silver price is required")
-    isValid = false
-  }
-
-  // Validate price hierarchy (recommended)
-  if (platinumPrice && goldPrice && silverPrice) {
-    if (platinumPrice <= goldPrice) {
-      showError("platinumPrice", "Platinum should be higher than Gold")
-      isValid = false
-    }
-    if (goldPrice <= silverPrice) {
-      showError("goldPrice", "Gold should be higher than Silver")
-      isValid = false
-    }
-  }
-
-  // Validate booking date
-  if (!bookingDate) {
-    showError("ticketBookingDate", "Booking date is required")
-    isValid = false
-  } else {
-    const bookingDateTime = new Date(bookingDate)
-    const now = new Date()
-    const eventDate = new Date(bookingData.eventDate)
-
+    
+    const bookingDateTime = new Date(bookingDate);
+    const now = new Date();
+    const eventDate = new Date(bookingData.eventDate);
+    
+    // Check if booking date is in the past
     if (bookingDateTime <= now) {
-      showError("ticketBookingDate", "Booking date must be in the future")
-      isValid = false
-    } else if (bookingDateTime >= eventDate) {
-      showError("ticketBookingDate", "Booking date must be before the event date")
-      isValid = false
+        showError('ticketBookingDate', 'Booking date must be in the future');
+        return false;
     }
-  }
-
-  if (isValid) {
-    bookingData.ticketing = {
-      provideTickets: true,
-      platinumPrice,
-      goldPrice,
-      silverPrice,
-      bookingDate,
+    
+    // Check if booking date is after event date
+    if (bookingDateTime >= eventDate) {
+        showError('ticketBookingDate', 'Booking date must be before the event date');
+        return false;
     }
-  }
+    
+    // If validation passes, show success feedback
+    hideError('ticketBookingDate');
+    
+    // Optional: Show success indicator
+    element.classList.remove('border-red-500');
+    element.classList.add('border-green-500');
+    
+    // Remove success border after 2 seconds
+    setTimeout(() => {
+        element.classList.remove('border-green-500');
+    }, 2000);
+    
+    return true;
+}
 
-  return isValid
+// Update the existing validateTicketing function to use the new immediate validator
+function validateTicketing() {
+    if (!document.getElementById('provideTickets').checked) {
+        return true; // Skip validation if not providing tickets
+    }
+    
+    let isValid = true;
+    const platinumPrice = Number.parseFloat(document.getElementById('platinumPrice').value);
+    const goldPrice = Number.parseFloat(document.getElementById('goldPrice').value);
+    const silverPrice = Number.parseFloat(document.getElementById('silverPrice').value);
+    const bookingDate = document.getElementById('ticketBookingDate').value;
+    
+    // Reset errors
+    ['platinumPrice', 'goldPrice', 'silverPrice', 'ticketBookingDate'].forEach(id => {
+        const element = document.getElementById(id);
+        const errorDiv = element.parentNode.querySelector('.error-message');
+        if (errorDiv) {
+            errorDiv.classList.add('hidden');
+            element.classList.remove('border-red-500');
+        }
+    });
+    
+    // Validate prices
+    if (!platinumPrice || platinumPrice <= 0) {
+        showError('platinumPrice', 'Platinum price is required');
+        isValid = false;
+    }
+    if (!goldPrice || goldPrice <= 0) {
+        showError('goldPrice', 'Gold price is required');
+        isValid = false;
+    }
+    if (!silverPrice || silverPrice <= 0) {
+        showError('silverPrice', 'Silver price is required');
+        isValid = false;
+    }
+    
+    // Validate price hierarchy (recommended)
+    if (platinumPrice && goldPrice && silverPrice) {
+        if (platinumPrice <= goldPrice) {
+            showError('platinumPrice', 'Platinum should be higher than Gold');
+            isValid = false;
+        }
+        if (goldPrice <= silverPrice) {
+            showError('goldPrice', 'Gold should be higher than Silver');
+            isValid = false;
+        }
+    }
+    
+    // Use the immediate validator for booking date
+    if (!validateTicketBookingDate(bookingDate)) {
+        isValid = false;
+    }
+    
+    if (isValid) {
+        bookingData.ticketing = {
+            provideTickets: true,
+            platinumPrice,
+            goldPrice,
+            silverPrice,
+            bookingDate,
+        };
+    }
+    
+    return isValid;
 }
 
 // Summary Generation (keeping existing)
@@ -1515,96 +1538,240 @@ function generateSummary() {
 }
 
 // Payment Processing (keeping existing)
-function processPayment() {
-  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')
-  const paymentAmount = document.querySelector('input[name="paymentAmount"]:checked')
+// function processPayment(event) {
+  
+//   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')
+//   const paymentAmount = document.querySelector('input[name="paymentAmount"]:checked')
 
-  if (!paymentMethod) {
-    const errorDiv = document
-      .querySelector('input[name="paymentMethod"]')
-      .closest('.grid')
-      .parentNode.querySelector('.error-message')
-    if (errorDiv) {
-      errorDiv.textContent = "Please select a payment method"
-      errorDiv.classList.remove("hidden")
+//   if (!paymentMethod) {
+//     const errorDiv = document
+//       .querySelector('input[name="paymentMethod"]')
+//       .closest('.grid')
+//       .parentNode.querySelector('.error-message')
+//     if (errorDiv) {
+//       errorDiv.textContent = "Please select a payment method"
+//       errorDiv.classList.remove("hidden")
+//     }
+//     return false
+//   }
+
+//   // Calculate final amount
+//   let totalCost = 0
+//   if (bookingData.selections.venue) totalCost += bookingData.selections.venue.pricePerHour * 4
+//   bookingData.selections.bands.forEach((band) => (totalCost += band.pricePerHour * 4))
+//   if (bookingData.selections.decoration) totalCost += bookingData.selections.decoration.pricePerEvent
+//   totalCost += bookingData.selections.snackCount * 500
+
+//   const finalAmount = paymentAmount.value === "deposit" ? totalCost * 0.5 : totalCost
+
+//   // Store payment data
+//   bookingData.payment = {
+//     method: paymentMethod.value,
+//     amount: finalAmount,
+//     type: paymentAmount.value,
+//     timestamp: new Date().toISOString(),
+//   }
+
+//   // Create final booking object
+//   const finalBooking = {
+//     bookingId: `TCM-${Date.now()}`,
+//     basicDetails: bookingData.basicDetails,
+//     selections: {
+//       venue: bookingData.selections.venue,
+//       bands: bookingData.selections.bands,
+//       decoration: bookingData.selections.decoration,
+//       snackCount: bookingData.selections.snackCount,
+//     },
+//     eventDate: bookingData.eventDate,
+//     eventTime: bookingData.basicDetails.concertTime,
+//     ticketing: bookingData.ticketing,
+//     payment: bookingData.payment,
+//     totalCost: totalCost,
+//     createdAt: new Date().toISOString(),
+//   }
+
+//   // Console output as requested
+//   console.log("=== CONCERT BOOKING CONFIRMATION ===")
+//   console.log(JSON.stringify(finalBooking, null, 2))
+//   console.log("\n=== BOOKING SUMMARY ===")
+//   console.log(`Booking ID: ${finalBooking.bookingId}`)
+//   console.log(`Customer: ${finalBooking.basicDetails.fullName} (${finalBooking.basicDetails.email})`)
+//   console.log(`Event Date: ${formatDate(finalBooking.eventDate)} - ${finalBooking.eventTime.charAt(0).toUpperCase() + finalBooking.eventTime.slice(1)}`)
+
+//   if (finalBooking.selections.venue) {
+//     console.log(`Venue: ${finalBooking.selections.venue.name}, ${finalBooking.selections.venue.location}`)
+//   }
+
+//   if (finalBooking.selections.bands.length > 0) {
+//     finalBooking.selections.bands.forEach((band) => {
+//       console.log(`Band: ${band.name} (${band.genre})`)
+//     })
+//   }
+
+//   if (finalBooking.selections.decoration) {
+//     console.log(`Decoration: ${finalBooking.selections.decoration.teamName} - ${finalBooking.selections.decoration.packageType}`)
+//   }
+
+//   if (finalBooking.selections.snackCount > 0) {
+//     console.log(`Snacks: ${finalBooking.selections.snackCount} boxes`)
+//   }
+
+//   console.log(`Total Cost: ${formatCurrency(finalBooking.totalCost)}`)
+//   console.log(`Payment: ${formatCurrency(finalBooking.payment.amount)} via ${finalBooking.payment.method.toUpperCase()} (${finalBooking.payment.type === 'deposit' ? '50% Deposit' : 'Full Payment'})`)
+//   console.log("=== END BOOKING CONFIRMATION ===")
+
+//   // Show success modal
+//   document.getElementById("successModal").classList.remove("hidden")
+
+//   return true
+// }
+
+/**
+ * Submit booking data to MockAPI
+ * @param {Object} bookingData - The complete booking data object
+ * @returns {Promise} - API response promise
+ */
+async function submitToMockAPI(bookingData) {
+    const apiUrl = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2';
+    
+    try {
+        // First, fetch the current data from the API
+        const currentResponse = await fetch(apiUrl);
+        const currentData = await currentResponse.json();
+        
+        // Format the booked slot
+        const bookedSlot = `${bookingData.eventDate}-${bookingData.eventTime.toLowerCase()}`;
+        
+        // Prepare the booking data
+        const newBooking = {
+            organizerId: Date.now().toString(),
+            bookingId: bookingData.bookingId || `TCM-${Date.now()}`,
+            eventName: bookingData.basicDetails.fullName + "'s Event",
+            bookedSlots: [bookedSlot],
+            organizerName: bookingData.basicDetails.fullName,
+            organizerEmail: bookingData.basicDetails.email,
+            organizerMobile: bookingData.basicDetails.mobile,
+            venueId: bookingData.selections.venue ? bookingData.selections.venue.id : null,
+            bandId: bookingData.selections.bands.length > 0 ? bookingData.selections.bands[0].id : null,
+            decorationId: bookingData.selections.decoration ? bookingData.selections.decoration.id : null,
+            foodId: bookingData.selections.snackCount > 0 ? "snacks-beverages" : null,
+            ticketingEnabled: bookingData.ticketing.provideTickets || false,
+            ticketPrices: {
+                premiumPrice: bookingData.ticketing.platinumPrice || 0,
+                goldPrice: bookingData.ticketing.goldPrice || 0,
+                silverPrice: bookingData.ticketing.silverPrice || 0
+            },
+            totalAmount: bookingData.totalCost,
+            paymentType: bookingData.payment.type === 'deposit' ? 'partial' : 'full',
+            paidAmount: bookingData.payment.amount,
+            pendingAmount: bookingData.payment.type === 'deposit' ? 
+                (bookingData.totalCost - bookingData.payment.amount) : 0,
+            bookingStatus: "confirmed",
+            bookingDate: new Date().toISOString()
+        };
+        
+        // Add the new booking to existing EventsBookings array
+        const updatedData = {
+            ...currentData,
+            EventsBookings: [...(currentData.EventsBookings || []), newBooking]
+        };
+        
+        // Send PUT request to update the API
+        const response = await fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Booking submitted to MockAPI successfully!');
+        return result;
+        
+    } catch (error) {
+        console.error('❌ Error submitting to MockAPI:', error);
+        throw error;
     }
-    return false
-  }
-
-  // Calculate final amount
-  let totalCost = 0
-  if (bookingData.selections.venue) totalCost += bookingData.selections.venue.pricePerHour * 4
-  bookingData.selections.bands.forEach((band) => (totalCost += band.pricePerHour * 4))
-  if (bookingData.selections.decoration) totalCost += bookingData.selections.decoration.pricePerEvent
-  totalCost += bookingData.selections.snackCount * 500
-
-  const finalAmount = paymentAmount.value === "deposit" ? totalCost * 0.5 : totalCost
-
-  // Store payment data
-  bookingData.payment = {
-    method: paymentMethod.value,
-    amount: finalAmount,
-    type: paymentAmount.value,
-    timestamp: new Date().toISOString(),
-  }
-
-  // Create final booking object
-  const finalBooking = {
-    bookingId: `TCM-${Date.now()}`,
-    basicDetails: bookingData.basicDetails,
-    selections: {
-      venue: bookingData.selections.venue,
-      bands: bookingData.selections.bands,
-      decoration: bookingData.selections.decoration,
-      snackCount: bookingData.selections.snackCount,
-    },
-    eventDate: bookingData.eventDate,
-    eventTime: bookingData.basicDetails.concertTime,
-    ticketing: bookingData.ticketing,
-    payment: bookingData.payment,
-    totalCost: totalCost,
-    createdAt: new Date().toISOString(),
-  }
-
-  // Console output as requested
-  console.log("=== CONCERT BOOKING CONFIRMATION ===")
-  console.log(JSON.stringify(finalBooking, null, 2))
-  console.log("\n=== BOOKING SUMMARY ===")
-  console.log(`Booking ID: ${finalBooking.bookingId}`)
-  console.log(`Customer: ${finalBooking.basicDetails.fullName} (${finalBooking.basicDetails.email})`)
-  console.log(`Event Date: ${formatDate(finalBooking.eventDate)} - ${finalBooking.eventTime.charAt(0).toUpperCase() + finalBooking.eventTime.slice(1)}`)
-
-  if (finalBooking.selections.venue) {
-    console.log(`Venue: ${finalBooking.selections.venue.name}, ${finalBooking.selections.venue.location}`)
-  }
-
-  if (finalBooking.selections.bands.length > 0) {
-    finalBooking.selections.bands.forEach((band) => {
-      console.log(`Band: ${band.name} (${band.genre})`)
-    })
-  }
-
-  if (finalBooking.selections.decoration) {
-    console.log(`Decoration: ${finalBooking.selections.decoration.teamName} - ${finalBooking.selections.decoration.packageType}`)
-  }
-
-  if (finalBooking.selections.snackCount > 0) {
-    console.log(`Snacks: ${finalBooking.selections.snackCount} boxes`)
-  }
-
-  console.log(`Total Cost: ${formatCurrency(finalBooking.totalCost)}`)
-  console.log(`Payment: ${formatCurrency(finalBooking.payment.amount)} via ${finalBooking.payment.method.toUpperCase()} (${finalBooking.payment.type === 'deposit' ? '50% Deposit' : 'Full Payment'})`)
-  console.log("=== END BOOKING CONFIRMATION ===")
-
-  // Show success modal
-  document.getElementById("successModal").classList.remove("hidden")
-
-  return true
 }
+
+// Add this to your existing processPayment function
+async function processPayment() {
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    const paymentAmount = document.querySelector('input[name="paymentAmount"]:checked');
+    
+    if (!paymentMethod) {
+        const errorDiv = document
+            .querySelector('input[name="paymentMethod"]')
+            .closest('.grid')
+            .parentNode.querySelector('.error-message');
+        if (errorDiv) {
+            errorDiv.textContent = 'Please select a payment method';
+            errorDiv.classList.remove('hidden'); 
+        }
+        return false;
+    }
+
+    // Calculate final amount
+    let totalCost = 0;
+    if (bookingData.selections.venue) {
+        totalCost += bookingData.selections.venue.pricePerHour * 4;
+    }
+    bookingData.selections.bands.forEach(band => {
+        totalCost += band.pricePerHour * 4;
+    });
+    if (bookingData.selections.decoration) {
+        totalCost += bookingData.selections.decoration.pricePerEvent;
+    }
+    totalCost += bookingData.selections.snackCount * 500;
+
+    const finalAmount = paymentAmount.value === 'deposit' ? totalCost * 0.5 : totalCost;
+
+    bookingData.payment = {
+        method: paymentMethod.value,
+        amount: finalAmount,
+        type: paymentAmount.value,
+        timestamp: new Date().toISOString(),
+    };
+
+    const finalBooking = {
+        bookingId: `TCM-${Date.now()}`,
+        basicDetails: bookingData.basicDetails,
+        selections: {
+            venue: bookingData.selections.venue,
+            bands: bookingData.selections.bands,
+            decoration: bookingData.selections.decoration,
+            snackCount: bookingData.selections.snackCount,
+        },
+        eventDate: bookingData.eventDate,
+        eventTime: bookingData.basicDetails.concertTime,
+        ticketing: bookingData.ticketing,
+        payment: bookingData.payment,
+        totalCost: totalCost,
+        createdAt: new Date().toISOString(),
+    };
+
+    try {
+        // Submit to MockAPI
+        await submitToMockAPI(finalBooking);
+        document.getElementById('successModal').classList.remove('hidden');
+        return true;
+    } catch (error) {
+        alert('Failed to submit booking. Please try again.');
+        return false;
+    }
+}
+
+
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
   // Step 1 - Basic Details
+  showStep(2)
   document.getElementById("nextStep1").addEventListener("click", () => {
     if (validateStep1()) {
       showStep(2)
@@ -1661,9 +1828,26 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
+const ticketBookingDateInput = document.getElementById('ticketBookingDate');
+    
+    if (ticketBookingDateInput) {
+        ticketBookingDateInput.addEventListener('change', function() {
+            validateTicketBookingDate(this.value);
+        });
+        
+        ticketBookingDateInput.addEventListener('blur', function() {
+            validateTicketBookingDate(this.value);
+        });
+    }
+
   // Step 2 - Venues & Bands
   document.getElementById("prevStep2").addEventListener("click", () => showStep(1))
-  document.getElementById("nextStep2").addEventListener("click", () => showStep(3))
+
+  document.getElementById('nextStep2').addEventListener('click', function() {
+    if (checkStep2() && validateStep2()) {
+        showStep(3);
+    }
+});
 
   // Venue toggle
   document.getElementById("wantVenue").addEventListener("change", function() {
@@ -1709,7 +1893,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Step 3 - Extras
   document.getElementById("prevStep3").addEventListener("click", () => showStep(2))
-  document.getElementById("nextStep3").addEventListener("click", () => showStep(4))
+  // document.getElementById("nextStep3").addEventListener("click", () => showStep(4))
 
   // Decoration toggle - FIXED with proper error handling
   document.getElementById("wantDecoration").addEventListener("change", function() {
@@ -1801,8 +1985,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Step 7 - Payment
   document.getElementById("prevStep7").addEventListener("click", () => showStep(6))
-  document.getElementById("completeBooking").addEventListener("click", () => {
-    if (processPayment()) {
+  document.getElementById("completeBooking").addEventListener("click", (event) => {
+    if (processPayment(event)) {
       // Payment successful
     }
   })
@@ -1835,3 +2019,231 @@ window.replaceDecoration = replaceDecoration
 window.editSelection = editSelection
 window.showStep = showStep
 window.forceRenderDecorations = forceRenderDecorations
+
+
+// Updated Step 2 Validation - Must select items if said "YES"
+function validateStep2() {
+    let isValid = true;
+    let errorMessages = [];
+    
+    const wantVenue = document.getElementById('wantVenue').checked;
+    const wantBand = document.getElementById('wantBand').checked;
+    
+    // If user wants venue but hasn't selected one
+    if (wantVenue && !bookingData.selections.venue) {
+        isValid = false;
+        errorMessages.push('Please select a venue or uncheck "Do you want a venue?"');
+        
+        // Highlight venue section
+        const venueSection = document.getElementById('venueSection');
+        venueSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        venueSection.style.border = '2px solid red';
+        venueSection.style.borderRadius = '8px';
+        
+        setTimeout(() => {
+            venueSection.style.border = '';
+        }, 3000);
+    }
+    
+    // If user wants band but hasn't selected one
+    if (wantBand && bookingData.selections.bands.length === 0) {
+        isValid = false;
+        errorMessages.push('Please select a band or uncheck "Do you want a band?"');
+        
+        // Highlight band section
+        const bandSection = document.getElementById('bandSection');
+        bandSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        bandSection.style.border = '2px solid red';
+        bandSection.style.borderRadius = '8px';
+        
+        setTimeout(() => {
+            bandSection.style.border = '';
+        }, 3000);
+    }
+    
+    // Show error messages
+    if (!isValid) {
+        showStepValidationError(errorMessages);
+    }
+    
+    return isValid;
+}
+
+// Updated Step 3 Validation - Must select items if said "YES"
+function validateStep3() {
+    let isValid = true;
+    let errorMessages = [];
+    
+    const wantDecoration = document.getElementById('wantDecoration').checked;
+    const wantFood = document.getElementById('wantFood').checked;
+    
+    // If user wants decoration but hasn't selected one
+    if (wantDecoration && !bookingData.selections.decoration) {
+        isValid = false;
+        errorMessages.push('Please select a decoration team or uncheck "Do you want decorations?"');
+        
+        // Highlight decoration section
+        const decorationSection = document.getElementById('decorationSection');
+        decorationSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        decorationSection.style.border = '2px solid red';
+        decorationSection.style.borderRadius = '8px';
+        
+        setTimeout(() => {
+            decorationSection.style.border = '';
+        }, 3000);
+    }
+    
+    // If user wants food but hasn't entered count
+    if (wantFood && bookingData.selections.snackCount === 0) {
+        isValid = false;
+        errorMessages.push('Please enter number of snack boxes or uncheck "Do you want food/snacks?"');
+        
+        // Highlight food section and focus input
+        const foodSection = document.getElementById('foodSection');
+        const snackCountInput = document.getElementById('snackCount');
+        
+        foodSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        snackCountInput.style.border = '2px solid red';
+        snackCountInput.focus();
+        
+        setTimeout(() => {
+            snackCountInput.style.border = '';
+        }, 3000);
+    }
+    
+    // Show error messages
+    if (!isValid) {
+        showStepValidationError(errorMessages);
+    }
+    
+    return isValid;
+}
+
+// Helper function to show validation errors
+function showStepValidationError(messages) {
+    // Create or update error notification
+    let errorDiv = document.getElementById('stepValidationError');
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.id = 'stepValidationError';
+        errorDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg shadow-lg z-50 max-w-md';
+        document.body.appendChild(errorDiv);
+    }
+    
+    errorDiv.innerHTML = `
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-triangle text-red-400"></i>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                    Selection Required
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                    ${messages.map(msg => `<p>• ${msg}</p>`).join('')}
+                </div>
+            </div>
+            <button onclick="hideStepValidationError()" class="ml-auto text-red-400 hover:text-red-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    errorDiv.classList.remove('hidden');
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        hideStepValidationError();
+    }, 5000);
+}
+
+// Helper function to hide validation errors
+function hideStepValidationError() {
+    const errorDiv = document.getElementById('stepValidationError');
+    if (errorDiv) {
+        errorDiv.classList.add('hidden');
+    }
+}
+
+// Update the existing nextStep2 event listener
+document.getElementById('nextStep2').addEventListener('click', function() {
+    if (validateStep2() && checkStep2()) {
+        showStep(3);
+    }
+});
+
+// Update the existing nextStep3 event listener  
+document.getElementById('nextStep3').addEventListener('click', function() {
+    if (validateStep3()) {
+        showStep(4);
+    }
+});
+
+// Make the function globally available
+window.hideStepValidationError = hideStepValidationError;
+
+function checkStep2() {
+    const hasSelection = bookingData.selections.venue || bookingData.selections.bands.length > 0;
+    const nextBtn = document.getElementById('nextStep2');
+    
+    // nextBtn.disabled = !hasSelection;
+    console.log("sdsd");
+    
+    
+    // Show notification popup when no selection
+    if (!hasSelection && currentStep === 2) {
+    // Create or update notification
+    let notification = document.getElementById('step2Notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'step2Notification';
+        notification.className = `
+            fixed top-40 left-4 right-4 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 
+            md:max-w-md bg-gradient-to-r from-orange-500 to-red-500 text-white 
+            px-4 py-3 md:px-6 md:py-4 rounded-xl shadow-2xl z-50 
+            flex items-center space-x-3 animate-bounce
+            border-l-4 border-orange-300 backdrop-blur-sm
+        `;
+        document.body.appendChild(notification);
+    }
+    
+    notification.innerHTML = `
+        <div class="flex-shrink-0">
+            <i class="fas fa-exclamation-triangle text-xl text-orange-200"></i>
+        </div>
+        <div class="flex-1">
+            <p class="font-medium text-sm md:text-base">Selection Required</p>
+            <p class="text-xs md:text-sm text-orange-100 mt-1">
+                Please select at least one venue or band to continue
+            </p>
+        </div>
+        <button onclick="document.getElementById('step2Notification').classList.add('hidden')" 
+                class="text-orange-200 hover:text-white transition-colors">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    notification.classList.remove('hidden');
+    notification.style.animation = 'slideInUp 0.3s ease-out';
+    
+    // Auto-hide after 4 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutDown 0.3s ease-in';
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 300);
+    }, 4000);
+} else {
+    // Hide notification if selection exists
+    const notification = document.getElementById('step2Notification');
+    if (notification) {
+        notification.style.animation = 'slideOutDown 0.3s ease-in';
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 300);
+    }
+}
+
+    
+    return hasSelection;
+}
