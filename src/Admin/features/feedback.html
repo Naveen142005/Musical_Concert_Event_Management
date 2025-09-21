@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - THIGALZHI® ADMIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c3aed',
+                        accent: '#f8fafc',
+                        success: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
+     
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-music text-primary text-2xl"></i>
+                <span class="text-xl font-bold text-gray-800">THIGALZHI® ADMIN</span>
+            </div>
+        </div>
+        
+        <nav class="mt-6">
+            <ul class="space-y-2 px-4">
+                <li>
+                    <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Events Bookings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ticket-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>Ticket Bookings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="payments.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="reports.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="content-management.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-edit"></i>
+                        <span>Content Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="feedback.html" class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary">
+                        <i class="fas fa-comments"></i>
+                        <span class="font-medium">Feedback</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="backup-restore.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-database"></i>
+                        <span>Backup & Restore</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="ml-64 transition-all duration-300">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center space-x-4">
+                    <button id="sidebar-toggle" class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Feedback</h1>
+                        <p class="text-sm text-gray-600">Manage customer feedback and reviews</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-primary"></i>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="/placeholder.svg?height=32&width=32" alt="Profile" class="w-8 h-8 rounded-full">
+                        <span class="text-sm font-medium text-gray-700">Admin User</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Feedback Content -->
+        <main class="p-6">
+            <!-- Organizers Feedback Section -->
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Organizers Feedback</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-accent">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">S.NO</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organizer Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/2">Feedback Summary</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-accent transition-colors organizer-feedback-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Rajesh Kumar</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Excellent service and support throughout the event planning process. Very satisfied with the results and the professional approach of the team. They handled everything smoothly from venue booking to final execution.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="relative">
+                                        <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                            <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-viewed-btn">
+                                                <i class="fas fa-check mr-2"></i>Mark as Viewed
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors organizer-feedback-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Priya Sharma</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Great platform for organizing events. The booking process was smooth and efficient. I particularly loved how easy it was to coordinate with vendors and manage all aspects of the event from one place. Highly recommend!</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="relative">
+                                        <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                            <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-viewed-btn">
+                                                <i class="fas fa-check mr-2"></i>Mark as Viewed
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors organizer-feedback-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">3</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Amit Patel</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Professional service with attention to detail. Would definitely recommend to other organizers. The team went above and beyond to ensure our classical symphony event was perfect. Every requirement was met with precision.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="relative">
+                                        <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                            <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-viewed-btn">
+                                                <i class="fas fa-check mr-2"></i>Mark as Viewed
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors organizer-feedback-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">4</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Sneha Reddy</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Good experience overall. The team was responsive and helpful throughout the process. Communication was clear and timely, which made organizing our event stress-free. A few minor areas for improvement, but overall very satisfied.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="relative">
+                                        <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                            <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-viewed-btn">
+                                                <i class="fas fa-check mr-2"></i>Mark as Viewed
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors organizer-feedback-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">5</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Vikram Singh</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Amazing support and coordination. Made our event planning much easier than expected. The entire process from initial booking to event completion was seamless. Their expertise really showed in how well-organized everything was.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="relative">
+                                        <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                            <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-viewed-btn">
+                                                <i class="fas fa-check mr-2"></i>Mark as Viewed
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination for Organizers -->
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="text-sm text-gray-700">
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">12</span> results
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-2 text-sm text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
+                            Previous
+                        </button>
+                        <button class="px-3 py-2 text-sm text-white bg-primary border border-primary rounded-lg">1</button>
+                        <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">2</button>
+                        <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">3</button>
+                        <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audiences Feedback Section -->
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Audiences Feedback</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-accent">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">S.NO</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Audience Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/2">Feedback Summary</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-accent transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Arjun Mehta</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Fantastic concert experience! The sound quality was excellent and the venue was perfect. The organizers did an amazing job with the arrangements. From the moment we entered until the end, everything was well-managed and enjoyable.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kavya Nair</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Great atmosphere and well-organized event. Really enjoyed the jazz performance. The musicians were incredibly talented and the venue acoustics were perfect. Would definitely attend more events like this in the future.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">3</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Rohit Gupta</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Beautiful classical symphony performance. The acoustics were amazing and every note was crystal clear. The orchestra was world-class and the conductor's interpretation was brilliant. A truly memorable evening of classical music.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">4</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ananya Singh</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Loved the pop fusion night! Great energy and fantastic performances throughout. The blend of different musical styles was refreshing and kept everyone engaged. The light show and stage design were also impressive.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-accent transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">5</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Deepak Joshi</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <div class="feedback-text max-w-md">
+                                        <p class="truncate-text">Wonderful folk music festival. Authentic performances and great cultural experience. The artists preserved the traditional essence while making it accessible to modern audiences. Food and arrangements were also excellent.</p>
+                                        <button class="read-more-btn text-primary hover:text-purple-700 text-sm mt-1 underline">Read more</button>
+                                        <button class="read-less-btn text-primary hover:text-purple-700 text-sm mt-1 underline hidden">Read less</button>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination for Audiences -->
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="text-sm text-gray-700">
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">28</span> results
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-2 text-sm text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
+                            Previous
+                        </button>
+                        <button class="px-3 py-2 text-sm text-white bg-primary border border-primary rounded-lg">1</button>
+                        <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">2</button>
+                        <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">3</button>
+                        <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        class FeedbackManager {
+            constructor() {
+                this.sidebarVisible = true;
+                this.init();
+            }
+
+            init() {
+                this.setupSidebar();
+                this.setupEventListeners();
+                this.initializeTextTruncation();
+            }
+
+            setupSidebar() {
+                const sidebarToggle = document.getElementById('sidebar-toggle');
+                const sidebar = document.getElementById('sidebar');
+                const sidebarOverlay = document.getElementById('sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                
+                const toggleSidebar = () => {
+                    this.sidebarVisible = !this.sidebarVisible;
+                    
+                    if (this.sidebarVisible) {
+                        sidebar.classList.remove('-translate-x-full');
+                        mainContent.classList.remove('ml-0');
+                        mainContent.classList.add('ml-64');
+                        
+                        if (window.innerWidth < 1024) {
+                            sidebarOverlay.classList.remove('hidden');
+                        }
+                    } else {
+                        sidebar.classList.add('-translate-x-full');
+                        mainContent.classList.remove('ml-64');
+                        mainContent.classList.add('ml-0');
+                        sidebarOverlay.classList.add('hidden');
+                    }
+                };
+                
+                sidebarToggle?.addEventListener('click', toggleSidebar);
+                sidebarOverlay?.addEventListener('click', toggleSidebar);
+                
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth >= 1024) {
+                        sidebarOverlay.classList.add('hidden');
+                    } else {
+                        if (this.sidebarVisible) {
+                            sidebarOverlay.classList.remove('hidden');
+                        }
+                    }
+                });
+                
+                if (window.innerWidth < 1024) {
+                    this.sidebarVisible = false;
+                    sidebar.classList.add('-translate-x-full');
+                    mainContent.classList.remove('ml-64');
+                    mainContent.classList.add('ml-0');
+                }
+            }
+
+            setupEventListeners() {
+                // Dropdown toggle functionality
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('button[onclick*="toggleDropdown"]')) {
+                        return; // Let the onclick handler deal with this
+                    }
+                    
+                    // Close all dropdowns when clicking outside
+                    if (!e.target.closest('.relative')) {
+                        const allDropdowns = document.querySelectorAll('.absolute.right-0.mt-2');
+                        allDropdowns.forEach(d => d.classList.add('hidden'));
+                    }
+
+                    // Mark as viewed functionality
+                    if (e.target.closest('.mark-viewed-btn')) {
+                        const row = e.target.closest('.organizer-feedback-row');
+                        if (row) {
+                            row.style.opacity = '0.5';
+                            setTimeout(() => {
+                                row.style.transition = 'all 0.5s ease-out';
+                                row.style.transform = 'translateX(-100%)';
+                                setTimeout(() => {
+                                    row.remove();
+                                }, 500);
+                            }, 100);
+                        }
+                        
+                        // Close dropdown
+                        const dropdown = e.target.closest('.absolute.right-0.mt-2');
+                        if (dropdown) {
+                            dropdown.classList.add('hidden');
+                        }
+                    }
+
+                    // Read more/less functionality
+                    if (e.target.classList.contains('read-more-btn')) {
+                        const feedbackText = e.target.closest('.feedback-text');
+                        const textElement = feedbackText.querySelector('.truncate-text');
+                        const readMoreBtn = feedbackText.querySelector('.read-more-btn');
+                        const readLessBtn = feedbackText.querySelector('.read-less-btn');
+                        
+                        textElement.style.display = '-webkit-box';
+                        textElement.style.webkitLineClamp = 'unset';
+                        textElement.style.webkitBoxOrient = 'vertical';
+                        textElement.style.overflow = 'visible';
+                        textElement.classList.remove('line-clamp-2');
+                        
+                        readMoreBtn.classList.add('hidden');
+                        readLessBtn.classList.remove('hidden');
+                    }
+
+                    if (e.target.classList.contains('read-less-btn')) {
+                        const feedbackText = e.target.closest('.feedback-text');
+                        const textElement = feedbackText.querySelector('.truncate-text');
+                        const readMoreBtn = feedbackText.querySelector('.read-more-btn');
+                        const readLessBtn = feedbackText.querySelector('.read-less-btn');
+                        
+                        textElement.classList.add('line-clamp-2');
+                        textElement.style.display = '';
+                        textElement.style.webkitLineClamp = '';
+                        textElement.style.webkitBoxOrient = '';
+                        textElement.style.overflow = '';
+                        
+                        readMoreBtn.classList.remove('hidden');
+                        readLessBtn.classList.add('hidden');
+                    }
+                });
+            }
+
+            initializeTextTruncation() {
+                // Add line clamp CSS to all truncate-text elements
+                const truncateTexts = document.querySelectorAll('.truncate-text');
+                truncateTexts.forEach(text => {
+                    text.classList.add('line-clamp-2');
+                });
+
+                // Add custom CSS for line clamping
+                const style = document.createElement('style');
+                style.textContent = `
+                    .line-clamp-2 {
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Global function for dropdown toggle (needed for onclick attribute)
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            const allDropdowns = document.querySelectorAll('.absolute.right-0.mt-2');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.add('hidden');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Initialize feedback manager
+        document.addEventListener('DOMContentLoaded', () => {
+            new FeedbackManager();
+        });
+    </script>
+    
+</body>
+</html>

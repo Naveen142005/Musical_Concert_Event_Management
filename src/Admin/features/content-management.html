@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management - THIGALZHI® ADMIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c3aed',
+                        accent: '#f8fafc',
+                        success: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-music text-primary text-2xl"></i>
+                <span class="text-xl font-bold text-gray-800">THIGALZHI® ADMIN</span>
+            </div>
+        </div>
+        
+        <nav class="mt-6">
+            <ul class="space-y-2 px-4">
+                <li>
+                    <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Events Bookings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ticket-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>Ticket Bookings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="payments.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="reports.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="content-management.html" class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary">
+                        <i class="fas fa-edit"></i>
+                        <span class="font-medium">Content Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="feedback.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-comments"></i>
+                        <span>Feedback</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="backup-restore.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-database"></i>
+                        <span>Backup & Restore</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="ml-64 transition-all duration-300">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center space-x-4">
+                    <button id="sidebar-toggle" class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Content Management</h1>
+                        <p class="text-sm text-gray-600">Manage system content and configurations</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-primary"></i>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="/placeholder.svg?height=32&width=32" alt="Profile" class="w-8 h-8 rounded-full">
+                        <span class="text-sm font-medium text-gray-700">Admin User</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Management -->
+        <main class="p-6">
+            <!-- Management Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <!-- Manage Venues -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer group">
+                    <div class="text-center">
+                        <div class="bg-primary bg-opacity-10 group-hover:bg-primary group-hover:bg-opacity-20 p-6 rounded-full inline-block mb-4 transition-colors">
+                            <i class="fas fa-map-marker-alt text-primary text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Venues</h3>
+                        <p class="text-gray-600 mb-4">Add, edit, and manage concert venues and locations</p>
+                        <div class="text-sm text-gray-500">
+                            <span class="font-medium">12</span> venues configured
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Bands -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer group">
+                    <div class="text-center">
+                        <div class="bg-success bg-opacity-10 group-hover:bg-success group-hover:bg-opacity-20 p-6 rounded-full inline-block mb-4 transition-colors">
+                            <i class="fas fa-microphone text-success text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Bands</h3>
+                        <p class="text-gray-600 mb-4">Manage band profiles, schedules, and performance details</p>
+                        <div class="text-sm text-gray-500">
+                            <span class="font-medium">28</span> bands registered
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Decorations -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer group">
+                    <div class="text-center">
+                        <div class="bg-amber-500 bg-opacity-10 group-hover:bg-amber-500 group-hover:bg-opacity-20 p-6 rounded-full inline-block mb-4 transition-colors">
+                            <i class="fas fa-palette text-amber-500 text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Decorations</h3>
+                        <p class="text-gray-600 mb-4">Configure decoration themes and event styling options</p>
+                        <div class="text-sm text-gray-500">
+                            <span class="font-medium">15</span> decoration themes
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Landing Page -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer group">
+                    <div class="text-center">
+                        <div class="bg-blue-500 bg-opacity-10 group-hover:bg-blue-500 group-hover:bg-opacity-20 p-6 rounded-full inline-block mb-4 transition-colors">
+                            <i class="fas fa-globe text-blue-500 text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Landing Page</h3>
+                        <p class="text-gray-600 mb-4">Update website content, banners, and promotional materials</p>
+                        <div class="text-sm text-gray-500">
+                            Last updated <span class="font-medium">2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Quick Actions</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button id="add-venue-btn" class="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-accent transition-colors">
+                        <i class="fas fa-plus text-primary"></i>
+                        <span class="font-medium text-gray-800">Add New Venue</span>
+                    </button>
+                    
+                    <button id="register-band-btn" class="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-accent transition-colors">
+                        <i class="fas fa-users text-success"></i>
+                        <span class="font-medium text-gray-800">Register New Band</span>
+                    </button>
+                    
+                    <button id="create-decoration-btn" class="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:bg-accent transition-colors">
+                        <i class="fas fa-paint-brush text-amber-500"></i>
+                        <span class="font-medium text-gray-800">Create Decoration Theme</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mt-8 bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Recent Content Updates</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                        <div class="bg-primary p-2 rounded-full">
+                            <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800">New venue added: "Symphony Hall"</p>
+                            <p class="text-sm text-gray-600">Added by Admin User • 2 hours ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                        <div class="bg-success p-2 rounded-full">
+                            <i class="fas fa-microphone text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800">Band profile updated: "Thunder Band"</p>
+                            <p class="text-sm text-gray-600">Updated by Admin User • 5 hours ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                        <div class="bg-amber-500 p-2 rounded-full">
+                            <i class="fas fa-palette text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800">New decoration theme: "Modern Minimalist"</p>
+                            <p class="text-sm text-gray-600">Created by Admin User • 1 day ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                        <div class="bg-blue-500 p-2 rounded-full">
+                            <i class="fas fa-globe text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800">Landing page banner updated</p>
+                            <p class="text-sm text-gray-600">Updated by Admin User • 2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Venue Modal -->
+    <div id="venue-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Add New Venue</h3>
+                    <button id="close-venue-modal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="venue-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Venue Name</label>
+                            <input type="text" id="venue-name" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter venue name" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                            <input type="text" id="venue-location" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter location" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Capacity</label>
+                            <input type="number" id="venue-capacity" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter capacity" min="1" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Rating (1-5)</label>
+                            <select id="venue-rating" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                <option value="">Select rating</option>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price per Hour (₹)</label>
+                        <input type="number" id="venue-price" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter price per hour" min="1" required>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" id="cancel-venue" class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                            Add Venue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Band Modal -->
+    <div id="band-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Register New Band</h3>
+                    <button id="close-band-modal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="band-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Band Name</label>
+                            <input type="text" id="band-name" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter band name" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Genre</label>
+                            <select id="band-genre" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                <option value="">Select genre</option>
+                                <option value="rock">Rock</option>
+                                <option value="pop">Pop</option>
+                                <option value="jazz">Jazz</option>
+                                <option value="classical">Classical</option>
+                                <option value="folk">Folk</option>
+                                <option value="electronic">Electronic</option>
+                                <option value="hip-hop">Hip Hop</option>
+                                <option value="country">Country</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Number of Members</label>
+                            <input type="number" id="band-members" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter number of members" min="1" max="20" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Rating (1-5)</label>
+                            <select id="band-rating" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                <option value="">Select rating</option>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price per Hour (₹)</label>
+                        <input type="number" id="band-price" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter price per hour" min="1" required>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" id="cancel-band" class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 bg-success text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors">
+                            Register Band
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Decoration Modal -->
+    <div id="decoration-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Create Decoration Theme</h3>
+                    <button id="close-decoration-modal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="decoration-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Decoration Name</label>
+                            <input type="text" id="decoration-name" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter decoration theme name" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Package Type</label>
+                            <select id="decoration-package" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                <option value="">Select package</option>
+                                <option value="basic">Basic Package</option>
+                                <option value="premium">Premium Package</option>
+                                <option value="luxury">Luxury Package</option>
+                                <option value="custom">Custom Package</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Rating (1-5)</label>
+                            <select id="decoration-rating" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                <option value="">Select rating</option>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Price per Hour (₹)</label>
+                            <input type="number" id="decoration-price" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter price per hour" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Specialties</label>
+                        <textarea id="decoration-specialties" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Describe special features, themes, or unique elements..." required></textarea>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" id="cancel-decoration" class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 bg-amber-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-amber-600 transition-colors">
+                            Create Theme
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ContentManager {
+            constructor() {
+                this.sidebarVisible = true;
+                this.init();
+            }
+
+            init() {
+                this.setupSidebar();
+                this.setupEventListeners();
+            }
+
+            setupSidebar() {
+                const sidebarToggle = document.getElementById('sidebar-toggle');
+                const sidebar = document.getElementById('sidebar');
+                const sidebarOverlay = document.getElementById('sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                
+                const toggleSidebar = () => {
+                    this.sidebarVisible = !this.sidebarVisible;
+                    
+                    if (this.sidebarVisible) {
+                        sidebar.classList.remove('-translate-x-full');
+                        mainContent.classList.remove('ml-0');
+                        mainContent.classList.add('ml-64');
+                        
+                        if (window.innerWidth < 1024) {
+                            sidebarOverlay.classList.remove('hidden');
+                        }
+                    } else {
+                        sidebar.classList.add('-translate-x-full');
+                        mainContent.classList.remove('ml-64');
+                        mainContent.classList.add('ml-0');
+                        sidebarOverlay.classList.add('hidden');
+                    }
+                };
+                
+                sidebarToggle?.addEventListener('click', toggleSidebar);
+                sidebarOverlay?.addEventListener('click', toggleSidebar);
+                
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth >= 1024) {
+                        sidebarOverlay.classList.add('hidden');
+                    } else {
+                        if (this.sidebarVisible) {
+                            sidebarOverlay.classList.remove('hidden');
+                        }
+                    }
+                });
+                
+                if (window.innerWidth < 1024) {
+                    this.sidebarVisible = false;
+                    sidebar.classList.add('-translate-x-full');
+                    mainContent.classList.remove('ml-64');
+                    mainContent.classList.add('ml-0');
+                }
+            }
+
+            setupEventListeners() {
+                // Quick action buttons
+                document.getElementById('add-venue-btn').addEventListener('click', () => this.openVenueModal());
+                document.getElementById('register-band-btn').addEventListener('click', () => this.openBandModal());
+                document.getElementById('create-decoration-btn').addEventListener('click', () => this.openDecorationModal());
+
+                // Modal close buttons
+                document.getElementById('close-venue-modal').addEventListener('click', () => this.closeVenueModal());
+                document.getElementById('close-band-modal').addEventListener('click', () => this.closeBandModal());
+                document.getElementById('close-decoration-modal').addEventListener('click', () => this.closeDecorationModal());
+
+                // Cancel buttons
+                document.getElementById('cancel-venue').addEventListener('click', () => this.closeVenueModal());
+                document.getElementById('cancel-band').addEventListener('click', () => this.closeBandModal());
+                document.getElementById('cancel-decoration').addEventListener('click', () => this.closeDecorationModal());
+
+                // Form submissions
+                document.getElementById('venue-form').addEventListener('submit', (e) => this.handleVenueSubmit(e));
+                document.getElementById('band-form').addEventListener('submit', (e) => this.handleBandSubmit(e));
+                document.getElementById('decoration-form').addEventListener('submit', (e) => this.handleDecorationSubmit(e));
+
+                // Management card clicks
+                document.querySelectorAll('.group').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const title = card.querySelector('h3').textContent;
+                        this.showNotification(`Opening ${title} management interface...`);
+                    });
+                });
+            }
+
+            openVenueModal() {
+                document.getElementById('venue-modal').classList.remove('hidden');
+            }
+
+            closeVenueModal() {
+                document.getElementById('venue-modal').classList.add('hidden');
+                document.getElementById('venue-form').reset();
+            }
+
+            openBandModal() {
+                document.getElementById('band-modal').classList.remove('hidden');
+            }
+
+            closeBandModal() {
+                document.getElementById('band-modal').classList.add('hidden');
+                document.getElementById('band-form').reset();
+            }
+
+            openDecorationModal() {
+                document.getElementById('decoration-modal').classList.remove('hidden');
+            }
+
+            closeDecorationModal() {
+                document.getElementById('decoration-modal').classList.add('hidden');
+                document.getElementById('decoration-form').reset();
+            }
+
+            handleVenueSubmit(e) {
+                e.preventDefault();
+                
+                const venueData = {
+                    name: document.getElementById('venue-name').value,
+                    location: document.getElementById('venue-location').value,
+                    capacity: document.getElementById('venue-capacity').value,
+                    rating: document.getElementById('venue-rating').value,
+                    pricePerHour: document.getElementById('venue-price').value
+                };
+
+                // Simulate API call
+                this.showNotification('Venue added successfully!', 'success');
+                this.addRecentActivity('venue', `New venue added: "${venueData.name}"`);
+                this.closeVenueModal();
+            }
+
+            handleBandSubmit(e) {
+                e.preventDefault();
+                
+                const bandData = {
+                    name: document.getElementById('band-name').value,
+                    genre: document.getElementById('band-genre').value,
+                    members: document.getElementById('band-members').value,
+                    rating: document.getElementById('band-rating').value,
+                    pricePerHour: document.getElementById('band-price').value
+                };
+
+                // Simulate API call
+                this.showNotification('Band registered successfully!', 'success');
+                this.addRecentActivity('band', `New band registered: "${bandData.name}"`);
+                this.closeBandModal();
+            }
+
+            handleDecorationSubmit(e) {
+                e.preventDefault();
+                
+                const decorationData = {
+                    name: document.getElementById('decoration-name').value,
+                    package: document.getElementById('decoration-package').value,
+                    specialties: document.getElementById('decoration-specialties').value,
+                    rating: document.getElementById('decoration-rating').value,
+                    pricePerHour: document.getElementById('decoration-price').value
+                };
+
+                // Simulate API call
+                this.showNotification('Decoration theme created successfully!', 'success');
+                this.addRecentActivity('decoration', `New decoration theme: "${decorationData.name}"`);
+                this.closeDecorationModal();
+            }
+
+            addRecentActivity(type, message) {
+                const activityContainer = document.querySelector('.space-y-4');
+                const iconClass = type === 'venue' ? 'fa-map-marker-alt' : type === 'band' ? 'fa-microphone' : 'fa-palette';
+                const bgColor = type === 'venue' ? 'bg-primary' : type === 'band' ? 'bg-success' : 'bg-amber-500';
+                
+                const newActivity = document.createElement('div');
+                newActivity.className = 'flex items-center space-x-4 p-4 bg-accent rounded-lg';
+                newActivity.innerHTML = `
+                    <div class="${bgColor} p-2 rounded-full">
+                        <i class="fas ${iconClass} text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-800">${message}</p>
+                        <p class="text-sm text-gray-600">Added by Admin User • Just now</p>
+                    </div>
+                `;
+                
+                activityContainer.insertBefore(newActivity, activityContainer.firstChild);
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 bg-${type === 'success' ? 'success' : 'blue-500'} text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in`;
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-${type === 'success' ? 'check' : 'info'} mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        }
+
+        // Initialize content manager
+        document.addEventListener('DOMContentLoaded', () => {
+            new ContentManager();
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fade-in {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fade-in 0.3s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

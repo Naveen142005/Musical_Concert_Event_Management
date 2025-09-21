@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reports - THIGALZHI® ADMIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#7c3aed",
+              accent: "#f8fafc",
+              success: "#10b981",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50"
+    >
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-music text-primary text-2xl"></i>
+          <span class="text-xl font-bold text-gray-800">THIGALZHI® ADMIN</span>
+        </div>
+      </div>
+
+      <nav class="mt-6">
+        <ul class="space-y-2 px-4">
+          <li>
+            <a
+              href="dashboard.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-chart-line"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="events-bookings.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-calendar-alt"></i>
+              <span>Events Bookings</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="ticket-bookings.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-ticket-alt"></i>
+              <span>Ticket Bookings</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="payments.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-credit-card"></i>
+              <span>Payments</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="reports.html"
+              class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary"
+            >
+              <i class="fas fa-chart-bar"></i>
+              <span class="font-medium">Reports</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="content-management.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-edit"></i>
+              <span>Content Management</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="feedback.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-comments"></i>
+              <span>Feedback</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="backup-restore.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-database"></i>
+              <span>Backup & Restore</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+    ></div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="ml-64 transition-all duration-300">
+      <!-- Header -->
+      <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center space-x-4">
+            <button
+              id="sidebar-toggle"
+              class="text-gray-600 hover:text-gray-800"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-800">Reports</h1>
+              <p class="text-sm text-gray-600">
+                Generate and download comprehensive reports
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <i
+                class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-primary"
+              ></i>
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                >3</span
+              >
+            </div>
+            <div class="flex items-center space-x-2">
+              <img
+                src="/placeholder.svg?height=32&width=32"
+                alt="Profile"
+                class="w-8 h-8 rounded-full"
+              />
+              <span class="text-sm font-medium text-gray-700">Admin User</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Reports Content -->
+      <main class="p-6">
+        <!-- Dynamic Report Generator -->
+        <div
+          class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-8"
+        >
+          <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">
+             Report of THIGALZHI®
+            </h2>
+            <p class="text-gray-600">
+              Generate detailed reports with real-time preview and interactive
+              filters
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Report Configuration -->
+            <div>
+              <form id="report-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                      >Start Date</label
+                    >
+                    <input
+                      type="date"
+                      id="start-date"
+                      class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                      >End Date</label
+                    >
+                    <input
+                      type="date"
+                      id="end-date"
+                      class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Report Type</label
+                  >
+                  <select
+                    id="report-type"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">Select Report Type</option>
+                    <option value="booking">Event Bookings Report</option>
+                    <option value="ticket">Ticket Bookings Report</option>
+                    <option value="payment">Payment Report</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Download Format</label
+                  >
+                  <div class="flex flex-wrap gap-3">
+                    <label class="flex items-center">
+                      <input
+                        type="radio"
+                        name="format"
+                        value="pdf"
+                        class="text-primary focus:ring-primary"
+                        checked
+                      />
+                      <span class="ml-2 text-sm text-gray-700">PDF</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input
+                        type="radio"
+                        name="format"
+                        value="excel"
+                        class="text-primary focus:ring-primary"
+                      />
+                      <span class="ml-2 text-sm text-gray-700">Excel</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input
+                        type="radio"
+                        name="format"
+                        value="csv"
+                        class="text-primary focus:ring-primary"
+                      />
+                      <span class="ml-2 text-sm text-gray-700">CSV</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="flex gap-3">
+                  <button
+                    type="button"
+                    id="preview-btn"
+                    class="flex-1 bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                  >
+                    <i class="fas fa-eye mr-2"></i>Preview Report
+                  </button>
+                  <button
+                    type="submit"
+                    class="flex-1 bg-gradient-to-r from-primary to-purple-700 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-primary transition-all duration-300 transform hover:scale-105"
+                  >
+                    <i class="fas fa-download mr-2"></i>Generate Report
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- Report Preview -->
+            <div>
+              <h4 class="font-medium text-gray-800 mb-4">Report Preview</h4>
+              <div
+                id="report-preview"
+                class="border border-gray-200 rounded-lg p-4 h-96 overflow-y-auto bg-gray-50"
+              >
+                <div class="text-center text-gray-500 mt-20">
+                  <i class="fas fa-chart-bar text-4xl mb-4"></i>
+                  <p>Select report type and click preview to see report data</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Recent Reports with Search and Filters -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-800">Recent Reports</h3>
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <input
+                  type="text"
+                  id="search-reports"
+                  placeholder="Search reports..."
+                  class="border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+                <i
+                  class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                ></i>
+              </div>
+              <select
+                id="report-filter"
+                class="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              >
+                <option value="all">All Reports</option>
+                <option value="pdf">PDF Only</option>
+                <option value="excel">Excel Only</option>
+                <option value="csv">CSV Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="reports-list" class="space-y-4">
+            <!-- Reports will be populated by JavaScript -->
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      class ReportManager {
+        constructor() {
+          this.bookingData = [
+            {
+              id: 1,
+              organizerName: "Rajesh Kumar",
+              eventName: "Rock Night 2024",
+              bookedDate: "2024-01-15",
+              eventDate: "2025-12-20",
+              venue: "Grand Arena",
+              status: "confirmed",
+              venueCharges: 50000,
+            },
+            {
+              id: 2,
+              organizerName: "Priya Sharma",
+              eventName: "Jazz Evening",
+              bookedDate: "2024-01-18",
+              eventDate: "2025-11-25",
+              venue: "Music Hall",
+              status: "pending",
+              venueCharges: 35000,
+            },
+            {
+              id: 3,
+              organizerName: "Amit Patel",
+              eventName: "Classical Symphony",
+              bookedDate: "2024-01-20",
+              eventDate: "2025-10-05",
+              venue: "Concert Hall",
+              status: "confirmed",
+              venueCharges: 75000,
+            },
+            {
+              id: 4,
+              organizerName: "Neha Singh",
+              eventName: "Pop Fusion Night",
+              bookedDate: "2024-01-22",
+              eventDate: "2025-10-10",
+              venue: "Grand Arena",
+              status: "cancelled",
+              venueCharges: 60000,
+            },
+          ];
+
+          this.ticketData = [
+            {
+              id: 1,
+              audience: "Arjun Mehta",
+              event: "Rock Night 2024",
+              bookedDate: "2024-01-16",
+              eventDate: "2025-12-20",
+              premium: 2,
+              gold: 3,
+              silver: 1,
+              total: 6,
+              status: "confirmed",
+            },
+            {
+              id: 2,
+              audience: "Kavya Nair",
+              event: "Jazz Evening",
+              bookedDate: "2024-01-19",
+              eventDate: "2025-11-25",
+              premium: 1,
+              gold: 2,
+              silver: 2,
+              total: 5,
+              status: "pending",
+            },
+            {
+              id: 3,
+              audience: "Rohit Gupta",
+              event: "Classical Symphony",
+              bookedDate: "2024-01-21",
+              eventDate: "2025-10-05",
+              premium: 3,
+              gold: 1,
+              silver: 0,
+              total: 4,
+              status: "confirmed",
+            },
+            {
+              id: 4,
+              audience: "Ananya Singh",
+              event: "Pop Fusion Night",
+              bookedDate: "2024-01-23",
+              eventDate: "2025-10-10",
+              premium: 1,
+              gold: 4,
+              silver: 3,
+              total: 8,
+              status: "cancelled",
+            },
+          ];
+
+          this.paymentData = [
+            {
+              id: 1,
+              customer: "Arjun Mehta",
+              event: "Rock Night 2024",
+              paidDate: "2024-01-16",
+              paymentMethod: "Credit Card",
+              totalAmount: 12500,
+              pendingAmount: 0,
+              status: "completed",
+              transactionId: "TXN001234567",
+              role: "audience",
+            },
+            {
+              id: 2,
+              customer: "Kavya Nair",
+              event: "Jazz Evening",
+              paidDate: "2024-01-19",
+              paymentMethod: "UPI",
+              totalAmount: 5000,
+              pendingAmount: 3500,
+              status: "pending",
+              transactionId: "TXN001234568",
+              role: "audience",
+            },
+            {
+              id: 3,
+              customer: "Rajesh Kumar",
+              event: "Rock Night 2024",
+              paidDate: "2024-01-15",
+              paymentMethod: "Net Banking",
+              totalAmount: 50000,
+              pendingAmount: 0,
+              status: "completed",
+              transactionId: "TXN001234569",
+              role: "organizer",
+            },
+            {
+              id: 4,
+              customer: "Priya Sharma",
+              event: "Jazz Evening",
+              paidDate: "2024-01-18",
+              paymentMethod: "Credit Card",
+              totalAmount: 35000,
+              pendingAmount: 15000,
+              status: "pending",
+              transactionId: "TXN001234570",
+              role: "organizer",
+            },
+          ];
+
+          this.reports = [
+            {
+              id: 1,
+              name: "Event Bookings Report",
+              type: "booking",
+              format: "pdf",
+              date: "2024-02-01",
+              size: "2.4 MB",
+              period: "January 2024",
+            },
+            {
+              id: 2,
+              name: "Ticket Bookings Report",
+              type: "ticket",
+              format: "excel",
+              date: "2024-01-15",
+              size: "1.8 MB",
+              period: "December 2023",
+            },
+            {
+              id: 3,
+              name: "Payment Report",
+              type: "payment",
+              format: "csv",
+              date: "2024-01-05",
+              size: "856 KB",
+              period: "December 2023",
+            },
+          ];
+
+          this.filteredReports = [...this.reports];
+          this.previewChart = null;
+          this.sidebarVisible = true;
+
+          this.init();
+        }
+
+        init() {
+          this.setupSidebar();
+          this.setupEventListeners();
+          this.renderReports();
+          this.setDefaultDates();
+        }
+
+        setupSidebar() {
+          const sidebarToggle = document.getElementById("sidebar-toggle");
+          const sidebar = document.getElementById("sidebar");
+          const sidebarOverlay = document.getElementById("sidebar-overlay");
+          const mainContent = document.getElementById("main-content");
+
+          const toggleSidebar = () => {
+            this.sidebarVisible = !this.sidebarVisible;
+
+            if (this.sidebarVisible) {
+              sidebar.classList.remove("-translate-x-full");
+              mainContent.classList.remove("ml-0");
+              mainContent.classList.add("ml-64");
+
+              if (window.innerWidth < 1024) {
+                sidebarOverlay.classList.remove("hidden");
+              }
+            } else {
+              sidebar.classList.add("-translate-x-full");
+              mainContent.classList.remove("ml-64");
+              mainContent.classList.add("ml-0");
+              sidebarOverlay.classList.add("hidden");
+            }
+          };
+
+          sidebarToggle?.addEventListener("click", toggleSidebar);
+          sidebarOverlay?.addEventListener("click", toggleSidebar);
+
+          window.addEventListener("resize", () => {
+            if (window.innerWidth >= 1024) {
+              sidebarOverlay.classList.add("hidden");
+            } else {
+              if (this.sidebarVisible) {
+                sidebarOverlay.classList.remove("hidden");
+              }
+            }
+          });
+
+          if (window.innerWidth < 1024) {
+            this.sidebarVisible = false;
+            sidebar.classList.add("-translate-x-full");
+            mainContent.classList.remove("ml-64");
+            mainContent.classList.add("ml-0");
+          }
+        }
+
+        setupEventListeners() {
+          document
+            .getElementById("preview-btn")
+            .addEventListener("click", () => {
+              this.previewReport();
+            });
+
+          document
+            .getElementById("report-form")
+            .addEventListener("submit", (e) => {
+              e.preventDefault();
+              this.generateReport();
+            });
+
+          document
+            .getElementById("search-reports")
+            .addEventListener("input", () => {
+              this.searchReports();
+            });
+
+          document
+            .getElementById("report-filter")
+            .addEventListener("change", () => {
+              this.filterReports();
+            });
+        }
+
+        setDefaultDates() {
+          const today = new Date();
+          const lastMonth = new Date(
+            today.getFullYear(),
+            today.getMonth() - 1,
+            1
+          );
+          const endOfLastMonth = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0
+          );
+
+          document.getElementById("start-date").value = lastMonth
+            .toISOString()
+            .split("T")[0];
+          document.getElementById("end-date").value = endOfLastMonth
+            .toISOString()
+            .split("T")[0];
+        }
+
+        validateDateRange() {
+          const startDate = new Date(
+            document.getElementById("start-date").value
+          );
+          const endDate = new Date(document.getElementById("end-date").value);
+
+          if (startDate > endDate) {
+            this.showNotification(
+              "Start date cannot be greater than end date!",
+              "error"
+            );
+            return false;
+          }
+          return true;
+        }
+
+        previewReport() {
+          const reportType = document.getElementById("report-type").value;
+          const startDate = document.getElementById("start-date").value;
+          const endDate = document.getElementById("end-date").value;
+
+          if (!reportType || !startDate || !endDate) {
+            this.showNotification(
+              "Please select report type and date range",
+              "error"
+            );
+            return;
+          }
+
+          if (!this.validateDateRange()) {
+            return;
+          }
+
+          const previewContainer = document.getElementById("report-preview");
+          previewContainer.innerHTML = `
+                    <div class="animate-pulse">
+                        <div class="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
+                        <div class="h-4 bg-gray-300 rounded w-1/2 mb-6"></div>
+                        <div class="space-y-3">
+                            <div class="h-3 bg-gray-300 rounded"></div>
+                            <div class="h-3 bg-gray-300 rounded w-5/6"></div>
+                            <div class="h-3 bg-gray-300 rounded w-4/6"></div>
+                        </div>
+                    </div>
+                `;
+
+          setTimeout(() => {
+            this.renderPreview(reportType, startDate, endDate);
+          }, 1500);
+        }
+
+        renderPreview(reportType, startDate, endDate) {
+          const previewContainer = document.getElementById("report-preview");
+          const data = this.getDataByType(reportType);
+          const filteredData = this.filterDataByDateRange(
+            data,
+            reportType,
+            startDate,
+            endDate
+          );
+
+          previewContainer.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="border-b pb-3">
+                            <h5 class="font-semibold text-gray-800">${this.getReportTitle(
+                              reportType
+                            )}</h5>
+                            <p class="text-sm text-gray-600">Period: ${startDate} to ${endDate}</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white p-3 rounded border">
+                                <p class="text-xs text-gray-600">Total Records</p>
+                                <p class="text-lg font-bold text-primary">${
+                                  filteredData.length
+                                }</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border">
+                                <p class="text-xs text-gray-600">Total Value</p>
+                                <p class="text-lg font-bold text-success">₹${this.calculateTotalValue(
+                                  filteredData,
+                                  reportType
+                                ).toLocaleString("en-IN")}</p>
+                            </div>
+                        </div>
+                        <div class="h-32">
+                            <canvas id="preview-chart"></canvas>
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            <p>• This is a preview of your report</p>
+                            <p>• Full report will include detailed breakdowns</p>
+                            <p>• ${
+                              filteredData.length
+                            } records found in the selected date range</p>
+                        </div>
+                    </div>
+                `;
+
+          setTimeout(() => {
+            this.createPreviewChart(filteredData, reportType);
+          }, 100);
+        }
+
+        getDataByType(reportType) {
+          switch (reportType) {
+            case "booking":
+              return [...this.bookingData];
+            case "ticket":
+              return [...this.ticketData];
+            case "payment":
+              return [...this.paymentData];
+            default:
+              return [];
+          }
+        }
+
+        filterDataByDateRange(data, reportType, startDate, endDate) {
+          const start = new Date(startDate);
+          const end = new Date(endDate);
+
+          return data.filter((item) => {
+            let itemDate;
+            switch (reportType) {
+              case "booking":
+                itemDate = new Date(item.bookedDate);
+                break;
+              case "ticket":
+                itemDate = new Date(item.bookedDate);
+                break;
+              case "payment":
+                itemDate = new Date(item.paidDate);
+                break;
+              default:
+                return true;
+            }
+            return itemDate >= start && itemDate <= end;
+          });
+        }
+
+        calculateTotalValue(data, reportType) {
+          return data.reduce((total, item) => {
+            switch (reportType) {
+              case "booking":
+                return total + (item.venueCharges || 0);
+              case "ticket":
+                return total + (item.total * 2500 || 0);
+              case "payment":
+                return total + (item.totalAmount || 0);
+              default:
+                return total;
+            }
+          }, 0);
+        }
+
+        getReportTitle(reportType) {
+          const titles = {
+            booking: "Event Bookings Report",
+            ticket: "Ticket Bookings Report",
+            payment: "Payment Report",
+          };
+          return titles[reportType] || "Report";
+        }
+
+        createPreviewChart(data, reportType) {
+          const canvas = document.getElementById("preview-chart");
+          if (!canvas) return;
+
+          if (this.previewChart) {
+            this.previewChart.destroy();
+          }
+
+          let chartData;
+          switch (reportType) {
+            case "booking":
+              const statusCounts = { confirmed: 0, pending: 0, cancelled: 0 };
+              data.forEach((item) => statusCounts[item.status]++);
+              chartData = {
+                labels: ["Confirmed", "Pending", "Cancelled"],
+                datasets: [
+                  {
+                    data: [
+                      statusCounts.confirmed,
+                      statusCounts.pending,
+                      statusCounts.cancelled,
+                    ],
+                    backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
+                  },
+                ],
+              };
+              break;
+            case "ticket":
+              const ticketTypes = { premium: 0, gold: 0, silver: 0 };
+              data.forEach((item) => {
+                ticketTypes.premium += item.premium;
+                ticketTypes.gold += item.gold;
+                ticketTypes.silver += item.silver;
+              });
+              chartData = {
+                labels: ["Premium", "Gold", "Silver"],
+                datasets: [
+                  {
+                    data: [
+                      ticketTypes.premium,
+                      ticketTypes.gold,
+                      ticketTypes.silver,
+                    ],
+                    backgroundColor: ["#f59e0b", "#eab308", "#6b7280"],
+                  },
+                ],
+              };
+              break;
+            case "payment":
+              const paymentStatus = { completed: 0, pending: 0, failed: 0 };
+              data.forEach((item) => paymentStatus[item.status]++);
+              chartData = {
+                labels: ["Completed", "Pending", "Failed"],
+                datasets: [
+                  {
+                    data: [
+                      paymentStatus.completed,
+                      paymentStatus.pending,
+                      paymentStatus.failed || 0,
+                    ],
+                    backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
+                  },
+                ],
+              };
+              break;
+          }
+
+          this.previewChart = new Chart(canvas, {
+            type: "doughnut",
+            data: chartData,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+              },
+            },
+          });
+        }
+
+        generateReport() {
+          const reportType = document.getElementById("report-type").value;
+          const format = document.querySelector(
+            'input[name="format"]:checked'
+          ).value;
+          const startDate = document.getElementById("start-date").value;
+          const endDate = document.getElementById("end-date").value;
+
+          if (!reportType || !startDate || !endDate) {
+            this.showNotification(
+              "Please fill in all required fields",
+              "error"
+            );
+            return;
+          }
+
+          if (!this.validateDateRange()) {
+            return;
+          }
+
+          const button = document.querySelector('button[type="submit"]');
+          const originalText = button.innerHTML;
+
+          button.innerHTML =
+            '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
+          button.disabled = true;
+
+          setTimeout(() => {
+            button.innerHTML =
+              '<i class="fas fa-check mr-2"></i>Report Generated!';
+
+            const newReport = {
+              id: this.reports.length + 1,
+              name: this.getReportTitle(reportType),
+              type: reportType,
+              format: format,
+              date: new Date().toISOString().split("T")[0],
+              size: this.getRandomSize(),
+              period: `${startDate} to ${endDate}`,
+            };
+
+            this.reports.unshift(newReport);
+            this.renderReports();
+            this.downloadActualFile(newReport, reportType, startDate, endDate);
+
+            setTimeout(() => {
+              button.innerHTML = originalText;
+              button.disabled = false;
+            }, 2000);
+          }, 3000);
+        }
+
+        downloadActualFile(report, reportType, startDate, endDate) {
+          const data = this.getDataByType(reportType);
+          const filteredData = this.filterDataByDateRange(
+            data,
+            reportType,
+            startDate,
+            endDate
+          );
+          let content, mimeType, fileName;
+
+          switch (report.format) {
+            case "csv":
+              content = this.generateCSV(filteredData, reportType);
+              mimeType = "text/csv";
+              fileName = `${report.name.replace(/\s+/g, "_")}.csv`;
+              break;
+            case "excel":
+              content = this.generateExcel(filteredData, reportType);
+              mimeType = "application/vnd.ms-excel";
+              fileName = `${report.name.replace(/\s+/g, "_")}.xls`;
+              break;
+            case "pdf":
+              content = this.generateHTMLForPDF(
+                filteredData,
+                reportType,
+                startDate,
+                endDate
+              );
+              mimeType = "text/html";
+              fileName = `${report.name.replace(/\s+/g, "_")}_PDF_Ready.html`;
+              break;
+          }
+
+          const blob = new Blob([content], { type: mimeType });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+
+          this.showNotification(
+            `${report.format.toUpperCase()} report downloaded successfully!`,
+            "success"
+          );
+        }
+
+        generateCSV(data, reportType) {
+          if (!data.length)
+            return "No data available for the selected date range";
+
+          const headers = Object.keys(data[0]).join(",");
+          const rows = data
+            .map((row) =>
+              Object.values(row)
+                .map((value) =>
+                  typeof value === "string" && value.includes(",")
+                    ? `"${value}"`
+                    : value
+                )
+                .join(",")
+            )
+            .join("\n");
+          return `${headers}\n${rows}`;
+        }
+
+        generateExcel(data, reportType) {
+          if (!data.length)
+            return "No data available for the selected date range";
+
+          const headers = Object.keys(data[0]).join("\t");
+          const rows = data
+            .map((row) => Object.values(row).join("\t"))
+            .join("\n");
+          return `${headers}\n${rows}`;
+        }
+
+        generateHTMLForPDF(data, reportType, startDate, endDate) {
+          const title = this.getReportTitle(reportType);
+
+          const html = `
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #7c3aed; padding-bottom: 10px; }
+        .title { color: #7c3aed; font-size: 24px; font-weight: bold; }
+        .period { color: #666; font-size: 14px; margin-top: 5px; }
+        .summary { background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 0 20px; }
+        .summary-label { font-weight: bold; color: #7c3aed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-left; border: 1px solid #ddd; font-size: 12px; }
+        th { background-color: #7c3aed; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 11px; color: white; }
+        .status-confirmed, .status-completed { background: #10b981; }
+        .status-pending { background: #f59e0b; }
+        .status-cancelled, .status-failed { background: #ef4444; }
+        .status-audience { background: #10b981; }
+        .status-organizer { background: #3b82f6; }
+        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 12px; }
+        .print-instruction { background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        @media print {
+            body { margin: 0; }
+            .header { margin-bottom: 20px; }
+            .print-instruction { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">THIGALZHI® ADMIN - ${title}</div>
+        <div class="period">Report Period: ${startDate} to ${endDate}</div>
+        <div class="period">Generated on: ${new Date().toLocaleDateString()}</div>
+    </div>
+
+    <div class="print-instruction">
+        <strong>📄 To convert to PDF:</strong> Press <kbd>Ctrl+P</kbd> (Windows) or <kbd>Cmd+P</kbd> (Mac), then choose "Save as PDF"
+    </div>
+
+    <div class="summary">
+        <div class="summary-item">
+            <span class="summary-label">Total Records:</span> ${data.length}
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Total Value:</span> ₹${this.calculateTotalValue(
+              data,
+              reportType
+            ).toLocaleString("en-IN")}
+        </div>
+    </div>
+
+    ${this.generateTableHTML(data, reportType)}
+
+    <div class="footer">
+        <p><strong>THIGALZHI® Concert Management System</strong></p>
+        <p>Professional Event & Concert Management Solution</p>
+    </div>
+</body>
+</html>`;
+
+          return html;
+        }
+
+        generateTableHTML(data, reportType) {
+          if (!data.length) {
+            return '<p style="text-align: center; color: #666; font-style: italic; padding: 40px;">No data available for the selected date range</p>';
+          }
+
+          let tableHTML = "<table>";
+
+          switch (reportType) {
+            case "booking":
+              tableHTML +=
+                "<thead><tr><th>S.No</th><th>Organizer Name</th><th>Event Name</th><th>Booked Date</th><th>Event Date</th><th>Venue</th><th>Venue Charges</th><th>Status</th></tr></thead><tbody>";
+
+              data.forEach((item, index) => {
+                tableHTML += `<tr>
+                                <td>${index + 1}</td>
+                                <td>${item.organizerName}</td>
+                                <td>${item.eventName}</td>
+                                <td>${item.bookedDate}</td>
+                                <td>${item.eventDate}</td>
+                                <td>${item.venue}</td>
+                                <td>₹${item.venueCharges.toLocaleString(
+                                  "en-IN"
+                                )}</td>
+                                <td><span class="status status-${
+                                  item.status
+                                }">${
+                  item.status.charAt(0).toUpperCase() + item.status.slice(1)
+                }</span></td>
+                            </tr>`;
+              });
+              break;
+
+            case "ticket":
+              tableHTML +=
+                "<thead><tr><th>S.No</th><th>Audience Name</th><th>Event Name</th><th>Booked Date</th><th>Event Date</th><th>Premium</th><th>Gold</th><th>Silver</th><th>Total</th><th>Status</th></tr></thead><tbody>";
+
+              data.forEach((item, index) => {
+                tableHTML += `<tr>
+                                <td>${index + 1}</td>
+                                <td>${item.audience}</td>
+                                <td>${item.event}</td>
+                                <td>${item.bookedDate}</td>
+                                <td>${item.eventDate}</td>
+                                <td>${item.premium}</td>
+                                <td>${item.gold}</td>
+                                <td>${item.silver}</td>
+                                <td><strong>${item.total}</strong></td>
+                                <td><span class="status status-${
+                                  item.status
+                                }">${
+                  item.status.charAt(0).toUpperCase() + item.status.slice(1)
+                }</span></td>
+                            </tr>`;
+              });
+              break;
+
+            case "payment":
+              tableHTML +=
+                "<thead><tr><th>S.No</th><th>Customer Name</th><th>Event Name</th><th>Payment Date</th><th>Payment Method</th><th>Amount Paid</th><th>Pending Amount</th><th>Role</th><th>Status</th></tr></thead><tbody>";
+
+              data.forEach((item, index) => {
+                tableHTML += `<tr>
+                                <td>${index + 1}</td>
+                                <td>${item.customer}</td>
+                                <td>${item.event}</td>
+                                <td>${item.paidDate}</td>
+                                <td>${item.paymentMethod}</td>
+                                <td>₹${item.totalAmount.toLocaleString(
+                                  "en-IN"
+                                )}</td>
+                                <td>₹${item.pendingAmount.toLocaleString(
+                                  "en-IN"
+                                )}</td>
+                                <td><span class="status status-${item.role}">${
+                  item.role.charAt(0).toUpperCase() + item.role.slice(1)
+                }</span></td>
+                                <td><span class="status status-${
+                                  item.status
+                                }">${
+                  item.status.charAt(0).toUpperCase() + item.status.slice(1)
+                }</span></td>
+                            </tr>`;
+              });
+              break;
+          }
+
+          tableHTML += "</tbody></table>";
+          return tableHTML;
+        }
+
+        getRandomSize() {
+          const sizes = ["1.2 MB", "2.4 MB", "856 KB", "3.1 MB", "1.8 MB"];
+          return sizes[Math.floor(Math.random() * sizes.length)];
+        }
+
+        showNotification(message, type = "success") {
+          const notification = document.createElement("div");
+          notification.className = `fixed top-4 right-4 bg-${
+            type === "success" ? "success" : "red-500"
+          } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in`;
+          notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-${
+                          type === "success" ? "check" : "exclamation-triangle"
+                        } mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+          document.body.appendChild(notification);
+
+          setTimeout(() => {
+            notification.remove();
+          }, 3000);
+        }
+
+        searchReports() {
+          const searchTerm = document
+            .getElementById("search-reports")
+            .value.toLowerCase();
+
+          if (!searchTerm) {
+            this.filteredReports = [...this.reports];
+          } else {
+            this.filteredReports = this.reports.filter(
+              (report) =>
+                report.name.toLowerCase().includes(searchTerm) ||
+                report.period.toLowerCase().includes(searchTerm)
+            );
+          }
+
+          this.renderReports();
+        }
+
+        filterReports() {
+          const filterValue = document.getElementById("report-filter").value;
+
+          if (filterValue === "all") {
+            this.filteredReports = [...this.reports];
+          } else {
+            this.filteredReports = this.reports.filter(
+              (report) => report.format === filterValue
+            );
+          }
+
+          this.renderReports();
+        }
+
+        renderReports() {
+          const container = document.getElementById("reports-list");
+
+          if (this.filteredReports.length === 0) {
+            container.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-file-alt text-4xl mb-4"></i>
+                            <p>No reports found</p>
+                        </div>
+                    `;
+            return;
+          }
+
+          container.innerHTML = this.filteredReports
+            .map(
+              (report) => `
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-accent transition-colors">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-${this.getFormatColor(
+                              report.format
+                            )}-100 p-3 rounded-full">
+                                <i class="fas ${this.getFormatIcon(
+                                  report.format
+                                )} text-${this.getFormatColor(
+                report.format
+              )}-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">${
+                                  report.name
+                                }</h4>
+                                <p class="text-sm text-gray-600">${
+                                  report.period
+                                } - Generated on ${report.date}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm text-gray-500">${
+                              report.size
+                            }</span>
+                            <button class="text-primary hover:text-purple-800 font-medium transition-colors" onclick="reportManager.downloadReport(${
+                              report.id
+                            })">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700 font-medium transition-colors" onclick="reportManager.deleteReport(${
+                              report.id
+                            })">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            )
+            .join("");
+        }
+
+        getFormatIcon(format) {
+          const icons = {
+            pdf: "fa-file-pdf",
+            excel: "fa-file-excel",
+            csv: "fa-file-csv",
+          };
+          return icons[format] || "fa-file";
+        }
+
+        getFormatColor(format) {
+          const colors = {
+            pdf: "red",
+            excel: "green",
+            csv: "blue",
+          };
+          return colors[format] || "gray";
+        }
+
+        downloadReport(reportId) {
+          const report = this.reports.find((r) => r.id === reportId);
+          if (report) {
+            this.downloadActualFile(
+              report,
+              report.type,
+              "2024-01-01",
+              "2024-01-31"
+            );
+          }
+        }
+
+        deleteReport(reportId) {
+          if (confirm("Are you sure you want to delete this report?")) {
+            this.reports = this.reports.filter((r) => r.id !== reportId);
+            this.filteredReports = this.filteredReports.filter(
+              (r) => r.id !== reportId
+            );
+            this.renderReports();
+            this.showNotification("Report deleted successfully!");
+          }
+        }
+      }
+
+      let reportManager;
+      document.addEventListener("DOMContentLoaded", () => {
+        reportManager = new ReportManager();
+      });
+
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes fade-in {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fade-in 0.3s ease-out;
+            }
+        `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>
