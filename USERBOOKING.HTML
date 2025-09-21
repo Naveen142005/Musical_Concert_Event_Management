@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events - Concert Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgb(147, 51, 234)', // purple-600
+                        'primary-dark': 'rgb(126, 34, 206)', // purple-700
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Updated to white background theme with purple accents */
+        body {
+            background: #ffffff;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card-shadow:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .event-card {
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quantity-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(147, 51, 234, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid rgb(147, 51, 234);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-item {
+            position: relative;
+            padding: 0.5rem 1rem;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: #374151;
+        }
+
+        .nav-item.active {
+            color: rgb(147, 51, 234);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgb(147, 51, 234);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Updated header with white background and navigation -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">🎵</span>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-900">LOGO</h1>
+                    </div>
+                    <nav class="hidden md:flex items-center space-x-1">
+                        <a href="#" class="nav-item">HOME</a>
+                        <a href="#" class="nav-item">ABOUT</a>
+                        <a href="#" class="nav-item">FACILITIES</a>
+                        <a href="#" class="nav-item active">EVENTS</a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 text-gray-400 hover:text-gray-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                        <span class="text-gray-600 text-sm font-medium">👤</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Added tabs for upcoming and past events -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-8 max-w-md">
+            <button id="upcomingTab" class="flex-1 py-2 px-4 text-sm font-medium rounded-md bg-white text-primary shadow-sm">
+                UPCOMING EVENTS
+            </button>
+            <button id="pastTab" class="flex-1 py-2 px-4 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700">
+                PAST EVENTS
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="flex justify-center items-center min-h-[400px]">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-gray-600">Loading upcoming events...</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 hidden">
+        <!-- Events Grid -->
+        <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Event cards will be dynamically inserted here -->
+        </div>
+
+        <!-- No Events State -->
+        <div id="noEventsState" class="text-center py-16 hidden">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-4xl">🎭</span>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No Upcoming Events</h3>
+            <p class="text-gray-600">Check back later for new events!</p>
+        </div>
+    </main>
+
+    <!-- View Details Modal -->
+    <div id="detailsModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0" onclick="closeDetailsModal()"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-2xl shadow-2xl relative">
+                <button onclick="closeDetailsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <div id="modalContent">
+                    <!-- Modal content will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Ticket Modal -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0" onclick="closeBookingModal()"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-4xl shadow-2xl relative max-h-[90vh] overflow-y-auto">
+                <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <div id="bookingContent">
+                    <!-- Booking content will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let eventsData = [
+            {
+                id: '1',
+                eventName: 'Summer Music Festival 2024',
+                organizerName: 'MusicCorp Events',
+                organizerEmail: 'info@musiccorp.com',
+                organizerMobile: '+1-555-0123',
+                venue: 'Central Park Amphitheater',
+                humanFriendlyDate: '15 Aug 2025 - 13:00',
+                band: 'The Electric Waves',
+                bookingStatus: 'confirmed',
+                ticketingEnabled: true,
+                ticketPrices: {
+                    premiumPrice: 1500,
+                    goldPrice: 1000,
+                    silverPrice: 500
+                }
+            },
+            {
+                id: '2',
+                eventName: 'Jazz Night Under Stars',
+                organizerName: 'Jazz Society',
+                organizerEmail: 'contact@jazzsociety.com',
+                organizerMobile: '+1-555-0124',
+                venue: 'Riverside Jazz Club',
+                humanFriendlyDate: '22 Aug 2025 - 19:30',
+                band: 'Midnight Jazz Ensemble',
+                bookingStatus: 'confirmed',
+                ticketingEnabled: true,
+                ticketPrices: {
+                    premiumPrice: 800,
+                    goldPrice: 600,
+                    silverPrice: 400
+                }
+            },
+            {
+                id: '3',
+                eventName: 'Rock Concert Extravaganza',
+                organizerName: 'Rock Events Ltd',
+                organizerEmail: 'bookings@rockevents.com',
+                organizerMobile: '+1-555-0125',
+                venue: 'Stadium Arena',
+                humanFriendlyDate: '30 Aug 2025 - 20:00',
+                band: 'Thunder Strike',
+                bookingStatus: 'confirmed',
+                ticketingEnabled: false
+            },
+            {
+                id: '4',
+                eventName: 'Classical Evening',
+                organizerName: 'Symphony Orchestra',
+                organizerEmail: 'info@symphony.org',
+                organizerMobile: '+1-555-0126',
+                venue: 'Grand Opera House',
+                humanFriendlyDate: '05 Sep 2025 - 18:00',
+                band: 'City Symphony Orchestra',
+                bookingStatus: 'confirmed',
+                ticketingEnabled: true,
+                ticketPrices: {
+                    premiumPrice: 1200,
+                    goldPrice: 800,
+                    silverPrice: 400
+                }
+            }
+        ];
+        
+        let currentEvent = null;
+        let ticketQuantities = { premium: 0, gold: 0, silver: 0 };
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEvents();
+            setupTabListeners();
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+        });
+        
+        // Setup tab listeners
+        function setupTabListeners() {
+            document.getElementById('upcomingTab').addEventListener('click', function() {
+                this.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                this.classList.remove('text-gray-500');
+                document.getElementById('pastTab').classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                document.getElementById('pastTab').classList.add('text-gray-500');
+                renderEvents();
+            });
+            
+            document.getElementById('pastTab').addEventListener('click', function() {
+                this.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                this.classList.remove('text-gray-500');
+                document.getElementById('upcomingTab').classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                document.getElementById('upcomingTab').classList.add('text-gray-500');
+                renderPastEvents();
+            });
+        }
+        
+        // Render events grid
+        function renderEvents() {
+            const eventsGrid = document.getElementById('eventsGrid');
+            
+            if (eventsData.length === 0) {
+                showNoEventsState();
+                return;
+            }
+            
+            eventsGrid.innerHTML = eventsData.map(event => `
+                <div class="event-card rounded-xl overflow-hidden card-shadow fade-in">
+                    <div class="h-32 bg-gradient-to-br from-primary to-primary-dark relative">
+                        <div class="absolute inset-0 bg-black/10"></div>
+                        ${!event.ticketingEnabled ? '<div class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">No Tickets</div>' : ''}
+                    </div>
+                    
+                    <div class="p-4">
+                        <h3 class="text-gray-900 font-bold text-lg mb-1">${event.eventName}</h3>
+                        <p class="text-gray-600 text-sm mb-3">${event.organizerName}</p>
+                        
+                        <div class="flex items-center text-gray-500 text-sm mb-2">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            ${event.venue}
+                        </div>
+                        
+                        <div class="flex items-center text-gray-500 text-sm mb-4">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            ${event.humanFriendlyDate}
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <button onclick="viewEventDetails('${event.id}')" 
+                                class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                                View Details
+                            </button>
+                            <button onclick="bookTicket('${event.id}')" 
+                                class="flex-1 bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors ${!event.ticketingEnabled ? 'opacity-50 cursor-not-allowed' : ''}"
+                                ${!event.ticketingEnabled ? 'disabled title="Tickets not available"' : ''}>
+                                Book Ticket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Render past events (placeholder)
+        function renderPastEvents() {
+            const eventsGrid = document.getElementById('eventsGrid');
+            eventsGrid.innerHTML = `
+                <div class="col-span-full text-center py-16">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-4xl">📅</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">No Past Events</h3>
+                    <p class="text-gray-600">Past events will appear here once available.</p>
+                </div>
+            `;
+        }
+        
+        // Show no events state
+        function showNoEventsState() {
+            document.getElementById('eventsGrid').classList.add('hidden');
+            document.getElementById('noEventsState').classList.remove('hidden');
+        }
+        
+        // View event details
+        function viewEventDetails(eventId) {
+            const event = eventsData.find(e => e.id === eventId);
+            if (!event) return;
+            
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">${event.eventName}</h2>
+                    <p class="text-gray-600">Organized by ${event.organizerName}</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Event Details</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                ${event.humanFriendlyDate}
+                            </div>
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                ${event.venue}
+                            </div>
+                            ${event.band ? `
+                                <div class="flex items-center text-gray-700">
+                                    <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                                    </svg>
+                                    ${event.band}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Contact Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                ${event.organizerEmail}
+                            </div>
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                                ${event.organizerMobile}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                ${event.ticketingEnabled && event.ticketPrices ? `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Ticket Prices</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            ${event.ticketPrices.premiumPrice ? `
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <h4 class="font-semibold text-gray-900 mb-1">Premium</h4>
+                                    <p class="text-2xl font-bold text-primary">₹${event.ticketPrices.premiumPrice}</p>
+                                </div>
+                            ` : ''}
+                            ${event.ticketPrices.goldPrice ? `
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <h4 class="font-semibold text-gray-900 mb-1">Gold</h4>
+                                    <p class="text-2xl font-bold text-yellow-600">₹${event.ticketPrices.goldPrice}</p>
+                                </div>
+                            ` : ''}
+                            ${event.ticketPrices.silverPrice ? `
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <h4 class="font-semibold text-gray-900 mb-1">Silver</h4>
+                                    <p class="text-2xl font-bold text-gray-600">₹${event.ticketPrices.silverPrice}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="flex justify-end space-x-3">
+                    <button onclick="closeDetailsModal()" 
+                        class="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors">
+                        Close
+                    </button>
+                    ${event.ticketingEnabled ? `
+                        <button onclick="closeDetailsModal(); bookTicket('${event.id}')" 
+                            class="px-6 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors">
+                            Book Ticket
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+            
+            document.getElementById('detailsModal').classList.remove('hidden');
+        }
+        
+        // Close details modal
+        function closeDetailsModal() {
+            document.getElementById('detailsModal').classList.add('hidden');
+        }
+        
+        // Book ticket
+        function bookTicket(eventId) {
+            const event = eventsData.find(e => e.id === eventId);
+            if (!event || !event.ticketingEnabled) return;
+            
+            currentEvent = event;
+            ticketQuantities = { premium: 0, gold: 0, silver: 0 };
+            
+            renderBookingModal();
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+        
+        function renderBookingModal() {
+            const bookingContent = document.getElementById('bookingContent');
+            const savedUserData = JSON.parse(localStorage.getItem('userBookingData') || '{}');
+            
+            bookingContent.innerHTML = `
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">BOOK TICKETS</h2>
+                    <p class="text-gray-600">Choose tickets</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Ticket Selection -->
+                    <div>
+                        <div class="space-y-4 mb-6">
+                            ${currentEvent.ticketPrices.premiumPrice ? `
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900">Platinum</h4>
+                                            <p class="text-sm text-gray-600">Front row + back stage access</p>
+                                            <p class="text-primary font-bold text-lg">$${currentEvent.ticketPrices.premiumPrice}</p>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <button onclick="updateQuantity('premium', -1)" 
+                                                class="quantity-btn w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full text-white flex items-center justify-center text-lg">−</button>
+                                            <span id="premiumQty" class="text-gray-900 font-semibold w-8 text-center">0</span>
+                                            <button onclick="updateQuantity('premium', 1)" 
+                                                class="quantity-btn w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full text-white flex items-center justify-center text-lg">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${currentEvent.ticketPrices.goldPrice ? `
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900">Gold</h4>
+                                            <p class="text-sm text-gray-600">Central seating</p>
+                                            <p class="text-yellow-600 font-bold text-lg">$${currentEvent.ticketPrices.goldPrice}</p>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <button onclick="updateQuantity('gold', -1)" 
+                                                class="quantity-btn w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full text-white flex items-center justify-center text-lg">−</button>
+                                            <span id="goldQty" class="text-gray-900 font-semibold w-8 text-center">0</span>
+                                            <button onclick="updateQuantity('gold', 1)" 
+                                                class="quantity-btn w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full text-white flex items-center justify-center text-lg">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${currentEvent.ticketPrices.silverPrice ? `
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900">Silver</h4>
+                                            <p class="text-sm text-gray-600">Balcony seating</p>
+                                            <p class="text-gray-600 font-bold text-lg">$${currentEvent.ticketPrices.silverPrice}</p>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <button onclick="updateQuantity('silver', -1)" 
+                                                class="quantity-btn w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full text-white flex items-center justify-center text-lg">−</button>
+                                            <span id="silverQty" class="text-gray-900 font-semibold w-8 text-center">0</span>
+                                            <button onclick="updateQuantity('silver', 1)" 
+                                                class="quantity-btn w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full text-white flex items-center justify-center text-lg">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between text-gray-700">
+                                <span>Selected: <span id="selectedTicketType">None</span></span>
+                                <span>Per ticket: <span id="perTicketPrice">$0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-3">
+                            <div class="flex justify-between text-gray-900">
+                                <span class="font-semibold">Tickets total</span>
+                                <span id="ticketTotal" class="font-semibold">$0</span>
+                            </div>
+                            <div class="flex justify-between text-gray-700">
+                                <span>Service fee</span>
+                                <span id="serviceFee">$0</span>
+                            </div>
+                            <div class="border-t border-gray-200 pt-3">
+                                <div class="flex justify-between text-gray-900 text-lg font-bold">
+                                    <span>Grand total</span>
+                                    <span id="grandTotal">$0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Details -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Your Details</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">Name</label>
+                                <input type="text" id="userName" value="${savedUserData.name || ''}" placeholder="Enter your Name"
+                                    class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                                <input type="email" id="userEmail" value="${savedUserData.email || ''}" placeholder="Enter your Email"
+                                    class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">Mobile</label>
+                                <input type="tel" id="userMobile" value="${savedUserData.mobile || ''}" placeholder="Enter your Email"
+                                    class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">Select Payment Method</label>
+                                <select id="paymentMethod" 
+                                    class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                                    <option value="">Select Payment Method</option>
+                                    <option value="card">Credit/Debit Card</option>
+                                    <option value="upi">UPI</option>
+                                    <option value="netbanking">Net Banking</option>
+                                    <option value="wallet">Digital Wallet</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input type="checkbox" id="acceptTerms" 
+                                    class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary">
+                                <label for="acceptTerms" class="ml-2 text-gray-700 text-sm">
+                                    Accept Terms and Condition
+                                </label>
+                            </div>
+                            
+                            <button onclick="processPayment()" id="paymentBtn"
+                                class="w-full py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors opacity-50 cursor-not-allowed" disabled>
+                                MAKE PAYMENT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            updatePriceSummary();
+        }
+        
+        // Update ticket quantity
+        function updateQuantity(type, change) {
+            ticketQuantities[type] = Math.max(0, ticketQuantities[type] + change);
+            document.getElementById(`${type}Qty`).textContent = ticketQuantities[type];
+            updatePriceSummary();
+        }
+        
+        // Update price summary
+        function updatePriceSummary() {
+            const prices = currentEvent.ticketPrices;
+            let ticketTotal = 0;
+            let selectedType = 'None';
+            let perTicketPrice = 0;
+            
+            if (ticketQuantities.premium > 0) {
+                ticketTotal += ticketQuantities.premium * prices.premiumPrice;
+                selectedType = 'Platinum';
+                perTicketPrice = prices.premiumPrice;
+            }
+            if (ticketQuantities.gold > 0) {
+                ticketTotal += ticketQuantities.gold * prices.goldPrice;
+                selectedType = ticketQuantities.premium > 0 ? 'Multiple' : 'Gold';
+                perTicketPrice = ticketQuantities.premium > 0 ? 0 : prices.goldPrice;
+            }
+            if (ticketQuantities.silver > 0) {
+                ticketTotal += ticketQuantities.silver * prices.silverPrice;
+                selectedType = (ticketQuantities.premium > 0 || ticketQuantities.gold > 0) ? 'Multiple' : 'Silver';
+                perTicketPrice = (ticketQuantities.premium > 0 || ticketQuantities.gold > 0) ? 0 : prices.silverPrice;
+            } 
+            
+            const serviceFee = Math.round(ticketTotal * 0.08);
+            const grandTotal = ticketTotal + serviceFee;
+            
+            document.getElementById('selectedTicketType').textContent = selectedType;
+            document.getElementById('perTicketPrice').textContent = perTicketPrice > 0 ? `$${perTicketPrice}` : '$0';
+            document.getElementById('ticketTotal').textContent = `$${ticketTotal}`;
+            document.getElementById('serviceFee').textContent = `$${serviceFee}`;
+            document.getElementById('grandTotal').textContent = `$${grandTotal}`;
+            
+            // Enable/disable payment button
+            const totalTickets = Object.values(ticketQuantities).reduce((sum, qty) => sum + qty, 0);
+            const paymentBtn = document.getElementById('paymentBtn');
+            const userName = document.getElementById('userName')?.value;
+            const userEmail = document.getElementById('userEmail')?.value;
+            const userMobile = document.getElementById('userMobile')?.value;
+            const paymentMethod = document.getElementById('paymentMethod')?.value;
+            const acceptTerms = document.getElementById('acceptTerms')?.checked;
+            
+            if (totalTickets > 0 && userName && userEmail && userMobile && paymentMethod && acceptTerms) {
+                paymentBtn.disabled = false;
+                paymentBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                paymentBtn.disabled = true;
+                paymentBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+        
+        // Process payment
+        function processPayment() {
+            const userData = {
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                mobile: document.getElementById('userMobile').value,
+                paymentMethod: document.getElementById('paymentMethod').value
+            };
+            
+            // Save user data to localStorage
+            localStorage.setItem('userBookingData', JSON.stringify(userData));
+            
+            // Save booking details
+            const bookingDetails = {
+                eventId: currentEvent.id,
+                eventName: currentEvent.eventName,
+                tickets: ticketQuantities,
+                userData: userData,
+                bookingDate: new Date().toISOString(),
+                totalAmount: document.getElementById('grandTotal').textContent
+            };
+            
+            const existingBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+            existingBookings.push(bookingDetails);
+            localStorage.setItem('userBookings', JSON.stringify(existingBookings));
+            
+            // Show success message
+            alert(`Booking confirmed! You will receive a confirmation email at ${userData.email}`);
+            closeBookingModal();
+        }
+        
+        // Close booking modal
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            currentEvent = null;
+            ticketQuantities = { premium: 0, gold: 0, silver: 0 };
+        }
+        
+        // Load user data from storage
+        function loadUserDataFromStorage() {
+            // This function can be used to pre-fill forms with saved user data
+        }
+        
+        // Add event listeners for form validation
+        document.addEventListener('change', function(e) {
+            if (e.target.matches('#userName, #userEmail, #userMobile, #paymentMethod, #acceptTerms')) {
+                updatePriceSummary();
+            }
+        });
+        
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('#userName, #userEmail, #userMobile')) {
+                updatePriceSummary();
+            }
+        });
+    </script>
+</body>
+</html>

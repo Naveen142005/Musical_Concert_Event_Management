@@ -7,11 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       // Required scopes for sending emails
-const SCOPES = [
-    'https://www.googleapis.com/auth/gmail.send',
-    'https://www.googleapis.com/auth/gmail.compose',
-    'https://www.googleapis.com/auth/gmail.modify'
-];
+      const SCOPES = [
+        "https://www.googleapis.com/auth/gmail.send",
+        "https://www.googleapis.com/auth/gmail.compose",
+        "https://www.googleapis.com/auth/gmail.modify",
+      ];
 
       // Tailwind config for custom purple theme
       tailwind.config = {
@@ -19,17 +19,16 @@ const SCOPES = [
           extend: {
             colors: {
               "music-purple": {
-               50:  "#ffffff", // Pure White
-100: "#fafafa", // Paper White
-200: "#f0f0f0", // Light Neutral
-300: "#e5e5e5", // Subtle Border
-400: "#cccccc", // Soft Neutral
-500: "#999999", // Mid Neutral
-600: "#666666", // Text Gray
-700: "#333333", // Strong Gray
-800: "#1a1a1a", // Deep Black
-900: "#000000", // Pure Black
-
+                50: "#ffffff", // Pure White
+                100: "#fafafa", // Paper White
+                200: "#f0f0f0", // Light Neutral
+                300: "#e5e5e5", // Subtle Border
+                400: "#cccccc", // Soft Neutral
+                500: "#999999", // Mid Neutral
+                600: "#666666", // Text Gray
+                700: "#333333", // Strong Gray
+                800: "#1a1a1a", // Deep Black
+                900: "#000000", // Pure Black
               },
             },
           },
@@ -56,7 +55,7 @@ const SCOPES = [
     <!-- Modal Overlay -->
     <div
       id="modalOverlay"
-      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50  flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
     >
       <!-- Modal Container -->
       <div
@@ -696,9 +695,22 @@ const SCOPES = [
           const result = findUser(data, email, password);
 
           if (result) {
-            localStorage.setItem("currentOrganizerId", result.user.id);
-            localStorage.setItem("currentOrganizerName", result.user.name);
-            localStorage.setItem("currentOrganizerEmail", result.user.email);
+            const Id = `current${result.role}Id`;
+            const name = `current${result.role}name`;
+            const email = `current${result.role}email`;
+
+            localStorage.setItem(
+              "current" + result.role + "Id",
+              result.user.id
+            );
+            localStorage.setItem(
+              "current" + result.role + "Name",
+              result.user.name
+            );
+            localStorage.setItem(
+              "current" + result.role + "Email",
+              result.user.email
+            );
 
             showMessage(
               `Welcome back, ${result.user.name}! Login successful.`,
@@ -706,6 +718,20 @@ const SCOPES = [
             );
             // You can redirect to dashboard here
             console.log("User logged in:", result);
+
+            setTimeout(() => {
+              const redirectUrl = localStorage.getItem("redirectUrl");
+              localStorage.removeItem("redirectUrl"); // Clean up
+
+              // Redirect back or go to default page
+              if (redirectUrl) {
+                window.location.href = redirectUrl;
+              } else {
+                // Default pages based on role
+                  window.location.href = "home.html"; // or your audience home page
+                
+              }
+            }, 1500);
           } else {
             showMessage(
               "Invalid email or password. Please try again.",
@@ -847,11 +873,10 @@ const SCOPES = [
           );
         }, 2000);
 
-
         emailjs.init("I6tYBX3EfLe8f1DWQ"); // Get from emailjs.com
-        
+
         const userEmail = document.getElementById("forgotEmail").value.trim();
-        console.log(userEmail)
+        console.log(userEmail);
         function sendPasswordResetEmail(userEmail) {
           const templateParams = {
             email: userEmail,
@@ -931,6 +956,3 @@ const SCOPES = [
 <script>
   // Initialize EmailJS
 </script>
-
-
-

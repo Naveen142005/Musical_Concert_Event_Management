@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concert Venues - Premium Event Spaces</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'purple-600': '#7C3AED',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-white font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-purple-600">LOGO</div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#" class="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">HOME</a>
+                        <a href="#" class="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">ABOUT</a>
+                        <a href="#" class="text-purple-600 px-3 py-2 text-sm font-bold border-b-2 border-purple-600">VENUE</a>
+                        <a href="#" class="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">BANDS</a>
+                        <div class="relative group">
+                            <a href="#" class="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors flex items-center">
+                                GALLERY <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </a>
+                        </div>
+                        <a href="#" class="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">LOGIN</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-purple-600 p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#" class="block px-3 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium">HOME</a>
+                <a href="#" class="block px-3 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium">ABOUT</a>
+                <a href="#" class="block px-3 py-2 text-purple-600 text-sm font-bold">VENUE</a>
+                <a href="#" class="block px-3 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium">BANDS</a>
+                <a href="#" class="block px-3 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium">GALLERY</a>
+                <a href="#" class="block px-3 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium">LOGIN</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-8 leading-tight">
+                "EVERY PERFORMANCE DESERVES A<br>
+                STAGE AS SPECIAL AS THE MUSIC<br>
+                CREATED HERE."
+            </h1>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button id="filter-venues-btn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    FILTER VENUES
+                </button>
+                <button id="select-location-btn" class="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    SELECT BY LOCATION →
+                </button>
+            </div>
+        </div>
+    </section>
+   
+    <!-- Venues Grid -->
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div id="venues-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Venue cards will be loaded here dynamically -->
+            </div>
+            
+            <div class="text-center mt-12">
+                <button id="load-more-btn" class="bg-gray-800 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    LOAD MORE
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mock venue data
+        const venuesData = [
+            {
+                id: 1,
+                name: "Venue Name",
+                location: "Location",
+                capacity: "1500 Members",
+                price: "$5k/hr",
+                rating: 5,
+                image: "./ASSETS/anthony-delanoix-hzgs56Ze49s-unsplash.jpg"
+            },
+            {
+                id: 2,
+                name: "Venue Name",
+                location: "Location",
+                capacity: "1500 Members",
+                price: "$5k/hr",
+                rating: 5,
+                image: "/placeholder.svg?height=200&width=300"
+            },
+            {
+                id: 3,
+                name: "Venue Name",
+                location: "Location",
+                capacity: "1500 Members",
+                price: "$5k/hr",
+                rating: 4,
+                image: "/placeholder.svg?height=200&width=300"
+            },
+            {
+                id: 4,
+                name: "Venue Name",
+                location: "Location",
+                capacity: "1500 Members",
+                price: "$5k/hr",
+                rating: 5,
+                image: "/placeholder.svg?height=200&width=300"
+            },
+            {
+                id: 5,
+                name: "Venue Name",
+                location: "Location",
+                capacity: "1500 Members",
+                price: "$5k/hr",
+                rating: 5,
+                image: "/placeholder.svg?height=200&width=300"
+            },
+            {
+                id: 6,
+                name: "Venue Name",
+                location: "Location",
+                capacity: "1500 Members",
+                price: "$5k/hr",
+                rating: 5,
+                image: "/placeholder.svg?height=200&width=300"
+            }
+        ];
+
+        let currentPage = 1;
+        const venuesPerPage = 6;
+
+        // Check if user is logged in (has currentOrganizerId in localStorage)
+        function isUserLoggedIn() {
+            return localStorage.getItem('currentOrganizerId') !== null;
+        }
+
+        // Generate star rating HTML
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                stars += `<i class="fas fa-star ${i < rating ? 'text-yellow-400' : 'text-gray-300'}"></i>`;
+            }
+            return stars;
+        }
+
+        // Create venue card HTML
+        function createVenueCard(venue) {
+            const isLoggedIn = isUserLoggedIn();
+            const actionButtons = isLoggedIn ? `
+                <div class="flex gap-2 mt-4">
+                    <button class="flex-1 bg-white text-purple-600 border border-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-colors">
+                        Available Dates
+                    </button>
+                    <button class="flex-1 gradient-bg text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-all">
+                        Book Now
+                    </button>
+                </div>
+            ` : '';
+
+            return `
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="${venue.image}" alt="${venue.name}" class="w-full h-48 object-cover">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">${venue.name}</h3>
+                        
+                        <div class="flex items-center text-gray-600 mb-2">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-sm">${venue.location}</span>
+                        </div>
+                        
+                        <div class="flex items-center text-gray-600 mb-2">
+                            <i class="fas fa-users mr-2"></i>
+                            <span class="text-sm">Capacity: ${venue.capacity}</span>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="flex mr-2">
+                                ${generateStars(venue.rating)}
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-purple-600">${venue.price}</span>
+                        </div>
+                        
+                        ${actionButtons}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load venues
+        function loadVenues() {
+            const venuesGrid = document.getElementById('venues-grid');
+            const startIndex = (currentPage - 1) * venuesPerPage;
+            const endIndex = startIndex + venuesPerPage;
+            const venuesToShow = venuesData.slice(0, endIndex);
+
+            venuesGrid.innerHTML = venuesToShow.map(venue => createVenueCard(venue)).join('');
+
+            // Hide load more button if all venues are loaded
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (endIndex >= venuesData.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVenues();
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Load more button
+            document.getElementById('load-more-btn').addEventListener('click', function() {
+                currentPage++;
+                loadVenues();
+            });
+
+            // Filter buttons (placeholder functionality)
+            document.getElementById('filter-venues-btn').addEventListener('click', function() {
+                console.log('[v0] Filter venues clicked');
+                // Add filter functionality here
+            });
+
+            document.getElementById('select-location-btn').addEventListener('click', function() {
+                console.log('[v0] Select location clicked');
+                // Add location selection functionality here
+            });
+        });
+    </script>
+</body>
+</html>
