@@ -165,4 +165,124 @@ document.addEventListener("DOMContentLoaded", () => {
     updateView();
     startAutoScroll();
 
+
+
+    const loginBtn = document.getElementById('loginBtn');
+    const profileSection = document.getElementById('profileSection');
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    const mobileFacilities = document.getElementById('mobileFacilities');
+    const mobileFacilitiesMenu = document.getElementById('mobileFacilitiesMenu');
+    const mobileEvents = document.getElementById('mobileEvents');
+    const mobileEventsMenu = document.getElementById('mobileEventsMenu');
+
+    // Check authentication state on page load
+    function checkAuthState() {
+        const currentOrganizerId = localStorage.getItem('currentorganizerid');
+        
+        if (currentOrganizerId) {
+            // User is authenticated - show profile
+            loginBtn.classList.add('hidden');
+            profileSection.classList.remove('hidden');
+        } else {
+            // User is not authenticated - show login
+            loginBtn.classList.remove('hidden');
+            profileSection.classList.add('hidden');
+        }
+    }
+
+    // Profile dropdown toggle
+    let profileDropdownOpen = false;
+    
+    profileBtn?.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        profileDropdownOpen = !profileDropdownOpen;
+        
+        if (profileDropdownOpen) {
+            profileDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+            profileDropdown.classList.add('opacity-100', 'visible', 'scale-100');
+        } else {
+            profileDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+            profileDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+        }
+    });
+
+    // Close profile dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (profileDropdownOpen && !profileSection.contains(e.target)) {
+            profileDropdownOpen = false;
+            profileDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+            profileDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+        }
+    });
+
+    // Logout functionality
+    logoutBtn?.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('currentorganizerid');
+        checkAuthState();
+        
+        // Optional: Redirect to login page or refresh
+        window.location.reload();
+    });
+
+    // Mobile menu functionality
+    mobileMenuBtn?.addEventListener('click', function() {
+        mobileMenu.classList.remove('-translate-x-full');
+    });
+
+    closeMobileMenu?.addEventListener('click', function() {
+        mobileMenu.classList.add('-translate-x-full');
+    });
+
+    // Mobile dropdown toggles
+    mobileFacilities?.addEventListener('click', function() {
+        const isOpen = !mobileFacilitiesMenu.classList.contains('hidden');
+        const arrow = this.querySelector('svg');
+        
+        if (isOpen) {
+            mobileFacilitiesMenu.classList.add('hidden');
+            arrow.classList.remove('rotate-180');
+        } else {
+            mobileFacilitiesMenu.classList.remove('hidden');
+            arrow.classList.add('rotate-180');
+        }
+    });
+
+    mobileEvents?.addEventListener('click', function() {
+        const isOpen = !mobileEventsMenu.classList.contains('hidden');
+        const arrow = this.querySelector('svg');
+        
+        if (isOpen) {
+            mobileEventsMenu.classList.add('hidden');
+            arrow.classList.remove('rotate-180');
+        } else {
+            mobileEventsMenu.classList.remove('hidden');
+            arrow.classList.add('rotate-180');
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            mobileMenu.classList.add('-translate-x-full');
+        }
+    });
+
+    // Initialize authentication state
+    checkAuthState();
+
+    // For testing - simulate login (remove this in production)
+    loginBtn?.addEventListener('click', function() {
+        // This is just for demo - replace with actual login logic
+        localStorage.setItem('currentorganizerid', 'demo-organizer-123');
+        checkAuthState();
+    });
+
 });

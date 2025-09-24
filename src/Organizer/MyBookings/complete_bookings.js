@@ -255,6 +255,7 @@ function createCurrentEventCard(booking, index) {
                 </svg>
             </button>
             <div id="menu${index+1}" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-20">
+                <button class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors">Show event poster </button>
                 <button onclick="viewRegistrations('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors" style="display: ${booking.ticketingEnabled ? 'block' : 'none'}">View Registrations</button>
                 <button onclick="postponeEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent transition-colors">Postpone Event</button>
                 <button onclick="cancelEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-destructive/20 text-destructive rounded-b-lg transition-colors">Cancel Event</button>
@@ -297,6 +298,11 @@ function createCurrentEventCard(booking, index) {
                         </svg>
                     </button>
                     <div id="menu${index+1}_desktop" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-10">
+                    <button onclick="showBanner('${booking.bookingId}')" 
+                            class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors flex items-center justify-between" 
+                            style="display: ${true ? 'block' : 'none'}">
+                            Show Event Banner
+                    </button>
                         <button onclick="viewRegistrations('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors" style="display: ${booking.ticketingEnabled ? 'block' : 'none'}">View Registrations</button>
                         <button onclick="postponeEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent transition-colors">Postpone Event</button>
                         <button onclick="cancelEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-destructive/20 text-destructive rounded-b-lg transition-colors">Cancel Event</button>
@@ -316,6 +322,162 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+
+// Show Event Banner Modal Function
+// Simple Show Event Banner Modal Function
+function showBanner(bookingId) {
+    const modal = document.getElementById('bannerModal');
+    const loading = document.getElementById('bannerLoading');
+    const content = document.getElementById('bannerContent');
+    const error = document.getElementById('bannerError');
+    const bannerImage = document.getElementById('bannerImage');
+    const bannerTitle = document.getElementById('bannerTitle');
+    const bannerBookingIdEl = document.getElementById('bannerBookingId');
+    
+    // Show modal and loading state
+    modal.classList.remove('hidden');
+    loading.classList.remove('hidden');
+    content.classList.add('hidden');
+    error.classList.add('hidden');
+    
+    // Animate modal appearance
+    setTimeout(() => {
+        modal.style.animation = 'fadeIn 0.3s ease-out';
+    }, 10);
+    
+    // Try to retrieve banner from localStorage
+    const bannerKey = `event_banner_${bookingId}`;
+    const bannerData = localStorage.getItem(bannerKey);
+    
+    setTimeout(() => {
+        if (bannerData) {
+            // Banner found - show it
+            bannerImage.src = bannerData;
+            bannerTitle.textContent = `Event Banner`;
+            bannerBookingIdEl.textContent = `Booking ID: ${bookingId}`;
+            
+            // Hide loading, show content
+            loading.classList.add('hidden');
+            content.classList.remove('hidden');
+            
+            bannerImage.onload = function() {
+                console.log('Banner image loaded successfully');
+            };
+            
+            bannerImage.onerror = function() {
+                console.error('Failed to load banner image');
+                showBannerError();
+            };
+        } else {
+            // Banner not found - show error
+            showBannerError();
+        }
+    }, 500);
+    
+    function showBannerError() {
+        loading.classList.add('hidden');
+        content.classList.add('hidden');
+        error.classList.remove('hidden');
+    }
+}
+
+// Simple Close Banner Modal Function
+function closeBannerModal() {
+    const modal = document.getElementById('bannerModal');
+    
+    // Animate modal disappearance
+    modal.style.animation = 'fadeOut 0.3s ease-in';
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.style.animation = '';
+        
+        // Reset modal states
+        document.getElementById('bannerLoading').classList.remove('hidden');
+        document.getElementById('bannerContent').classList.add('hidden');
+        document.getElementById('bannerError').classList.add('hidden');
+    }, 300);
+}
+
+// Make functions globally available
+window.showBanner = showBanner;
+window.closeBannerModal = closeBannerModal;
+
+
+// Enhanced Close Banner Modal Function
+function closeBannerModal() {
+    const modal = document.getElementById('bannerModal');
+    
+    // Enhanced animation
+    modal.style.animation = 'fadeOutLarge 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.style.animation = '';
+        
+        // Reset modal states
+        document.getElementById('bannerLoading').classList.remove('hidden');
+        document.getElementById('bannerContent').classList.add('hidden');
+        document.getElementById('bannerError').classList.add('hidden');
+        
+        // Reset image animation
+        const bannerImage = document.getElementById('bannerImage');
+        if (bannerImage) {
+            bannerImage.style.animation = '';
+        }
+    }, 400);
+    
+    // Remove keyboard event listener
+    document.removeEventListener('keydown', handleBannerKeyPress);
+}
+
+
+// Close Banner Modal Function
+function closeBannerModal() {
+    const modal = document.getElementById('bannerModal');
+    
+    // Animate modal disappearance
+    modal.style.animation = 'fadeOut 0.3s ease-in';
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.style.animation = '';
+        
+        // Reset modal states
+        document.getElementById('bannerLoading').classList.remove('hidden');
+        document.getElementById('bannerContent').classList.add('hidden');
+        document.getElementById('bannerError').classList.add('hidden');
+    }, 300);
+    
+    // Remove keyboard event listener
+    document.removeEventListener('keydown', handleBannerKeyPress);
+}
+
+// Handle keyboard events for banner modal
+function handleBannerKeyPress(event) {
+    if (event.key === 'Escape') {
+        closeBannerModal();
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', function() {
+    const bannerModal = document.getElementById('bannerModal');
+    
+    if (bannerModal) {
+        bannerModal.addEventListener('click', function(event) {
+            // Close if clicked on the modal backdrop (not on the content)
+            if (event.target === bannerModal) {
+                closeBannerModal();
+            }
+        });
+    }
+});
+
+// Make functions globally available
+window.showBanner = showBanner;
+window.closeBannerModal = closeBannerModal;
 
 
 
@@ -841,6 +1003,8 @@ function viewRegistrations(bookingId) {
         animateCounter('silverCounter', booking.registrations.silver);
     }, 100);
 }
+
+
 
 // Animate counter
 function animateCounter(elementId, target) {

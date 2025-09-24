@@ -420,3 +420,44 @@ body {
   background: #a8a8a8;
 }
 
+
+
+.backdrop-blur-md {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Smooth hover transitions for dropdowns */
+.group:hover .group-hover\:opacity-100 {
+    animation: fadeInUp 0.3s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Enhanced mobile menu transitions */
+#mobileMenu {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Profile dropdown enhanced styling */
+#profileDropdown {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent dropdown flicker on mobile */
+@media (max-width: 768px) {
+    .group:hover .group-hover\:opacity-100,
+    .group:hover .group-hover\:visible {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+}

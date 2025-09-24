@@ -18,7 +18,17 @@
                 }
             }
         }
+        
     </script>
+      <style>
+        table tr:nth-child(even) {
+            background: #fcfbfb;
+        }
+        table th  {
+            background: #7c3aedd6;
+            color: rgb(255, 255, 255) !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Sidebar -->
@@ -123,10 +133,10 @@
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organizer Name</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/3">Feedback Summary</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="window.feedbackManager.sortOrganizerByStatus()">
-                                    Status <i class="fas fa-sort ml-1"></i>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer " onclick="window.feedbackManager.sortOrganizerByStatus()">
+                                    Status<i class="fas fa-sort ml-1"></i>
                                 </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="window.feedbackManager.sortOrganizerByDate()">
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer " onclick="window.feedbackManager.sortOrganizerByDate()">
                                     Date <i class="fas fa-sort ml-1"></i>
                                 </th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -181,10 +191,10 @@
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Audience Name</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/3">Feedback Summary</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="window.feedbackManager.sortAudienceByStatus()">
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer " onclick="window.feedbackManager.sortAudienceByStatus()">
                                     Status <i class="fas fa-sort ml-1"></i>
                                 </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="window.feedbackManager.sortAudienceByDate()">
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer " onclick="window.feedbackManager.sortAudienceByDate()">
                                     Date <i class="fas fa-sort ml-1"></i>
                                 </th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -728,7 +738,7 @@
                                 <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
-                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10 flex flex-col">
                                     ${feedback.status === 'unread' ? `
                                         <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-read-btn" data-id="${feedback.id}" data-type="organizer">
                                             <i class="fas fa-check mr-2"></i>Mark as Read
@@ -763,7 +773,7 @@
                                     <button class="text-gray-400 hover:text-gray-600 p-1" onclick="toggleDropdown(this)">
                                         <i class="fas fa-ellipsis-v text-sm"></i>
                                     </button>
-                                    <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                    <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10 flex flex-col">
                                         ${feedback.status === 'unread' ? `
                                             <button class="w-full text-left px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 mark-read-btn" data-id="${feedback.id}" data-type="organizer">
                                                 <i class="fas fa-check mr-2"></i>Mark as Read
@@ -842,7 +852,7 @@
                                 <button class="text-gray-400 hover:text-gray-600" onclick="toggleDropdown(this)">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
-                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10 flex flex-col">
                                     ${feedback.status === 'unread' ? `
                                         <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 mark-read-btn" data-id="${feedback.id}" data-type="audience">
                                             <i class="fas fa-check mr-2"></i>Mark as Read
@@ -877,7 +887,7 @@
                                     <button class="text-gray-400 hover:text-gray-600 p-1" onclick="toggleDropdown(this)">
                                         <i class="fas fa-ellipsis-v text-sm"></i>
                                     </button>
-                                    <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                                    <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10 flex flex-col">
                                         ${feedback.status === 'unread' ? `
                                             <button class="w-full text-left px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 mark-read-btn" data-id="${feedback.id}" data-type="audience">
                                                 <i class="fas fa-check mr-2"></i>Mark as Read

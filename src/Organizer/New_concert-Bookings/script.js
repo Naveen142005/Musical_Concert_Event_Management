@@ -3,33 +3,37 @@ let bandsData = [];
 let decorationData = [];
 
 function checkAuthentication() {
-    const currentOrganizerId = localStorage.getItem('currentorganizerId');
-    
-    if (!currentOrganizerId) {
-     
-        alert('Please log in to access the booking system.');
-        localStorage.setItem('redirectUrl', window.location.href);
-        window.location.href = '/src/User/login_signup.html'; 
-        return false;
-    }
-    
-    console.log('User authenticated with ID:', currentOrganizerId);
-    return true;
+  const currentOrganizerId = localStorage.getItem('currentorganizerId');
+
+  if (!currentOrganizerId) {
+
+    alert('Please log in to access the booking system.');
+    localStorage.setItem('redirectUrl', window.location.href);
+    window.location.href = '/src/User/login_signup.html';
+    return false;
+  }
+
+  console.log('User authenticated with ID:', currentOrganizerId);
+  return true;
 }
 
 
- 
+
 function app() {
-   if (!checkAuthentication()) {
-        return;
-    }
+  if (!checkAuthentication()) {
+    return;
+  }
   // Global State
   let currentStep = 1
   let currentMonth = new Date().getMonth()
   let currentYear = new Date().getFullYear()
 
   const bookingData = {
-    basicDetails: {},
+    basicDetails: {
+      eventName: '',
+      eventDescription: '',
+      eventBannerFile: null
+    },
     selections: {
       venue: null,
       bands: [],
@@ -38,8 +42,9 @@ function app() {
     },
     eventDate: null,
     ticketing: {},
-    payment: {},
-  }
+    payment: {}
+  };
+
 
   // Pagination state
   const paginationState = {
@@ -182,7 +187,40 @@ function app() {
           }
         }
         return isValidTime
+
+      case 'eventName':
+        const isValidEventName = value.trim().length > 0;
+        validationState.eventName = isValidEventName;
+        if (!isValidEventName) {
+          showError('eventName', 'Event name is required');
+        } else {
+          hideError('eventName');
+        }
+        return isValidEventName;
+
+      case 'eventDescription':
+        const isValidDescription = value.trim().length > 0;
+        validationState.eventDescription = isValidDescription;
+        if (!isValidDescription) {
+          showError('eventDescription', 'Event description is required');
+        } else {
+          hideError('eventDescription');
+        }
+        return isValidDescription;
+
+      case 'eventBanner':
+        const isValidBanner = value && value.size <= 5 * 1024 * 1024;
+        validationState.eventBanner = isValidBanner;
+        if (!value) {
+          showError('eventBanner', 'Event banner photo is required');
+        } else if (value.size > 5 * 1024 * 1024) {
+          showError('eventBanner', 'Image size must be less than 5MB');
+        } else {
+          hideError('eventBanner');
+        }
+        return isValidBanner;
     }
+
     return true
   }
 
@@ -347,46 +385,69 @@ function app() {
 
   // Step 1 Basic Details Validation
   function validateStep1() {
-    let isValid = true
-    const fullName = document.getElementById("fullName").value.trim()
-    const email = document.getElementById("email").value.trim()
-    const mobile = document.getElementById("mobile").value.trim()
-    const concertTime = document.querySelector('input[name="concertTime"]:checked')
+    let isValid = true;
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const eventName = document.getElementById('eventName').value.trim();
+    const eventDescription = document.getElementById('eventDescription').value.trim();
+    const eventBanner = document.getElementById('eventBanner').files[0];
+    const concertTime = document.querySelector('input[name="concertTime"]:checked');
 
-      // Reset errors
-      ;["fullName", "email", "mobile"].forEach(hideError)
+    // Reset errors
+    ['fullName', 'email', 'mobile', 'eventName', 'eventDescription', 'eventBanner'].forEach(hideError);
 
+    // Validate existing fields
     if (!fullName) {
-      showError("fullName", "Full name is required")
-      isValid = false
+      showError('fullName', 'Full name is required');
+      isValid = false;
     }
 
     if (!email) {
-      showError("email", "Email is required")
-      isValid = false
+      showError('email', 'Email is required');
+      isValid = false;
     } else if (!validateEmail(email)) {
-      showError("email", "Please enter a valid email address")
-      isValid = false
+      showError('email', 'Please enter a valid email address');
+      isValid = false;
     }
 
     if (!mobile) {
-      showError("mobile", "Mobile number is required")
-      isValid = false
+      showError('mobile', 'Mobile number is required');
+      isValid = false;
     } else if (!validatePhone(mobile)) {
-      showError("mobile", "Please enter a valid mobile number (7-15 digits)")
-      isValid = false
+      showError('mobile', 'Please enter a valid mobile number (7-15 digits)');
+      isValid = false;
+    }
+
+    // Validate new fields
+    if (!eventName) {
+      showError('eventName', 'Event name is required');
+      isValid = false;
+    }
+
+    if (!eventDescription) {
+      showError('eventDescription', 'Event description is required');
+      isValid = false;
+    }
+
+    if (!eventBanner) {
+      showError('eventBanner', 'Event banner photo is required');
+      isValid = false;
+    } else if (eventBanner.size > 5 * 1024 * 1024) {
+      showError('eventBanner', 'Image size must be less than 5MB');
+      isValid = false;
     }
 
     if (!concertTime) {
       const errorDiv = document
         .querySelector('input[name="concertTime"]')
         .closest('.grid')
-        .parentNode.querySelector('.error-message')
+        .parentNode.querySelector('.error-message');
       if (errorDiv) {
-        errorDiv.textContent = "Please select a concert time"
-        errorDiv.classList.remove("hidden")
+        errorDiv.textContent = 'Please select a concert time';
+        errorDiv.classList.remove('hidden');
       }
-      isValid = false
+      isValid = false;
     }
 
     if (isValid) {
@@ -394,12 +455,27 @@ function app() {
         fullName,
         email,
         mobile,
+        eventName,
+        eventDescription,
+        eventBannerFile: eventBanner,
         concertTime: concertTime.value,
-      }
+      };
     }
 
-    return isValid
+    return isValid;
   }
+
+  function storeEventBannerPhoto(bookingId, photoFile) {
+    if (photoFile) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        localStorage.setItem(`event_banner_${bookingId}`, e.target.result);
+        console.log('Event banner stored in localStorage for booking:', bookingId);
+      };
+      reader.readAsDataURL(photoFile);
+    }
+  }
+
 
   // Filtering and Pagination Functions (keeping existing)
   function applyFilters(data, filters, type) {
@@ -1341,122 +1417,142 @@ function app() {
    * @param {Object} bookingData - The complete booking data object
    * @returns {Promise} - API response promise
    */
+  
   async function submitToMockAPI(bookingData) {
     const apiUrl = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2';
 
     try {
-        // First, fetch the current data from the API
-        const currentResponse = await fetch(apiUrl);
-        const currentData = await currentResponse.json();
+      // Generate booking ID
+      const bookingId = `TCM-${Date.now()}`;
 
-        // Format the booked slot
-        const bookedSlot = `${bookingData.eventDate}-${bookingData.eventTime.toLowerCase()}`;
-        
-        // Prepare the booking data with proper food information
-        const newBooking = {
-            organizerId: localStorage.getItem('currentorganizerId'),
-            bookingId: bookingData.bookingId || `TCM-${Date.now()}`,
-            eventName: bookingData.basicDetails.fullName + "'s Event",
-            bookedSlots: [bookedSlot],
-            organizerName: bookingData.basicDetails.fullName,
-            organizerEmail: bookingData.basicDetails.email,
-            organizerMobile: bookingData.basicDetails.mobile,
-            venueId: bookingData.selections.venue ? bookingData.selections.venue.id : null,
-            bandId: bookingData.selections.bands.length > 0 ? bookingData.selections.bands[0].id : null,
-            decorationId: bookingData.selections.decoration ? bookingData.selections.decoration.id : null,
-            // Updated food information with count
-            food: bookingData.selections.snackCount > 0 ? {
-                type: "snacks-beverages",
-                count: bookingData.selections.snackCount
-            } : null,
-            ticketingEnabled: bookingData.ticketing.provideTickets || false,
-            ticketPrices: {
-                premiumPrice: bookingData.ticketing.platinumPrice || 0,
-                goldPrice: bookingData.ticketing.goldPrice || 0,
-                silverPrice: bookingData.ticketing.silverPrice || 0
-            },
-            totalAmount: bookingData.totalCost,
-            paymentType: bookingData.payment.type === 'deposit' ? 'partial' : 'full',
-            paidAmount: bookingData.payment.amount,
-            pendingAmount: bookingData.payment.type === 'deposit' ?
-                (bookingData.totalCost - bookingData.payment.amount) : 0,
-            bookingStatus: "confirmed",
-            bookingDate: new Date().toISOString()
-        };
+      // Store banner photo in localStorage with booking ID
+      if (bookingData.basicDetails.eventBannerFile) {
+        storeEventBannerPhoto(bookingId, bookingData.basicDetails.eventBannerFile);
+      }
 
-        // Update booked slots for venue, band, and decoration
-        let updatedVenues = [...(currentData.Venues || [])];
-        let updatedBands = [...(currentData.Bands || [])];
-        let updatedDecorations = [...(currentData.Decorations || [])];
+      // First, fetch the current data from the API
+      const currentResponse = await fetch(apiUrl);
+      const currentData = await currentResponse.json();
 
-        // Update venue booked slots
-        if (bookingData.selections.venue) {
-            const venueIndex = updatedVenues.findIndex(v => v.id === bookingData.selections.venue.id);
-            if (venueIndex !== -1) {
-                if (!updatedVenues[venueIndex].bookedSlots) {
-                    updatedVenues[venueIndex].bookedSlots = [];
-                }
-                updatedVenues[venueIndex].bookedSlots.push(bookedSlot);
-            }
+      // Format the booked slot
+      const bookedSlot = `${bookingData.eventDate}-${bookingData.eventTime.toLowerCase()}`;
+
+      // Prepare the booking data with new fields
+      const newBooking = {
+        organizerId: localStorage.getItem('currentorganizerId'),
+        bookingId: bookingId,
+        eventName: bookingData.basicDetails.eventName,          // NEW FIELD
+        eventDescription: bookingData.basicDetails.eventDescription, // NEW FIELD
+        bookedSlots: [bookedSlot],
+        organizerName: bookingData.basicDetails.fullName,
+        organizerEmail: bookingData.basicDetails.email,
+        organizerMobile: bookingData.basicDetails.mobile,
+        venueId: bookingData.selections.venue ? bookingData.selections.venue.id : null,
+        bandId: bookingData.selections.bands.length > 0 ? bookingData.selections.bands[0].id : null,
+        decorationId: bookingData.selections.decoration ? bookingData.selections.decoration.id : null,
+        food: bookingData.selections.snackCount > 0 ? {
+          type: "snacks-beverages",
+          count: bookingData.selections.snackCount
+        } : null,
+        ticketingEnabled: bookingData.ticketing.provideTickets || false,
+        ticketPrices: {
+          premiumPrice: bookingData.ticketing.platinumPrice || 0,
+          goldPrice: bookingData.ticketing.goldPrice || 0,
+          silverPrice: bookingData.ticketing.silverPrice || 0
+        },
+        // NEW: Registration and ticket tracking data
+        registrations: {
+          total: 0,
+          premium: 0,
+          gold: 0,
+          silver: 0
+        },
+        ticketsSold: {
+          total: 0,
+          premium: 0,
+          gold: 0,
+          silver: 0,
+          revenue: 0
+        },
+        registeredUsers: [],
+        postponeCount: 1,
+        totalAmount: bookingData.totalCost,
+        paymentType: bookingData.payment.type === 'deposit' ? 'partial' : 'full',
+        paidAmount: bookingData.payment.amount,
+        pendingAmount: bookingData.payment.type === 'deposit' ? bookingData.totalCost - bookingData.payment.amount : 0,
+        bookingStatus: 'confirmed',
+        bookingDate: new Date().toISOString()
+      };
+
+
+      // Update booked slots for venue, band, and decoration
+      let updatedVenues = [...currentData.Venues];
+      let updatedBands = [...currentData.Bands];
+      let updatedDecorations = [...currentData.Decorations];
+
+      // Update venue booked slots
+      if (bookingData.selections.venue) {
+        const venueIndex = updatedVenues.findIndex(v => v.id === bookingData.selections.venue.id);
+        if (venueIndex !== -1) {
+          if (!updatedVenues[venueIndex].bookedSlots) updatedVenues[venueIndex].bookedSlots = [];
+          updatedVenues[venueIndex].bookedSlots.push(bookedSlot);
         }
+      }
 
-        // Update band booked slots
-        if (bookingData.selections.bands.length > 0) {
-            const bandId = bookingData.selections.bands[0].id;
-            const bandIndex = updatedBands.findIndex(b => b.id === bandId);
-            if (bandIndex !== -1) {
-                if (!updatedBands[bandIndex].bookedSlots) {
-                    updatedBands[bandIndex].bookedSlots = [];
-                }
-                updatedBands[bandIndex].bookedSlots.push(bookedSlot);
-            }
+      // Update band booked slots  
+      if (bookingData.selections.bands.length > 0) {
+        const bandId = bookingData.selections.bands[0].id;
+        const bandIndex = updatedBands.findIndex(b => b.id === bandId);
+        if (bandIndex !== -1) {
+          if (!updatedBands[bandIndex].bookedSlots) updatedBands[bandIndex].bookedSlots = [];
+          updatedBands[bandIndex].bookedSlots.push(bookedSlot);
         }
+      }
 
-        // Update decoration booked slots
-        if (bookingData.selections.decoration) {
-            const decorationIndex = updatedDecorations.findIndex(d => d.id === bookingData.selections.decoration.id);
-            if (decorationIndex !== -1) {
-                if (!updatedDecorations[decorationIndex].bookedSlots) {
-                    updatedDecorations[decorationIndex].bookedSlots = [];
-                }
-                updatedDecorations[decorationIndex].bookedSlots.push(bookedSlot);
-            }
+      // Update decoration booked slots
+      if (bookingData.selections.decoration) {
+        const decorationIndex = updatedDecorations.findIndex(d => d.id === bookingData.selections.decoration.id);
+        if (decorationIndex !== -1) {
+          if (!updatedDecorations[decorationIndex].bookedSlots) updatedDecorations[decorationIndex].bookedSlots = [];
+          updatedDecorations[decorationIndex].bookedSlots.push(bookedSlot);
         }
+      }
 
-        // Prepare the complete updated data
-        const updatedData = {
-            ...currentData,
-            Venues: updatedVenues,
-            Bands: updatedBands,
-            Decorations: updatedDecorations,
-            EventsBookings: [...(currentData.EventsBookings || []), newBooking]
-        };
+      // Prepare the complete updated data
+      const updatedData = {
+        ...currentData,
+        Venues: updatedVenues,
+        Bands: updatedBands,
+        Decorations: updatedDecorations,
+        EventsBookings: [...(currentData.EventsBookings || []), newBooking]
+      };
 
-        // Send PUT request to update the API
-        const response = await fetch(apiUrl, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedData)
-        });
+      // Send PUT request to update the API
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData)
+      });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-        const result = await response.json();
-        console.log('✅ Booking submitted to MockAPI successfully!');
-        console.log('Updated venue slots:', updatedVenues.find(v => v.id === bookingData.selections.venue?.id)?.bookedSlots);
-        console.log('Food info:', newBooking.food);
-        
-        return result;
+      const result = await response.json();
+      console.log('Booking submitted to MockAPI successfully!');
+      console.log('Event Name:', newBooking.eventName);
+      console.log('Event Description:', newBooking.eventDescription);
+      console.log('Banner stored in localStorage with key:', `event_banner_${bookingId}`);
 
+      return result;
     } catch (error) {
-        console.error('❌ Error submitting to MockAPI:', error);
-        throw error;
+      console.error('Error submitting to MockAPI:', error);
+      throw error;
     }
-}
+  }
+
 
   // Add this to your existing processPayment function
   async function processPayment() {
@@ -1532,7 +1628,7 @@ function app() {
     await fetchEventData();
 
     console.log(venuesData);
-    
+
     // Step 1 - Basic Details
 
     document.getElementById("nextStep1").addEventListener("click", () => {
@@ -1540,6 +1636,28 @@ function app() {
         showStep(2)
       }
     })
+
+    // Add these in your existing event listeners section
+    document.getElementById('eventName').addEventListener('blur', function () {
+      validateField('eventName', this.value);
+    });
+
+    document.getElementById('eventDescription').addEventListener('blur', function () {
+      validateField('eventDescription', this.value);
+    });
+
+    document.getElementById('eventBanner').addEventListener('change', function () {
+      validateField('eventBanner', this.files[0]);
+    });
+
+    // Clear errors when typing
+    document.getElementById('eventName').addEventListener('input', function () {
+      if (this.value.trim()) hideError('eventName');
+    });
+
+    document.getElementById('eventDescription').addEventListener('input', function () {
+      if (this.value.trim()) hideError('eventDescription');
+    });
 
     // ENHANCED REAL-TIME VALIDATION - Only validate when moving to next field
     document.getElementById("fullName").addEventListener("blur", function () {
@@ -1746,9 +1864,18 @@ function app() {
     document.getElementById("prevStep6").addEventListener("click", () => showStep(5))
     document.getElementById("nextStep6").addEventListener("click", () => showStep(7))
 
-    // Step 7 - Payment
+    // Step 7 - Payment 
+ 
     document.getElementById("prevStep7").addEventListener("click", () => showStep(6))
     document.getElementById("completeBooking").addEventListener("click", (event) => {
+      if (
+
+        !document.getElementById('error__').classList.contains('hidden')
+      ) {
+        document.getElementById('loader_').style.display = "block";
+        document.getElementById('removetick').style.display = 'none';
+        document.getElementById('completeBookingtext').innerText = "Completing Booking..."
+      }
       if (processPayment(event)) {
         // Payment successful
       }
@@ -2013,21 +2140,21 @@ function app() {
 }
 
 async function fetchEventData() {
-    const APIBASE = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2'
-    try {
-        const res = await fetch(APIBASE)
-        const data = await res.json()
-        venuesData = data.Venues || []
-        bandsData = data.Bands || []
-        decorationData = data.Decorations || []
-        console.log('Data loaded successfully:', { venuesData, bandsData, decorationData })
-    } catch (error) {
-        console.error('Failed to load data:', error)
-        // Use fallback empty arrays if API fails
-        venuesData = []
-        bandsData = []
-        decorationData = []
-    }
+  const APIBASE = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2'
+  try {
+    const res = await fetch(APIBASE)
+    const data = await res.json()
+    venuesData = data.Venues || []
+    bandsData = data.Bands || []
+    decorationData = data.Decorations || []
+    console.log('Data loaded successfully:', { venuesData, bandsData, decorationData })
+  } catch (error) {
+    console.error('Failed to load data:', error)
+    // Use fallback empty arrays if API fails
+    venuesData = []
+    bandsData = []
+    decorationData = []
+  }
 
 }
 

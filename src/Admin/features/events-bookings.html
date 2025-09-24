@@ -28,6 +28,10 @@
         table tr:nth-child(even) {
             background: #fcfbfb;
         }
+        table th  {
+            background: #7c3aedd6;
+            color: rgb(255, 255, 255) !important;
+        }
     </style>
   </head>
   <body class="bg-gray-50 font-sans">
@@ -1097,6 +1101,7 @@
 
         setupDragAndDrop() {
           // Enable drag and drop for table rows
+          return
           new Sortable(document.getElementById("events-tbody"), {
             animation: 150,
             ghostClass: "opacity-50",

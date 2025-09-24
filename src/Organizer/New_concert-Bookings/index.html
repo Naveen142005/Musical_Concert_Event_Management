@@ -13,6 +13,16 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/dotSpinner.js"
+    ></script>
+
+    <!-- jsPDF and autoTable plugin -->
+<!-- jsPDF and autoTable plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
 
     <style>
       :root {
@@ -288,6 +298,69 @@
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder="Enter 7-15 digits"
                   />
+                  <div
+                    class="error-message text-red-500 text-sm mt-1 hidden"
+                  ></div>
+                </div>
+
+                <div>
+                  <label
+                    for="eventName"
+                    class="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    <i class="fas fa-tag mr-2"></i>Event Name
+                  </label>
+                  <input
+                    type="text"
+                    id="eventName"
+                    name="eventName"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Enter your event name"
+                  />
+                  <div
+                    class="error-message text-red-500 text-sm mt-1 hidden"
+                  ></div>
+                </div>
+
+                <div>
+                  <label
+                    for="eventDescription"
+                    class="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    <i class="fas fa-align-left mr-2"></i>Event Description
+                  </label>
+                  <textarea
+                    id="eventDescription"
+                    name="eventDescription"
+                    rows="3"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Describe your event..."
+                  ></textarea>
+                  <div
+                    class="error-message text-red-500 text-sm mt-1 hidden"
+                  ></div>
+                </div>
+
+                <div>
+                  <label
+                    for="eventBanner"
+                    class="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    <i class="fas fa-image mr-2"></i>Event Banner Photo
+                  </label>
+                  <input
+                    type="file"
+                    id="eventBanner"
+                    name="eventBanner"
+                    accept="image/*"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  />
+                  <p class="text-sm text-gray-500 mt-1">
+                    Upload banner image (JPG, PNG, max 5MB)
+                  </p>
                   <div
                     class="error-message text-red-500 text-sm mt-1 hidden"
                   ></div>
@@ -1140,7 +1213,7 @@
                     </label>
                   </div>
                   <div
-                    class="error-message text-red-500 text-sm mt-2 hidden"
+                    class="error-message text-red-500 text-sm mt-2 hidden" id = "error__"
                   ></div>
                 </div>
               </div>
@@ -1154,9 +1227,18 @@
                 </button>
                 <button
                   id="completeBooking"
-                  class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all transform hover:scale-105"
+                  class="flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all transform hover:scale-105"
                 >
-                  <i class="fas fa-check mr-2"></i>Complete Booking
+                  <i class="fas fa-check mr-2" id="removetick"></i>
+                  
+                    <l-dot-spinner
+                      size="20"
+                      speed="0.9"
+                      color="white" id="loader_" style="display: none;"
+                    ></l-dot-spinner>
+                 
+                  <span id="completeBookingtext">Complete Booking</span>
+                  
                 </button>
               </div>
             </div>
