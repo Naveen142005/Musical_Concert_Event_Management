@@ -94,21 +94,22 @@ toggles.forEach(toggle => {
 
 
 
-document.getElementById('openModalBtn').addEventListener('click', async () => {
-    console.log("naveen");
-    document.getElementById('modalOverlay').classList.remove('hidden')
-    async function injectComponent(file, rootId) {
-        const res = await fetch(file);
-        const html = await res.text();
-        document.getElementById(rootId).innerHTML = html;
-    }
+// document.getElementById('openModalBtn').addEventListener('click', async () => {
+//     console.log("naveen");
+//     document.getElementById('modalOverlay').classList.remove('hidden')
+//     async function injectComponent(file, rootId) {
+//         const res = await fetch(file);
+//         const html = await res.text();
+//         document.getElementById(rootId).innerHTML = html;
+//     }
 
-    // Inject sidebar and nxavbar components
-    await Promise.all([
-        injectComponent('./src/User/login_signup.html', 'modalOverlay')]);
+//     // Inject sidebar and nxavbar components
+//     await Promise.all([
+//         injectComponent('./src/User/login_signup.html', 'modalOverlay')]);
 
         
-})
+// })
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("carouselContainer");
@@ -167,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    const loginBtn = document.getElementById('loginBtn');
+    const loginBtn = document.getElementById('profilelogin');
     const profileSection = document.getElementById('profileSection');
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
@@ -180,14 +181,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileEvents = document.getElementById('mobileEvents');
     const mobileEventsMenu = document.getElementById('mobileEventsMenu');
 
+
+     document.getElementById('profileBtn').addEventListener('click', () => {
+
+         document.getElementById('profileDropdown').classList.remove('hidden');
+     })
+    
+
     // Check authentication state on page load
     function checkAuthState() {
-        const currentOrganizerId = localStorage.getItem('currentorganizerid');
+        const currentOrganizerId =  localStorage.getItem('currentorganizerId');
+        const currentAudienceId = localStorage.getItem('currentaudienceId');
+        console.log(currentAudienceId);
+        console.log(currentOrganizerId);
         
-        if (currentOrganizerId) {
+        if (currentOrganizerId || currentAudienceId) {
+
+            document.getElementById('support_1').style.display='block';
+            document.getElementById('support_2').style.display='block';
             // User is authenticated - show profile
             loginBtn.classList.add('hidden');
             profileSection.classList.remove('hidden');
+
+            if (localStorage.getItem('currentaudienceName')) {
+                document.getElementById('username').innerText = localStorage.getItem('currentaudienceName')
+                document.getElementById('role').innerText = 'Audience';
+            }
+            else if (localStorage.getItem('currentorganizerName')){
+                document.getElementById('username').innerText = localStorage.getItem('currentorganizerName')
+                document.getElementById('role').innerText = 'Organizer';
+            }
         } else {
             // User is not authenticated - show login
             loginBtn.classList.remove('hidden');
@@ -223,15 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Logout functionality
-    logoutBtn?.addEventListener('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('currentorganizerid');
-        checkAuthState();
-        
-        // Optional: Redirect to login page or refresh
-        window.location.reload();
-    });
-
+  
     // Mobile menu functionality
     mobileMenuBtn?.addEventListener('click', function() {
         mobileMenu.classList.remove('-translate-x-full');
@@ -268,6 +283,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    logoutBtn.addEventListener('click' , () =>{
+        console.log("hello");
+        
+         const currentOrganizerId =  localStorage.getItem('currentorganizerId');
+         const currentAudienceId = localStorage.getItem('currentaudienceId');
+
+         if (currentAudienceId) localStorage.removeItem('currentaudienceId');
+         else if (currentOrganizerId) localStorage.removeItem('currentorganizerId')
+         loginBtn.classList.remove('hidden');
+            profileSection.classList.add('hidden');
+             document.getElementById('support_1').style.display='none';
+            document.getElementById('support_2').style.display='none';
+        
+    } )  
+
     // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
         if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
@@ -278,11 +308,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize authentication state
     checkAuthState();
 
-    // For testing - simulate login (remove this in production)
-    loginBtn?.addEventListener('click', function() {
-        // This is just for demo - replace with actual login logic
-        localStorage.setItem('currentorganizerid', 'demo-organizer-123');
-        checkAuthState();
-    });
+   
 
 });

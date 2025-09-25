@@ -1423,18 +1423,18 @@ function app() {
 
     try {
       // Generate booking ID
-      const bookingId = `TCM-${Date.now()}`;
-
+      
       // Store banner photo in localStorage with booking ID
       if (bookingData.basicDetails.eventBannerFile) {
         storeEventBannerPhoto(bookingId, bookingData.basicDetails.eventBannerFile);
       }
-
+      
       // First, fetch the current data from the API
       const currentResponse = await fetch(apiUrl);
       const currentData = await currentResponse.json();
-
+      
       // Format the booked slot
+      const bookingId = `TCM-${Date.now()}`;
       const bookedSlot = `${bookingData.eventDate}-${bookingData.eventTime.toLowerCase()}`;
 
       // Prepare the booking data with new fields

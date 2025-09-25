@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Venues - Premium Locations</title>
+    <title>Concert Bands - Premium Musical Artists</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -67,8 +67,8 @@
                     <div class="ml-10 flex items-baseline space-x-4 xl:space-x-8">
                         <a href="#" class="text-gray-700 hover:text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors">HOME</a>
                         <a href="#" class="text-gray-700 hover:text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors">ABOUT</a>
-                        <a href="#" class="text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-bold border-b-2 border-purple-600">VENUE</a>
-                        <a href="#" class="text-gray-700 hover:text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors">BANDS</a>
+                        <a href="#" class="text-gray-700 hover:text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors">VENUE</a>
+                        <a href="#" class="text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-bold border-b-2 border-purple-600">BANDS</a>
                         <div class="relative group">
                             <a href="#" class="text-gray-700 hover:text-purple-600 px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors flex items-center">
                                 GALLERY <i class="fas fa-chevron-down ml-1 text-xs"></i>
@@ -92,8 +92,8 @@
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="#" class="block px-3 py-3 text-gray-700 hover:text-purple-600 text-sm font-medium touch-manipulation">HOME</a>
                 <a href="#" class="block px-3 py-3 text-gray-700 hover:text-purple-600 text-sm font-medium touch-manipulation">ABOUT</a>
-                <a href="#" class="block px-3 py-3 text-purple-600 text-sm font-bold touch-manipulation">VENUE</a>
-                <a href="#" class="block px-3 py-3 text-gray-700 hover:text-purple-600 text-sm font-medium touch-manipulation">BANDS</a>
+                <a href="#" class="block px-3 py-3 text-gray-700 hover:text-purple-600 text-sm font-medium touch-manipulation">VENUE</a>
+                <a href="#" class="block px-3 py-3 text-purple-600 text-sm font-bold touch-manipulation">BANDS</a>
                 <a href="#" class="block px-3 py-3 text-gray-700 hover:text-purple-600 text-sm font-medium touch-manipulation">GALLERY</a>
                 <a href="#" class="block px-3 py-3 text-gray-700 hover:text-purple-600 text-sm font-medium touch-manipulation">LOGIN</a>
             </div>
@@ -104,9 +104,9 @@
     <section class="hero-gradient py-12 sm:py-16 lg:py-20 px-3 sm:px-4">
         <div class="max-w-4xl mx-auto text-center">
             <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6 sm:mb-8 leading-tight">
-                "EVERY CELEBRATION DESERVES A<br class="hidden sm:block">
-                VENUE AS PERFECT AS THE<br class="hidden sm:block">
-                MEMORIES YOU'LL CREATE."
+                "EVERY PERFORMANCE DESERVES A<br class="hidden sm:block">
+                STAGE AS SPECIAL AS THE MUSIC<br class="hidden sm:block">
+                CREATED HERE."
             </h1>
         </div>
     </section>
@@ -125,23 +125,23 @@
 
             <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
                 
-                <!-- Venues Grid - Mobile First, Desktop Left Side -->
+                <!-- Bands Grid - Mobile First, Desktop Left Side -->
                 <div class="w-full lg:flex-1 order-2 lg:order-1">
                     <div class="mb-6 lg:mb-8">
-                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Event Venues</h2>
-                        <p class="text-sm sm:text-base text-gray-600">Discover perfect locations for your special events</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Concert Bands</h2>
+                        <p class="text-sm sm:text-base text-gray-600">Discover talented musical artists for your event</p>
                         <div class="mt-3 sm:mt-4 text-xs sm:text-sm text-purple-600 font-semibold">
-                            <span id="results-count">Showing all venues</span>
+                            <span id="results-count">Showing all bands</span>
                         </div>
                     </div>
                     
-                    <div id="venues-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-                        <!-- Venue cards will be loaded here dynamically -->
+                    <div id="bands-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                        <!-- Band cards will be loaded here dynamically -->
                     </div>
                     
                     <div class="text-center mt-8 sm:mt-12">
                         <button id="load-more-btn" class="bg-gray-800 text-white px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg touch-manipulation">
-                            LOAD MORE VENUES
+                            LOAD MORE BANDS
                         </button>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                         
                         <!-- Mobile Close Button -->
                         <div class="lg:hidden flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-bold text-gray-800">Filter Venues</h3>
+                            <h3 class="text-lg font-bold text-gray-800">Filter Bands</h3>
                             <button id="close-mobile-filter" class="text-gray-500 hover:text-gray-700 p-2 touch-manipulation">
                                 <i class="fas fa-times text-xl"></i>
                             </button>
@@ -162,52 +162,40 @@
                         <div class="hidden lg:block mb-6">
                             <h3 class="text-lg xl:text-xl font-bold text-gray-800 mb-2 flex items-center">
                                 <i class="fas fa-filter text-purple-600 mr-3"></i>
-                                Filter Venues
+                                Filter Bands
                             </h3>
-                            <p class="text-xs xl:text-sm text-gray-600">Find your perfect event location</p>
+                            <p class="text-xs xl:text-sm text-gray-600">Find your perfect musical artists</p>
                         </div>
                         
                         <div class="space-y-4 sm:space-y-6">
-                            <!-- Venue Name Search -->
+                            <!-- Genre Filter -->
                             <div class="filter-item">
                                 <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3">
-                                    <i class="fas fa-search text-purple-500 mr-2"></i>
-                                    Venue Name
+                                    <i class="fas fa-music text-purple-500 mr-2"></i>
+                                    Music Genre
                                 </label>
-                                <input type="text" id="name-filter" placeholder="Search venues..." class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
-                            </div>
-
-                            <!-- Capacity Filter -->
-                            <div class="filter-item">
-                                <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3">
-                                    <i class="fas fa-users text-purple-500 mr-2"></i>
-                                    Capacity Range
-                                </label>
-                                <select id="capacity-filter" class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 cursor-pointer appearance-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
-                                    <option value="">Any Capacity</option>
-                                    <option value="small">Small (Under 500)</option>
-                                    <option value="medium">Medium (500-1500)</option>
-                                    <option value="large">Large (1500-3000)</option>
-                                    <option value="xlarge">Extra Large (3000+)</option>
+                                <select id="genre-filter" class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 cursor-pointer appearance-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
+                                    <option value="">All Genres</option>
+                                    <option value="Indian Rock">Indian Rock</option>
+                                    <option value="Jazz & Blues">Jazz & Blues</option>
+                                    <option value="Rock & Metal">Rock & Metal</option>
+                                    <option value="Acoustic">Acoustic</option>
+                                    <option value="Electronic">Electronic</option>
+                                    <option value="Classical">Classical</option>
                                 </select>
                             </div>
 
-                            <!-- Location Filter -->
+                            <!-- Members Filter -->
                             <div class="filter-item">
                                 <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3">
-                                    <i class="fas fa-map-marker-alt text-purple-500 mr-2"></i>
-                                    Location
+                                    <i class="fas fa-users text-purple-500 mr-2"></i>
+                                    Band Size
                                 </label>
-                                <select id="location-filter" class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 cursor-pointer appearance-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
-                                    <option value="">All Locations</option>
-                                    <option value="Downtown">Downtown</option>
-                                    <option value="City Center">City Center</option>
-                                    <option value="Riverside">Riverside</option>
-                                    <option value="Suburb">Suburb</option>
-                                    <option value="Historic District">Historic District</option>
-                                    <option value="Beachfront">Beachfront</option>
-                                    <option value="Arts District">Arts District</option>
-                                    <option value="Mountain View">Mountain View</option>
+                                <select id="members-filter" class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 cursor-pointer appearance-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
+                                    <option value="">Any Size</option>
+                                    <option value="small">Small (1-5 Members)</option>
+                                    <option value="medium">Medium (6-10 Members)</option>
+                                    <option value="large">Large (11+ Members)</option>
                                 </select>
                             </div>
 
@@ -219,10 +207,23 @@
                                 </label>
                                 <select id="price-filter" class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 cursor-pointer appearance-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
                                     <option value="">Any Price</option>
-                                    <option value="budget">Budget (Under $3k)</option>
-                                    <option value="moderate">Moderate ($3k-$7k)</option>
-                                    <option value="premium">Premium ($7k-$12k)</option>
-                                    <option value="luxury">Luxury ($12k+)</option>
+                                    <option value="budget">Budget (Under $5k)</option>
+                                    <option value="premium">Premium ($5k-$10k)</option>
+                                    <option value="luxury">Luxury (Over $10k)</option>
+                                </select>
+                            </div>
+
+                            <!-- Rating Filter -->
+                            <div class="filter-item">
+                                <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3">
+                                    <i class="fas fa-star text-purple-500 mr-2"></i>
+                                    Minimum Rating
+                                </label>
+                                <select id="rating-filter" class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-gray-700 cursor-pointer appearance-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all hover:border-purple-300 touch-manipulation">
+                                    <option value="">Any Rating</option>
+                                    <option value="5">5 Stars Only</option>
+                                    <option value="4">4+ Stars</option>
+                                    <option value="3">3+ Stars</option>
                                 </select>
                             </div>
                         </div>
@@ -253,7 +254,7 @@
             </div>
             
             <div class="mb-3 sm:mb-4">
-                <h4 id="venue-name-modal" class="text-base sm:text-lg font-semibold text-purple-600 mb-3 sm:mb-4"></h4>
+                <h4 id="band-name-modal" class="text-base sm:text-lg font-semibold text-purple-600 mb-3 sm:mb-4"></h4>
             </div>
             
             <form id="availability-form">
@@ -282,86 +283,86 @@
     </div>
 
     <script>
-        // Venue data
-        const venuesData = [
+        // Band data without location references
+        const bandsData = [
             {
-                id: 1, name: "Grand Palace Convention Center", capacity: "2000",
-                location: "Downtown", price: "$8k", rating: 4.9,
+                id: 1, name: "Thunderstorm Band", capacity: "1500",
+                members: 12, price: "$5k", genre: "Indian Rock", rating: 4.8,
                 "booked-slot": ["26-09-2025-morning", "03-10-2025-night"],
-                image: "./ASSETS/venue1.jpg", description: "Luxurious ballroom with crystal chandeliers"
+                image: "./ASSETS/anthony-delanoix-hzgs56Ze49s-unsplash.jpg"
             },
             {
-                id: 2, name: "Riverside Garden Pavilion", capacity: "500",
-                location: "Riverside", price: "$3k", rating: 4.7,
-                "booked-slot": ["26-09-2025-afternoon", "04-10-2025-morning"],
-                image: "./ASSETS/venue2.jpg", description: "Outdoor pavilion with scenic river views"
+                id: 2, name: "Crystal Jazz Ensemble", capacity: "800",
+                members: 8, price: "$3k", genre: "Jazz & Blues", rating: 4.9,
+                "booked-slot": ["26-09-2025-morning", "03-09-2025-night"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 3, name: "Metropolitan Auditorium", capacity: "5000",
-                location: "City Center", price: "$15k", rating: 4.8,
-                "booked-slot": ["25-09-2025-night", "02-10-2025-afternoon"],
-                image: "./ASSETS/venue3.jpg", description: "State-of-the-art auditorium with premium acoustics"
+                id: 3, name: "Sunset Metal Warriors", capacity: "2000",
+                members: 15, price: "$8k", genre: "Rock & Metal", rating: 4.6,
+                "booked-slot": ["25-09-2025-afternoon", "30-09-2025-morning"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 4, name: "Cozy Corner Café Hall", capacity: "150",
-                location: "Suburb", price: "$1k", rating: 4.5,
-                "booked-slot": ["27-09-2025-morning", "05-10-2025-night"],
-                image: "./ASSETS/venue4.jpg", description: "Intimate setting perfect for small gatherings"
+                id: 4, name: "Acoustic Harmony", capacity: "300",
+                members: 4, price: "$2k", genre: "Acoustic", rating: 4.7,
+                "booked-slot": ["27-09-2025-night", "04-10-2025-afternoon"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 5, name: "Skyline Rooftop Terrace", capacity: "800",
-                location: "Downtown", price: "$6k", rating: 4.9,
-                "booked-slot": ["28-09-2025-afternoon", "06-10-2025-morning"],
-                image: "./ASSETS/venue5.jpg", description: "Stunning city views from 20th floor terrace"
+                id: 5, name: "Electric Pulse Collective", capacity: "5000",
+                members: 20, price: "$15k", genre: "Electronic", rating: 4.5,
+                "booked-slot": ["28-09-2025-morning", "05-10-2025-night"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 6, name: "Heritage Manor Estate", capacity: "1200",
-                location: "Historic District", price: "$10k", rating: 5.0,
-                "booked-slot": ["29-09-2025-morning", "07-10-2025-night"],
-                image: "./ASSETS/venue6.jpg", description: "Elegant Victorian-era mansion with gardens"
+                id: 6, name: "Royal Symphony Orchestra", capacity: "1200",
+                members: 10, price: "$6k", genre: "Classical", rating: 5.0,
+                "booked-slot": ["29-09-2025-afternoon", "06-10-2025-morning"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 7, name: "Beachfront Resort Hall", capacity: "600",
-                location: "Beachfront", price: "$4k", rating: 4.6,
-                "booked-slot": ["30-09-2025-afternoon", "08-10-2025-morning"],
-                image: "./ASSETS/venue7.jpg", description: "Oceanfront venue with sandy beach access"
+                id: 7, name: "Urban Rock Society", capacity: "900",
+                members: 7, price: "$4k", genre: "Indian Rock", rating: 4.4,
+                "booked-slot": ["30-09-2025-night", "07-10-2025-morning"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 8, name: "Urban Loft Space", capacity: "300",
-                location: "Arts District", price: "$2k", rating: 4.4,
-                "booked-slot": ["01-10-2025-night", "09-10-2025-afternoon"],
-                image: "./ASSETS/venue8.jpg", description: "Modern industrial loft with exposed brick"
+                id: 8, name: "Midnight Jazz Club", capacity: "250",
+                members: 5, price: "$1.5k", genre: "Jazz & Blues", rating: 4.8,
+                "booked-slot": ["01-10-2025-afternoon", "08-10-2025-night"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 9, name: "Country Club Ballroom", capacity: "1500",
-                location: "Suburb", price: "$7k", rating: 4.8,
-                "booked-slot": ["02-10-2025-morning", "10-10-2025-night"],
-                image: "./ASSETS/venue9.jpg", description: "Classic ballroom with golf course views"
+                id: 9, name: "Heavy Metal Alliance", capacity: "3000",
+                members: 18, price: "$12k", genre: "Rock & Metal", rating: 4.3,
+                "booked-slot": ["02-10-2025-morning", "09-10-2025-afternoon"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 10, name: "Mountain View Lodge", capacity: "400",
-                location: "Mountain View", price: "$3.5k", rating: 4.7,
-                "booked-slot": ["03-10-2025-afternoon", "11-10-2025-morning"],
-                image: "./ASSETS/venue10.jpg", description: "Rustic lodge with panoramic mountain vistas"
+                id: 10, name: "Acoustic Dreams", capacity: "150",
+                members: 3, price: "$800", genre: "Acoustic", rating: 4.9,
+                "booked-slot": ["03-10-2025-night", "10-10-2025-morning"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 11, name: "Crystal Ballroom Palace", capacity: "3000",
-                location: "City Center", price: "$12k", rating: 4.9,
-                "booked-slot": ["04-10-2025-night", "12-10-2025-afternoon"],
-                image: "./ASSETS/venue11.jpg", description: "Opulent ballroom with crystal fixtures"
+                id: 11, name: "Digital Sound Waves", capacity: "800",
+                members: 6, price: "$5.5k", genre: "Electronic", rating: 4.6,
+                "booked-slot": ["04-10-2025-afternoon", "11-10-2025-night"],
+                image: "./ASSETS/Band1.jpg"
             },
             {
-                id: 12, name: "Garden Party Grounds", capacity: "1000",
-                location: "Riverside", price: "$5k", rating: 4.6,
-                "booked-slot": ["05-10-2025-morning", "13-10-2025-night"],
-                image: "./ASSETS/venue12.jpg", description: "Beautiful botanical gardens with event spaces"
+                id: 12, name: "Grand Chamber Orchestra", capacity: "1800",
+                members: 25, price: "$10k", genre: "Classical", rating: 4.9,
+                "booked-slot": ["05-10-2025-morning", "12-10-2025-afternoon"],
+                image: "./ASSETS/Band1.jpg"
             }
         ];
 
         let currentPage = 1;
-        let filteredVenues = [...venuesData];
-        const venuesPerPage = 6;
-        let currentVenueId = null;
+        let filteredBands = [...bandsData];
+        const bandsPerPage = 6;
+        let currentBandId = null;
 
         // Format date to dd-mm-yyyy format
         function formatDate(dateString) {
@@ -373,41 +374,38 @@
         }
 
         // Check availability
-        function checkAvailability(venueId, date, timeSlot) {
-            const venue = venuesData.find(v => v.id === venueId);
-            if (!venue) return false;
+        function checkAvailability(bandId, date, timeSlot) {
+            const band = bandsData.find(v => v.id === bandId);
+            if (!band) return false;
             
             const formattedDate = formatDate(date);
             const bookingSlot = `${formattedDate}-${timeSlot}`;
             
-            return !venue["booked-slot"].includes(bookingSlot);
+            return !band["booked-slot"].includes(bookingSlot);
         }
 
-        // Create venue card HTML
-        function createVenueCard(venue) {
+        // Create band card HTML
+        function createBandCard(band) {
             return `
                 <article class="bg-white border rounded-2xl border-gray-200 p-4 sm:p-6 overflow-hidden shadow-md w-full max-w-sm mx-auto flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-xl card-hover">
                     <div class="mb-3 sm:mb-4">
-                        <img src="${venue.image}" alt="${venue.name}" class="lazy-image rounded-xl w-full h-40 sm:h-48 object-cover">
+                        <img src="${band.image}" alt="${band.name}" class="lazy-image rounded-xl w-full h-40 sm:h-48 object-cover">
                     </div>
                     <div class="flex flex-col flex-grow">
                         <div class="flex flex-col items-start">
-                            <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2">${venue.name}</h3>
-                            <p class="text-xs sm:text-sm text-gray-600 mb-3">${venue.description}</p>
+                            <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4">${band.name}</h3>
+                            <p class="text-sm sm:text-base text-gray-900">Genre: ${band.genre}</p>
                         </div>
                         <div class="space-y-2 py-3">
                             <div class="flex flex-col items-start">
-                                <h4 class="text-xs sm:text-sm font-bold text-gray-800 mb-1">Capacity: ${venue.capacity} people</h4>
+                                <h4 class="text-xs sm:text-sm font-bold text-gray-800 mb-2">Members: ${band.members}</h4>
                             </div>
                             <div class="flex flex-col items-start">
-                                <h4 class="text-xs sm:text-sm font-bold text-gray-800 mb-1">Location: ${venue.location}</h4>
-                            </div>
-                            <div class="flex flex-col items-start">
-                                <h4 class="text-xs sm:text-sm font-bold text-gray-800 mb-2">Price: ${venue.price}/Day</h4>
+                                <h4 class="text-xs sm:text-sm font-bold text-gray-800 mb-2">Price: ${band.price}/Hour</h4>
                             </div>
                         </div>
                         <div class="flex justify-between items-center px-2 sm:px-6">
-                            <span class="inline-block text-xs font-bold text-gray-800 border-b-2 border-gray-800 pb-1 cursor-pointer hover:text-purple-600 hover:border-purple-600 transition-colors check-availability touch-manipulation" data-venue-id="${venue.id}">
+                            <span class="inline-block text-xs font-bold text-gray-800 border-b-2 border-gray-800 pb-1 cursor-pointer hover:text-purple-600 hover:border-purple-600 transition-colors check-availability touch-manipulation" data-band-id="${band.id}">
                                 Check Availability
                             </span>
                             <button class="rounded-full px-3 sm:px-4 py-2 sm:py-3 text-xs text-white font-semibold bg-purple-600 hover:bg-purple-700 transition-colors touch-manipulation">
@@ -421,68 +419,65 @@
 
         // Update results count
         function updateResultsCount() {
-            const count = filteredVenues.length;
-            const resultsText = count === venuesData.length ? 
-                'Showing all venues' : 
-                `Showing ${count} venue${count !== 1 ? 's' : ''} matching your filters`;
+            const count = filteredBands.length;
+            const resultsText = count === bandsData.length ? 
+                'Showing all bands' : 
+                `Showing ${count} band${count !== 1 ? 's' : ''} matching your filters`;
             document.getElementById('results-count').textContent = resultsText;
         }
 
         // Apply filters
         function applyFilters() {
-            const nameFilter = document.getElementById('name-filter').value.toLowerCase();
-            const capacityFilter = document.getElementById('capacity-filter').value;
-            const locationFilter = document.getElementById('location-filter').value;
+            const genreFilter = document.getElementById('genre-filter').value;
+            const membersFilter = document.getElementById('members-filter').value;
             const priceFilter = document.getElementById('price-filter').value;
+            const ratingFilter = document.getElementById('rating-filter').value;
 
-            filteredVenues = venuesData.filter(venue => {
+            filteredBands = bandsData.filter(band => {
                 let matches = true;
 
-                // Name filter
-                if (nameFilter && !venue.name.toLowerCase().includes(nameFilter)) matches = false;
+                if (genreFilter && band.genre !== genreFilter) matches = false;
 
-                // Capacity filter
-                if (capacityFilter) {
-                    const capacity = parseInt(venue.capacity);
-                    if (capacityFilter === 'small' && capacity >= 500) matches = false;
-                    if (capacityFilter === 'medium' && (capacity < 500 || capacity >= 1500)) matches = false;
-                    if (capacityFilter === 'large' && (capacity < 1500 || capacity >= 3000)) matches = false;
-                    if (capacityFilter === 'xlarge' && capacity < 3000) matches = false;
+                if (membersFilter) {
+                    const memberCount = band.members;
+                    if (membersFilter === 'small' && memberCount > 5) matches = false;
+                    if (membersFilter === 'medium' && (memberCount < 6 || memberCount > 10)) matches = false;
+                    if (membersFilter === 'large' && memberCount <= 10) matches = false;
+                }
+                
+                if (priceFilter) {
+                    const priceNum = parseFloat(band.price.replace(/[$k]/g, ''));
+                    if (priceFilter === 'budget' && priceNum >= 5) matches = false;
+                    if (priceFilter === 'premium' && (priceNum < 5 || priceNum > 10)) matches = false;
+                    if (priceFilter === 'luxury' && priceNum <= 10) matches = false;
                 }
 
-                // Location filter
-                if (locationFilter && venue.location !== locationFilter) matches = false;
-                
-                // Price filter
-                if (priceFilter) {
-                    const priceNum = parseFloat(venue.price.replace(/[$k]/g, ''));
-                    if (priceFilter === 'budget' && priceNum >= 3) matches = false;
-                    if (priceFilter === 'moderate' && (priceNum < 3 || priceNum >= 7)) matches = false;
-                    if (priceFilter === 'premium' && (priceNum < 7 || priceNum >= 12)) matches = false;
-                    if (priceFilter === 'luxury' && priceNum < 12) matches = false;
+                if (ratingFilter) {
+                    const minRating = parseFloat(ratingFilter);
+                    if (band.rating < minRating) matches = false;
                 }
 
                 return matches;
             });
 
             currentPage = 1;
-            loadVenues();
+            loadBands();
             updateResultsCount();
         }
 
-        // Load venues
-        function loadVenues() {
-            const venuesGrid = document.getElementById('venues-grid');
-            const startIndex = (currentPage - 1) * venuesPerPage;
-            const endIndex = startIndex + venuesPerPage;
-            const venuesToShow = filteredVenues.slice(0, endIndex);
+        // Load bands
+        function loadBands() {
+            const bandsGrid = document.getElementById('bands-grid');
+            const startIndex = (currentPage - 1) * bandsPerPage;
+            const endIndex = startIndex + bandsPerPage;
+            const bandsToShow = filteredBands.slice(0, endIndex);
 
-            if (filteredVenues.length === 0) {
-                venuesGrid.innerHTML = `
+            if (filteredBands.length === 0) {
+                bandsGrid.innerHTML = `
                     <div class="col-span-full text-center py-12 sm:py-16">
                         <i class="fas fa-search text-gray-400 text-4xl sm:text-6xl mb-4 sm:mb-6"></i>
-                        <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3 sm:mb-4">No venues found</h3>
-                        <p class="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6">Try adjusting your filters to discover more venues.</p>
+                        <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3 sm:mb-4">No bands found</h3>
+                        <p class="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6">Try adjusting your filters to discover more bands.</p>
                         <button onclick="clearFilters()" class="bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm font-semibold hover:bg-purple-700 transition-colors touch-manipulation">
                             Clear Filters
                         </button>
@@ -490,21 +485,21 @@
                 `;
                 document.getElementById('load-more-btn').style.display = 'none';
             } else {
-                venuesGrid.innerHTML = venuesToShow.map(venue => createVenueCard(venue)).join('');
+                bandsGrid.innerHTML = bandsToShow.map(band => createBandCard(band)).join('');
 
                 // Add event listeners
                 document.querySelectorAll('.check-availability').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        currentVenueId = parseInt(this.dataset.venueId);
-                        const venue = venuesData.find(v => v.id === currentVenueId);
-                        document.getElementById('venue-name-modal').textContent = venue.name;
+                        currentBandId = parseInt(this.dataset.bandId);
+                        const band = bandsData.find(v => v.id === currentBandId);
+                        document.getElementById('band-name-modal').textContent = band.name;
                         document.getElementById('availability-modal').classList.remove('hidden');
                     });
                 });
 
                 // Handle load more button
                 const loadMoreBtn = document.getElementById('load-more-btn');
-                if (endIndex >= filteredVenues.length) {
+                if (endIndex >= filteredBands.length) {
                     loadMoreBtn.style.display = 'none';
                 } else {
                     loadMoreBtn.style.display = 'block';
@@ -514,14 +509,14 @@
 
         // Clear all filters
         function clearFilters() {
-            document.getElementById('name-filter').value = '';
-            document.getElementById('capacity-filter').value = '';
-            document.getElementById('location-filter').value = '';
+            document.getElementById('genre-filter').value = '';
+            document.getElementById('members-filter').value = '';
             document.getElementById('price-filter').value = '';
+            document.getElementById('rating-filter').value = '';
             
-            filteredVenues = [...venuesData];
+            filteredBands = [...bandsData];
             currentPage = 1;
-            loadVenues();
+            loadBands();
             updateResultsCount();
         }
 
@@ -533,7 +528,7 @@
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
-            loadVenues();
+            loadBands();
             updateResultsCount();
 
             // Mobile menu
@@ -553,8 +548,7 @@
             });
 
             // Real-time filtering
-            ['name-filter', 'capacity-filter', 'location-filter', 'price-filter'].forEach(id => {
-                document.getElementById(id).addEventListener('input', applyFilters);
+            ['genre-filter', 'members-filter', 'price-filter', 'rating-filter'].forEach(id => {
                 document.getElementById(id).addEventListener('change', applyFilters);
             });
 
@@ -564,7 +558,7 @@
             // Load more button
             document.getElementById('load-more-btn').addEventListener('click', function() {
                 currentPage++;
-                loadVenues();
+                loadBands();
             });
 
             // Modal functionality
@@ -605,8 +599,8 @@
                     return;
                 }
 
-                const isAvailable = checkAvailability(currentVenueId, date, timeSlot);
-                const venue = venuesData.find(v => v.id === currentVenueId);
+                const isAvailable = checkAvailability(currentBandId, date, timeSlot);
+                const band = bandsData.find(v => v.id === currentBandId);
                 
                 resultDiv.classList.remove('hidden');
                 
@@ -617,7 +611,7 @@
                             <i class="fas fa-check-circle text-green-600 mr-2"></i>
                             <span class="text-green-800 font-semibold">Available!</span>
                         </div>
-                        <p class="text-green-700 mt-2">${venue.name} is available on ${selectedDate.toLocaleDateString()} during ${timeSlot} time slot.</p>
+                        <p class="text-green-700 mt-2">${band.name} is available on ${selectedDate.toLocaleDateString()} during ${timeSlot} time slot.</p>
                     `;
                 } else {
                     resultDiv.className = 'mt-4 p-3 sm:p-4 rounded-lg bg-red-100 border border-red-200 text-sm sm:text-base';
@@ -626,7 +620,7 @@
                             <i class="fas fa-times-circle text-red-600 mr-2"></i>
                             <span class="text-red-800 font-semibold">Not Available</span>
                         </div>
-                        <p class="text-red-700 mt-2">${venue.name} is already booked on ${selectedDate.toLocaleDateString()} during ${timeSlot} time slot.</p>
+                        <p class="text-red-700 mt-2">${band.name} is already booked on ${selectedDate.toLocaleDateString()} during ${timeSlot} time slot.</p>
                     `;
                 }
             });
