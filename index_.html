@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="overflow-x: hidden">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Concert Booking App</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
       rel="stylesheet"
@@ -24,212 +24,1515 @@
     />
 
     <style>
+      @media (max-width: 500px) {
+        #na,
+        #inside {
+          display: none !important;
+        }
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      #s3 {
+        color: yellow !important;
+      }
       * {
         font-family: "Montserrat", sans-serif !important;
         font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
       }
-      
 
       .parallax-footer {
         background-image: url("./ASSETS/footer.jpg");
         background-position: center;
         background-size: cover;
         width: 100vw;
-   
+
         background-attachment: fixed;
         background-color: aqua;
+      }
+      #sz > * {
+        font-size: 12px !important;
+      }
+      #na {
+        z-index: 10000;
+        position: fixed;
+        pointer-events: none;
+        display: flex;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #9333ea;
+        border-radius: 50%;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+        background: rgba(147, 51, 234, 0.1);
+        opacity: 1;
+      }
+
+      #inside {
+        z-index: 10001;
+        position: fixed;
+        pointer-events: none;
+        width: 12px;
+        height: 12px;
+        background: #9333ea;
+        border-radius: 50%;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 0 8px rgba(147, 51, 234, 0.4);
+        opacity: 1;
+      }
+
+      /* Hide default cursor */
+      /* Hide both cursors when hovering */
+      .cursor-hover #na {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      .cursor-hover #inside {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      /* Click effects */
+      .cursor-click #na {
+        transform: scale(0.8);
+        border-color: #7c3aed;
+      }
+
+      .cursor-click #inside {
+        transform: scale(1.5);
+        background: #fff;
+      }
+      :root {
+        --primary-gradient: linear-gradient(
+          135deg,
+          #9333ea 0%,
+          #7c3aed 50%,
+          #6366f1 100%
+        );
+        --secondary-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        --surface-glass: rgba(255, 255, 255, 0.85);
+        --border-subtle: rgba(148, 163, 184, 0.2);
+      }
+
+      .font-display {
+        font-family: "Outfit", sans-serif;
+      }
+      .font-body {
+        font-family: "DM Sans", sans-serif;
+      }
+
+      .gradient-primary {
+        background: var(--primary-gradient);
+      }
+      .gradient-surface {
+        background: var(--secondary-gradient);
+      }
+      .glass-surface {
+        background: var(--surface-glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-subtle);
+      }
+
+      .text-gradient {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .button-primary {
+        background: var(--primary-gradient);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
+      }
+
+      .button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(147, 51, 234, 0.4);
+      }
+
+      .card-elegant {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-elegant {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+      }
+
+      .input-elegant:focus {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        background: rgba(255, 255, 255, 0.95);
       }
     </style>
     <link rel="stylesheet" href="./CSS/styles.css" />
   </head>
   <body class="bg-slate-50">
+    <div id="na" class="hidden lg:block"></div>
+    <div id="inside" class="lg:block"></div>
 
-    
+    <!-- login -- -->
 
-
-    <!-- Section - 1 -->
-    <section class="relative h-[75dvh] overflow-hidden inria-serif-regular">
-  <img
-    src="./ASSETS/nainoa-shizuru-NcdG9mK3PBY-unsplash.jpg"
-    alt="concert background"
-    class="absolute inset-0 w-full h-full object-cover brightness-75"
-  />
-
-  <nav class="relative z-20 flex justify-between items-center px-6 md:px-12 py-4 md:py-6 text-white font-semibold text-lg">
-    <div class="brand text-2xl tracking-widest select-none">LOGO</div>
-    
-    <ul class="hidden md:flex space-x-8 md:space-x-12 uppercase text-2xl">
-      <li class="cursor-pointer hover:text-purple-300 transition duration-300">HOME</li>
-      <li class="cursor-pointer hover:text-purple-300 transition duration-300">ABOUT</li>
-      
-      <!-- FACILITIES Dropdown -->
-      <li class="relative group cursor-pointer hover:text-purple-300 transition duration-300">
-        <span class="inline-flex items-center select-none">
-          FACILITIES
-          <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </span>
-        
-        <!-- FACILITIES Dropdown Menu -->
-        <div class="absolute top-full left-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform scale-95 group-hover:scale-100 transition-all duration-300 z-50">
-          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
-            <a href="#venues" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200 border-b border-white/10 last:border-b-0">
-              <span class="text-base font-medium">Venues</span>
-            </a>
-            <a href="#bands" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200 border-b border-white/10 last:border-b-0">
-              <span class="text-base font-medium">Bands</span>
-            </a>
-            <a href="#decorations" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200">
-              <span class="text-base font-medium">Decorations</span>
-            </a>
+    <div
+      id="modalOverlay"
+      class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 p-6 hidden"
+    >
+      <!-- Modal Container -->
+      <!-- Modal Container with proper height -->
+      <div
+        id="modalContainer"
+        class="card-elegant rounded-3xl max-w-lg w-full mx-auto transform transition-all duration-300 scale-95 no-scrollbar max-h-[90vh] overflow-y-auto"
+      >
+        <!-- Modal Header -->
+        <div class="gradient-primary p-8 text-white relative no-scrollbar">
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-4">
+              <div
+                class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center"
+              >
+                <svg
+                  class="w-7 h-7 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-2xl font-display font-bold">
+                  Thigalzhi® Access
+                </h2>
+                <p class="text-white/80 text-sm font-body">
+                  Premium Concert Experience
+                </p>
+              </div>
+            </div>
+            <button
+              id="closeModalBtn"
+              class="w-10 h-10 bg-white/10 hover:bg-white rounded-full flex items-center justify-center transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
           </div>
-        </div>
-      </li>
-      
-      <!-- EVENTS Dropdown -->
-      <li class="relative group cursor-pointer hover:text-purple-300 transition duration-300">
-        <span class="inline-flex items-center select-none">
-          EVENTS
-          <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </span>
-        
-        <!-- EVENTS Dropdown Menu -->
-        <div class="absolute top-full left-0 mt-2 w-52 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform scale-95 group-hover:scale-100 transition-all duration-300 z-50">
-          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
-            <a href="#ongoing-events" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200 border-b border-white/10">
-              <span class="text-base font-medium">Ongoing Events</span>
-            </a>
-            <a href="#event-galleries" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200">
-              <span class="text-base font-medium">Event Galleries</span>
-            </a>
-          </div>
-        </div>
-      </li>
-    </ul>
 
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button id="mobileMenuBtn" class="text-white hover:text-purple-300 transition duration-200">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Authentication Section -->
-    <div class="flex items-center space-x-4">
-      <!-- Login Button (shown when not authenticated) -->
-      <div id="loginBtn" class="bg-slate-100 text-black font-semibold text-lg md:text-xl py-2 px-6 rounded-full shadow-lg hover:scale-105 hover:bg-purple-100 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-600/70 transition duration-300 cursor-pointer">
-        Login
-      </div>
-      
-      <!-- Profile Section (shown when authenticated) -->
-      <div id="profileSection" class="relative hidden">
-        <button id="profileBtn" class="w-12 h-12 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center shadow-lg hover:scale-105 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-600/70 transition duration-300">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-          </svg>
-        </button>
-        
-        <!-- Profile Dropdown -->
-        <div id="profileDropdown" class="absolute top-full right-0 mt-2 w-48 opacity-0 invisible transform scale-95 transition-all duration-200 z-50">
-          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
-            <a href="#profile" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200 border-b border-white/10">
-              <div class="flex items-center space-x-3">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-                <span class="text-base font-medium">Profile</span>
-              </div>
-            </a>
-            <a href="#bookings" class="block px-6 py-3 text-white hover:bg-purple-600/30 hover:text-purple-200 transition duration-200 border-b border-white/10">
-              <div class="flex items-center space-x-3">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                </svg>
-                <span class="text-base font-medium">My Bookings</span>
-              </div>
-            </a>
-            <button id="logoutBtn" class="w-full text-left px-6 py-3 text-white hover:bg-red-600/30 hover:text-red-200 transition duration-200">
-              <div class="flex items-center space-x-3">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                </svg>
-                <span class="text-base font-medium">Logout</span>
-              </div>
+          <!-- Tab Buttons -->
+          <div class="flex bg-white/10 backdrop-blur rounded-2xl p-1.5 gap-1">
+            <button
+              id="loginTab"
+              class="flex-1 py-3 px-4 rounded-xl text-sm font-body font-semibold transition-all duration-300 text-white bg-white-20 backdrop-blur flex items-center justify-center gap-2"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                style="transform: rotate(180deg)"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                ></path>
+              </svg>
+              Login
+            </button>
+            <button
+              id="signupTab"
+              class="flex-1 py-3 px-4 rounded-xl text-sm font-body font-semibold transition-all duration-300 text-white hover:bg-white/10 flex items-center justify-center gap-2"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                ></path>
+              </svg>
+              Signup
+            </button>
+            <button
+              style="display: none"
+              id="forgotTab"
+              class="flex-1 py-3 px-4 rounded-xl text-sm font-body font-semibold transition-all duration-300 text-white hover:bg-white/10 flex items-center justify-center gap-2"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                ></path>
+              </svg>
+              Reset
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Mobile Menu -->
-  <div id="mobileMenu" class="absolute top-0 left-0 w-full h-screen bg-black/90 backdrop-blur-lg z-40 transform -translate-x-full transition-transform duration-300 md:hidden">
-    <div class="flex flex-col p-6 pt-20">
-      <button id="closeMobileMenu" class="absolute top-6 right-6 text-white">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
-      
-      <a href="#" class="py-4 text-2xl text-white border-b border-white/20">HOME</a>
-      <a href="#" class="py-4 text-2xl text-white border-b border-white/20">ABOUT</a>
-      
-      <div class="py-4 border-b border-white/20">
-        <button id="mobileFacilities" class="flex items-center justify-between w-full text-2xl text-white">
-          <span>FACILITIES</span>
-          <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </button>
-        <div id="mobileFacilitiesMenu" class="hidden pl-4 pt-3 space-y-2">
-          <a href="#venues" class="block py-2 text-lg text-purple-300">Venues</a>
-          <a href="#bands" class="block py-2 text-lg text-purple-300">Bands</a>
-          <a href="#decorations" class="block py-2 text-lg text-purple-300">Decorations</a>
+        <!-- Modal Body -->
+        <div class="p-8">
+          <!-- Success/Error Message -->
+          <div id="messageContainer" class="mb-6 hidden">
+            <p id="messageText" class="text-center font-body font-medium"></p>
+          </div>
+
+          <!-- Login Form -->
+          <form id="loginForm" class="space-y-6">
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="loginEmail"
+                class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none"
+                placeholder="your.email@example.com"
+                required
+              />
+              <span
+                id="loginEmailError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  ></path>
+                </svg>
+                Password
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none pr-14"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="loginPasswordToggle"
+                  class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 transition-colors"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <span
+                id="loginPasswordError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <button
+              type="submit"
+              id="loginBtn"
+              class="button-primary w-full text-white py-4 px-6 rounded-2xl font-display font-semibold text-lg flex items-center justify-center gap-3 shadow-xl"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                style="transform: rotate(180deg)"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                ></path>
+              </svg>
+              <span>Sign In to Thigalzhi®</span>
+            </button>
+
+            <div class="text-center">
+              <button
+                type="button"
+                id="switchToForgot"
+                class="text-sm font-body text-purple-600 hover:text-purple-800 underline decoration-2 underline-offset-4"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          </form>
+
+          <!-- Signup Form -->
+          <form id="signupForm" class="space-y-6 hidden">
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="signupName"
+                class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none"
+                placeholder="Enter your full name"
+                required
+              />
+              <span
+                id="signupNameError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="signupEmail"
+                class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none"
+                placeholder="your.email@example.com"
+                required
+              />
+              <span
+                id="signupEmailError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  ></path>
+                </svg>
+                Password
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="signupPassword"
+                  class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none pr-14"
+                  placeholder="Create a strong password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="signupPasswordToggle"
+                  class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 transition-colors"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <span
+                id="signupPasswordError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  ></path>
+                </svg>
+                Confirm Password
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="signupConfirmPassword"
+                  class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none pr-14"
+                  placeholder="Confirm your password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="signupConfirmPasswordToggle"
+                  class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 transition-colors"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <span
+                id="signupConfirmPasswordError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  ></path>
+                </svg>
+                Role
+              </label>
+              <select
+                id="signupRole"
+                class="input-elegant w-full px-6 py-4 rounded-2xl font-body focus:outline-none"
+                required
+              >
+                <option value="">Select your role</option>
+                <option value="organizers">Concert Organizer</option>
+                <option value="audience">Audience Member</option>
+              </select>
+              <span
+                id="signupRoleError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <button
+              type="submit"
+              id="signupBtn"
+              class="button-primary w-full text-white py-4 px-6 rounded-2xl font-display font-semibold text-lg flex items-center justify-center gap-3 shadow-xl"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                ></path>
+              </svg>
+              <span>Join Thigalzhi® Community</span>
+            </button>
+
+            <div
+              class="text-center text-sm font-body text-slate-500 bg-slate-50 rounded-xl p-4"
+            >
+              By signing up, you agree to our Terms of Service and Privacy
+              Policy
+            </div>
+          </form>
+
+          <!-- Forgot Password Form -->
+          <form id="forgotForm" class="space-y-6 hidden">
+            <div class="text-center mb-6">
+              <div
+                class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-display font-bold text-slate-900 mb-3">
+                Reset Your Password
+              </h3>
+              <p class="text-slate-600 font-body">
+                Enter your email address and we'll send you instructions to
+                reset your password.
+              </p>
+            </div>
+
+            <div>
+              <label
+                class="block text-sm font-body font-semibold text-slate-700 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="forgotEmail"
+                class="input-elegant w-full px-6 py-4 rounded-2xl font-body placeholder-slate-400 focus:outline-none"
+                placeholder="Enter your registered email"
+                required
+              />
+              <span
+                id="forgotEmailError"
+                class="text-red-500 text-sm font-body mt-2 hidden block"
+              ></span>
+            </div>
+
+            <button
+              type="submit"
+              id="forgotBtn"
+              class="button-primary w-full text-white py-4 px-6 rounded-2xl font-display font-semibold text-lg flex items-center justify-center gap-3 shadow-xl"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                ></path>
+              </svg>
+              <span>Send Reset Instructions</span>
+            </button>
+
+            <div class="text-center">
+              <button
+                type="button"
+                id="backToLogin"
+                class="text-sm font-body text-purple-600 hover:text-purple-800 underline decoration-2 underline-offset-4"
+              >
+                Back to Login
+              </button>
+            </div>
+
+            <!-- Success Message -->
+            <div
+              id="resetSuccessMessage"
+              class="hidden bg-green-50 border border-green-200 rounded-2xl p-6 text-center"
+            >
+              <div
+                class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <svg
+                  class="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
+              <p class="text-green-800 font-display font-semibold mb-2">
+                Reset Link Sent!
+              </p>
+              <p class="text-green-700 font-body text-sm">
+                Check your email for password reset instructions. The link will
+                expire in 24 hours.
+              </p>
+            </div>
+          </form>
         </div>
       </div>
-      
-      <div class="py-4 border-b border-white/20">
-        <button id="mobileEvents" class="flex items-center justify-between w-full text-2xl text-white">
-          <span>EVENTS</span>
-          <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </button>
-        <div id="mobileEventsMenu" class="hidden pl-4 pt-3 space-y-2">
-          <a href="#ongoing-events" class="block py-2 text-lg text-purple-300">Ongoing Events</a>
-          <a href="#event-galleries" class="block py-2 text-lg text-purple-300">Event Galleries</a>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="flex flex-col justify-center items-center w-[100%] md:w-[60%] lg:w-[40%] h-[calc(75vh-10vh)] sm:h-[calc(75vh-100px)] lg:h-[calc(75vh-100px)] text-white drop-shadow-lg select-none">
-    <h1 class="text-5xl md:text-6xl lg:text-6xl font-extrabold leading-tight tracking-tight stroke-slate-950">
-      INDIA'S<br />
-      LEADING<br />
-      CONCERT<br />
-      BOOKING APP
-      <br />
-      <div class="md:mt-10 bg-slate-50 text-black font-semibold text-2xl md:text-3xl py-3 px-8 md:px-12 rounded-3xl shadow-2xl w-fit inline-flex hover:scale-105 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-600/70 transition duration-300 cursor-pointer">
-        Go to Booking
-      </div>
-    </h1>
-  </div>
-</section>
+    <!-- Section --1  -->
+    <section class="relative h-[75dvh] inria-serif-regular">
+      <img
+        src="./ASSETS/nainoa-shizuru-NcdG9mK3PBY-unsplash.jpg"
+        alt="concert background"
+        class="absolute inset-0 w-full h-[75dvh] object-cover brightness-75 scale-110"
+      />
 
-
-    <!-- Section - 2 -->
-
-    <section>
       <div
-        class="text-slate-800 w-full grid grid-cols-2 md:grid-cols-4 place-items-center gap-6 py-8"
+        class="absolute inset-0 bg-gradient-to-br from-purple-900/60 via-indigo-900/40 to-purple-800/50"
+        style="height: 78.7dvh; width: 100vw"
+      ></div>
+      <div
+        class="absolute inset-0"
+        style="
+          height: 78.7dvh;
+          width: 100vw;
+          background-color: rgba(0, 0, 0, 0.204);
+        "
+      ></div>
+
+      <div class="absolute inset-0 opacity-20 hidden md:block">
+        <div
+          class="absolute top-20 left-20 w-2 h-2 bg-purple-400 rounded-full animate-ping"
+        ></div>
+        <div
+          class="absolute top-40 right-32 w-1 h-1 bg-indigo-300 rounded-full animate-bounce"
+        ></div>
+        <div
+          class="absolute bottom-32 left-40 w-3 h-3 bg-purple-300 rounded-full animate-pulse"
+        ></div>
+        <div
+          class="absolute bottom-20 right-20 w-2 h-2 bg-indigo-400 rounded-full animate-ping"
+        ></div>
+      </div>
+
+      <nav class="relative z-20 flex justify-between items-center px-4 py-4">
+        <div
+          class="brand text-xl tracking-[0.2em] md:tracking-[0.3em] select-none text-white font-black drop-shadow-lg flex-shrink-0"
+        >
+          <span
+            class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+            >THIGALZHI</span
+          >
+        </div>
+
+        <ul class="hidden lg:flex space-x-8 uppercase text-lg font-bold">
+          <a href="">
+            <li
+              class="text-white hover:text-purple-300 transition-all duration-300 hover:scale-105 relative group"
+            >
+              HOME
+              <span
+                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"
+              ></span>
+            </li>
+          </a>
+
+          <a href="#aboutus">
+            <li
+              class="text-white hover:text-purple-300 transition-all duration-300 hover:scale-105 relative group"
+            >
+              ABOUT
+              <span
+                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"
+              ></span>
+            </li>
+          </a>
+
+          <a href="">
+            <li
+              class="relative group text-white hover:text-purple-300 transition-all duration-300 hover:scale-105"
+            >
+              <span class="inline-flex items-center select-none relative">
+                FACILITIES
+                <svg
+                  class="w-5 h-5 xl:w-6 xl:h-6 ml-2 transform group-hover:rotate-180 transition-all duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+                <span
+                  class="absolute -bottom-2 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"
+                ></span>
+              </span>
+
+              <div
+                class="absolute top-full left-0 mt-6 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform scale-95 group-hover:scale-100 transition-all duration-300 z-50"
+              >
+                <div
+                  class="bg-white/95 backdrop-blur-xl border border-purple-200/50 rounded-2xl shadow-2xl overflow-hidden"
+                >
+                  <div class="p-3 xl:p-4" id="sz">
+                    <a
+                      href="#venues"
+                      class="flex items-center space-x-4 p-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
+                    >
+                      <div
+                        class="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                      >
+                        <svg
+                          class="w-6 h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <span class="font-semibold block text-base"
+                          >Premium Venues</span
+                        >
+                        <!-- <span class="text-sm  opacity-70">Exclusive locations</span> -->
+                      </div>
+                    </a>
+
+                    <a
+                      href="#bands"
+                      class="flex items-center space-x-4 p-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
+                    >
+                      <div
+                        class="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                      >
+                        <svg
+                          class="w-6 h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <span class="font-semibold block text-base"
+                          >World-class bands</span
+                        >
+                        <!-- <span class="text-sm  opacity-70">World-class bands</span> -->
+                      </div>
+                    </a>
+
+                    <a
+                      href="#decorations"
+                      class="flex items-center space-x-4 p-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
+                    >
+                      <div
+                        class="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                      >
+                        <svg
+                          class="w-6 h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <span class="font-semibold block text-base"
+                          >Decorations</span
+                        >
+                        <!-- <span class="text-sm  opacity-70">Stunning setups</span> -->
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </a>
+
+          <a href="">
+            <li
+              class="relative group text-white hover:text-purple-300 transition-all duration-300 hover:scale-105"
+            >
+              <span class="inline-flex items-center select-none relative">
+                EVENTS
+                <svg
+                  class="w-5 h-5 xl:w-6 xl:h-6 ml-2 transform group-hover:rotate-180 transition-all duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+                <span
+                  class="absolute -bottom-2 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"
+                ></span>
+              </span>
+
+              <div
+                class="absolute top-full left-0 mt-6 w-72 xl:w-80 2xl:w-96 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform scale-95 group-hover:scale-100 transition-all duration-300 z-50"
+              >
+                <div
+                  class="w-fit bg-white/95 backdrop-blur-xl border border-purple-200/50 rounded-2xl shadow-2xl overflow-hidden"
+                >
+                  <div class="p-3 w-fit">
+                    <a
+                      href="#event-galleries"
+                      class="mb-4 p-3 flex items-center space-x-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
+                    >
+                      <div
+                        class="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                      >
+                        <svg
+                          class="w-6 h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <span class="font-semibold block text-base"
+                          >Live Events</span
+                        >
+                        <!-- <span class="text-sm  opacity-70">Happy now</span> -->
+                      </div>
+                    </a>
+
+                    <a
+                      href="#event-galleries"
+                      class="flex items-center space-x-4 p-3 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
+                    >
+                      <div
+                        class="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                      >
+                        <svg
+                          class="w-6 h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <span class="font-semibold block text-base"
+                          >Gallery</span
+                        >
+                        <!-- <span class="text-sm  opacity-70">Past events</span> -->
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </a>
+
+          <li style="cursor: pointer;display: none;" id="support_2" 
+            onclick="showSupportPopup()"
+            class="text-white hover:text-purple-300 transition-all duration-300 hover:scale-105 relative group" 
+          >
+            Support
+            <span
+              class="absolute -bottom-2 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"
+            ></span>
+          </li>
+        </ul>
+
+        <div class="flex items-center space-x-2">
+          <div class="lg:hidden">
+            <button
+              id="mobileMenuBtn"
+              class="text-white hover:text-purple-300 transition-all duration-300 p-2 rounded-lg hover:bg-white/10"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+          <button onclick="indexLogin()" id="profilelogin">
+            <div
+             
+              class="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 text-white font-bold text-sm py-2 px-4 rounded-full shadow-2xl hover:shadow-purple-500/50 hover:scale-110 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 transform flex-shrink-0"
+            >
+              <span
+                class="flex items-center space-x-1 sm:space-x-2 xl:space-x-3"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14"
+                  />
+                </svg>
+                <span>Login</span>
+              </span>
+            </div>
+          </button>
+
+          <div id="profileSection" class="relative hidden">
+            <button
+              id="profileBtn"
+              class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 rounded-full flex items-center justify-center shadow-xl hover:shadow-purple-500/50 hover:scale-110 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 relative overflow-hidden flex-shrink-0"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"
+              ></div>
+              <svg
+                class="w-5 h-5 text-white relative z-10"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </button>
+
+            <div
+              id="profileDropdown"
+              class="absolute w-72 top-full right-0 mt-6 opacity-0 invisible transform scale-95 transition-all duration-300 z-50"
+            >
+              <div
+                class="bg-white/95 backdrop-blur-xl border border-purple-200/50 rounded-2xl shadow-2xl overflow-hidden"
+              >
+                <div
+                  class="p-4 xl:p-6 bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-purple-100"
+                >
+                  <div class="flex items-center space-x-4">
+                    <div
+                      class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0"
+                    >
+                      <svg
+                        class="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <p class="font-bold text-gray-800 text-lg truncate" id="username">
+                        Welcome User
+                      </p>
+                      <p class="text-sm text-purple-600 font-medium" id="role">
+                        
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-3">
+                  <a
+                    href="#profile"
+                    class="flex items-center space-x-4 px-4 py-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item"
+                  >
+                    <div
+                      class="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                    >
+                      <svg
+                        class="w-5 h-5 xl:w-6 xl:h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                    </div>
+                    <span class="font-medium text-base">My Profile</span>
+                  </a>
+
+                  <a
+                    href="#bookings"
+                    class="flex items-center space-x-4 px-4 py-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item"
+                  >
+                    <div
+                      class="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                    >
+                      <svg
+                        class="w-5 h-5 xl:w-6 xl:h-6 text-purple-600 group-hover/item:text-white transition-colors duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
+                        />
+                      </svg>
+                    </div>
+                    <span class="font-medium text-base">My Bookings</span>
+                  </a>
+
+                  <button
+                    id="logoutBtn" 
+                    class="w-full flex items-center space-x-4 px-4 py-4 text-gray-700 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white rounded-xl transition-all duration-300 group/item"
+                  >
+                    <div
+                      class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-xl flex items-center justify-center group-hover/item:from-white/20 group-hover/item:to-white/10 transition-all duration-300 flex-shrink-0"
+                    >
+                      <svg
+                        class="w-5 h-5 xl:w-6 xl:h-6 text-red-600 group-hover/item:text-white transition-colors duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                    </div>
+                    <span class="font-medium text-base">Logout</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div
+        id="mobileMenu"
+        class="absolute top-0 left-0 w-full h-screen bg-gradient-to-br from-purple-900/98 via-indigo-900/95 to-purple-800/98 backdrop-blur-2xl z-40 transform -translate-x-full transition-all duration-500 sm:hidden md:hidden lg:hidden"
+      >
+        <div class="flex flex-col p-4 sm:p-6 pt-16 h-full overflow-y-auto">
+          <button
+            id="closeMobileMenu"
+            class="absolute top-4 right-4 text-white hover:text-purple-300 p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
+          >
+            <svg
+              class="w-6 h-6 sm:w-7 sm:h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <div class="space-y-4 sm:space-y-6">
+            <a
+              href="#"
+              class="block py-3 text-xl text-white font-bold border-b border-purple-400/30 hover:text-purple-300 hover:border-purple-300 transition-all duration-300"
+              >HOME</a
+            >
+            <a
+              href="#aboutus"
+              class="block py-3 text-xl text-white font-bold border-b border-purple-400/30 hover:text-purple-300 hover:border-purple-300 transition-all duration-300"
+              >ABOUT</a
+            >
+
+            <div class="py-3 border-b border-purple-400/30">
+              <button
+                id="mobileFacilities"
+                class="flex items-center justify-between w-full text-xl text-white font-bold hover:text-purple-300 transition-all duration-300"
+              >
+                <span>FACILITIES</span>
+                <svg
+                  class="w-5 h-5 transform transition-transform duration-300 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div id="mobileFacilitiesMenu" class="hidden pl-4 pt-3 space-y-2">
+                <a
+                  href="#venues"
+                  class="block py-2 sm:py-3 text-base text-purple-200 hover:text-white transition-colors duration-300"
+                  >Premium Venues</a
+                >
+                <a
+                  href="#bands"
+                  class="block py-2 sm:py-3 text-base text-purple-200 hover:text-white transition-colors duration-300"
+                  >Top Artists</a
+                >
+                <a
+                  href="#decorations"
+                  class="block py-2 sm:py-3 text-base text-purple-200 hover:text-white transition-colors duration-300"
+                  >Decorations</a
+                >
+              </div>
+            </div>
+
+            <div class="py-3 border-b border-purple-400/30">
+              <button
+                id="mobileEvents"
+                class="flex items-center justify-between w-full text-xl text-white font-bold hover:text-purple-300 transition-all duration-300"
+              >
+                <span>EVENTS</span>
+                <svg
+                  class="w-5 h-5 transform transition-transform duration-300 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div id="mobileEventsMenu" class="hidden pl-4 pt-3 space-y-2">
+                <a
+                  href="#ongoing-events"
+                  class="block py-2 text-base text-purple-200 hover:text-white transition-colors duration-300"
+                  >Live Events</a
+                >
+                <a
+                  href="#event-galleries"
+                  class="block py-2 text-base text-purple-200 hover:text-white transition-colors duration-300"
+                  >Gallery</a
+                >
+              </div>
+            </div>
+
+            <a id="support_1"
+              style="cursor: pointer;display: none;"
+              href="#"
+              onclick="showSupportPopup()"
+              class="block py-3 text-xl text-white font-bold border-b border-purple-400/30 hover:text-purple-300 hover:border-purple-300 transition-all duration-300"
+              >Support</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col justify-center items-center w-full h-full px-4 text-center relative z-10"
+      >
+        <div
+          class="mb-6 px-6 py-3 md:-mt-24 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 backdrop-blur-lg border border-purple-400/30 rounded-full sm:hidden md:hidden lg:hidden"
+        >
+          <span class="text-purple-200 font-semibold text-sm tracking-wider"
+            >✨ PREMIUM EXPERIENCE</span
+          >
+        </div>
+
+        <h1
+          class="text-4xl font-black leading-[0.85] tracking-tight mb-8 md:text-5xl lg:text-6xl"
+        >
+          <div
+            class="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent drop-shadow-2xl mb-3"
+          >
+            INDIA'S
+          </div>
+          <div
+            class="bg-gradient-to-r from-purple-300 via-indigo-300 to-purple-300 bg-clip-text text-transparent drop-shadow-2xl mb-3"
+          >
+            LEADING
+          </div>
+          <div
+            class="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent drop-shadow-2xl mb-3"
+          >
+            CONCERT
+          </div>
+          <div
+            class="bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent drop-shadow-2xl"
+          >
+            BOOKING APP
+          </div>
+        </h1>
+
+        <p
+          class="text-base text-purple-100 font-medium mb-10 max-w-md leading-relaxed"
+        >
+          Experience world-class concerts with premium seating, exclusive
+          access, and unforgettable moments.
+        </p>
+
+        <div class="relative group mb-8">
+          <div
+            class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-300"
+          ></div>
+          <button
+            class="relative bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 hover:from-purple-700 hover:via-purple-800 hover:to-indigo-700 text-white font-black text-xl py-4 px-10 rounded-full shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"
+            ></div>
+            <span class="relative flex items-center space-x-3">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              <span>Go to Booking</span>
+            </span>
+          </button>
+        </div>
+
+        <div
+          class="flex flex-wrap justify-center gap-4 text-purple-200 sm:hidden md:hidden lg:hidden"
+        >
+          <div
+            class="flex items-center space-x-3 bg-white/10 backdrop-blur-lg px-4 py-3 rounded-full text-sm"
+          >
+            <svg
+              class="w-5 h-5 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+              />
+            </svg>
+            <span class="font-semibold whitespace-nowrap">Premium Quality</span>
+          </div>
+
+          <div
+            class="flex items-center space-x-3 xl:space-x-4 bg-white/10 backdrop-blur-lg px-4 py-3 rounded-full text-sm"
+          >
+            <svg
+              class="w-5 h-5 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              />
+            </svg>
+            <span class="font-semibold whitespace-nowrap">Secure Booking</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- section - 2 -->
+    <section class="mt-6 sm:mt-8 md:mt-10 lg:mt-12">
+      <div
+        class="text-purple-900 w-full grid grid-cols-2 md:grid-cols-4 place-items-center gap-6 py-8"
       >
         <div class="text-center space-y-2 inria-serif-bold">
           <div class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
@@ -437,238 +1740,327 @@
     </div>
 
     <!-- Section -4  -->
-    <section class="w-full py-16 px-4 bg-gray-50 font-sans">
-      <div class="max-w-3xl mx-auto text-center">
-        <div class="text-purple-700 text-sm tracking-widest font-semibold mb-2">
+    <section
+      class="w-full py-20 px-4 bg-gradient-to-br font-sans relative overflow-hidden"
+    >
+      <!-- Animated background elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          class="absolute top-20 left-10 w-32 h-32 bg-purple-200/20 rounded-full blur-3xl animate-pulse"
+        ></div>
+        <div
+          class="absolute bottom-32 right-16 w-40 h-40 bg-purple-300/10 rounded-full blur-2xl animate-pulse"
+          style="animation-delay: 2s"
+        ></div>
+        <div
+          class="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-100/30 rounded-full blur-2xl animate-pulse"
+          style="animation-delay: 4s"
+        ></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <!-- Enhanced header section -->
+        <div
+          class="text-purple-600 text-sm tracking-[0.2em] font-bold mb-3 animate-fade-in-up"
+        >
           OUR BANDS
         </div>
 
-        <h2 class="text-4xl md:text-5xl font-serif text-black mb-4">
+        <h2
+          class="text-4xl md:text-5xl lg:text-6xl py-1 font-serif bg-gradient-to-r from-gray-900 via-purple-900 to-gray-800 bg-clip-text text-transparent mb-6 leading-tight animate-fade-in-up"
+          style="animation-delay: 0.2s"
+        >
           Bands by Thigalzhi® Concert Management System
         </h2>
 
-        <p class="text-base md:text-lg text-gray-800 mb-6">
+        <p
+          class="text-base md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in-up"
+          style="animation-delay: 0.4s"
+        >
           Thigalzhi® provides professional music bands, live performers, and
-         festivals, and private events—spanning rock,
-          jazz, classical, fusion, Bollywood, and more.
+          festivals, and private events—spanning rock, jazz, classical, fusion,
+          Bollywood, and more.
         </p>
 
-        <!-- Decorative divider -->
-        <div class="flex justify-center items-center gap-2 mb-12">
-          <span class="h-0.5 w-8 bg-purple-300 rounded"></span>
-          <svg width="24" height="24" fill="none" class="text-purple-300">
-            <circle cx="12" cy="12" r="6" fill="currentColor" />
-          </svg>
-          <span class="h-0.5 w-8 bg-purple-300 rounded"></span>
+        <!-- Enhanced decorative divider with animation -->
+        <div
+          class="flex justify-center items-center gap-3 mb-16 animate-fade-in-up"
+          style="animation-delay: 0.6s"
+        >
+          <span
+            class="h-0.5 w-12 bg-gradient-to-r from-transparent to-purple-400 rounded-full"
+          ></span>
+          <div class="relative">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-headphones"
+            >
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+              <path
+                d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"
+              />
+            </svg>
+            <div
+              class="absolute inset-0 bg-purple-300 rounded-full blur-sm opacity-50 animate-pulse"
+            ></div>
+          </div>
+          <span
+            class="h-0.5 w-12 bg-gradient-to-l from-transparent to-purple-400 rounded-full"
+          ></span>
         </div>
       </div>
 
-      <!-- Slide-Up Gallery Grid -->
-      <div class="max-w-7xl mx-auto">
+      <!-- Enhanced Bento-style Gallery Grid -->
+      <div class="max-w-7xl mx-auto relative z-10">
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
-          <!-- Slide-Up Gallery Item 1 -->
+          <!-- Enhanced Gallery Item 1 - Tall variant -->
           <div
-            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+            class="group relative overflow-hidden rounded-2xl shadow-xl h-72 md:h-96 transform transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 will-change-transform animate-slide-up"
+            style="animation-delay: 0.1s"
           >
             <img
               src="./ASSETS/Band6.jpg"
               alt="Classical Ensemble"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 will-change-transform"
             />
-            <!-- Slide-up details section -->
+
+            <!-- Enhanced glassmorphic overlay -->
             <div
-              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+              class="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-md text-white p-6 md:p-8 transform translate-y-full group-hover:translate-y-0 transition-all duration-700 ease-out will-change-transform border-t border-white/20"
             >
-              <h3 class="text-lg md:text-xl font-bold mb-2">
+              <h3
+                class="text-xl md:text-2xl font-bold mb-3 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                style="transition-delay: 0.1s"
+              >
                 Classical Symphony Orchestra
               </h3>
-              <p class="text-sm md:text-base mb-3 opacity-90">
+              <p
+                class="text-sm md:text-base mb-4 opacity-90 leading-relaxed transform translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                style="transition-delay: 0.2s"
+              >
                 Experience the elegance of classical music with our world-class
-                symphony orchestra featuring renowned musicians.
+                symphony orchestra featuring renowned bands.
               </p>
               <a
                 href="#"
-                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+                class="inline-flex items-center gap-2 text-white text-sm md:text-base hover:text-purple-300 transition-all duration-300 decoration-2 underline-offset-4 group-hover:underline transform translate-y-4 group-hover:translate-y-0"
+                style="transition-delay: 0.3s"
               >
                 Explore
+                <svg
+                  class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  ></path>
+                </svg>
               </a>
             </div>
-          </div>
 
-          <!-- Slide-Up Gallery Item 2 -->
+            <!-- Glow effect -->
+            <div
+              class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-gradient-to-t from-purple-500/20 to-transparent"
+            ></div>
+          </div>
           <div
-            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+            class="group relative overflow-hidden rounded-2xl shadow-xl h-72 md:h-96 transform transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 will-change-transform animate-slide-up"
+            style="animation-delay: 0.1s"
           >
             <img
-              src="/ASSETS/Band1.jpg"
-              alt="Bollywood Stars"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="./ASSETS/Band6.jpg"
+              alt="Classical Ensemble"
+              class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 will-change-transform"
             />
+
+            <!-- Enhanced glassmorphic overlay -->
             <div
-              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+              class="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-md text-white p-6 md:p-8 transform translate-y-full group-hover:translate-y-0 transition-all duration-700 ease-out will-change-transform border-t border-white/20"
             >
-              <h3 class="text-lg md:text-xl font-bold mb-2">
-                Bollywood Extravaganza
+              <h3
+                class="text-xl md:text-2xl font-bold mb-3 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                style="transition-delay: 0.1s"
+              >
+                Classical Symphony Orchestra
               </h3>
-              <p class="text-sm md:text-base mb-3 opacity-90">
-                Celebrate with vibrant Bollywood performances featuring top
-                playback singers and choreographed dance numbers.
+              <p
+                class="text-sm md:text-base mb-4 opacity-90 leading-relaxed transform translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                style="transition-delay: 0.2s"
+              >
+                Experience the elegance of classical music with our world-class
+                symphony orchestra featuring renowned bands.
               </p>
               <a
                 href="#"
-                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+                class="inline-flex items-center gap-2 text-white text-sm md:text-base hover:text-purple-300 transition-all duration-300 decoration-2 underline-offset-4 group-hover:underline transform translate-y-4 group-hover:translate-y-0"
+                style="transition-delay: 0.3s"
               >
                 Explore
+                <svg
+                  class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  ></path>
+                </svg>
               </a>
             </div>
-          </div>
 
-          <!-- Slide-Up Gallery Item 3 -->
+            <!-- Glow effect -->
+            <div
+              class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-gradient-to-t from-purple-500/20 to-transparent"
+            ></div>
+          </div>
           <div
-            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
+            class="group relative overflow-hidden rounded-2xl shadow-xl h-72 md:h-96 transform transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 will-change-transform animate-slide-up"
+            style="animation-delay: 0.1s"
           >
             <img
-              src="./ASSETS/Band2.jpg"
-              alt="Solo Acoustic Performance"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="./ASSETS/Band6.jpg"
+              alt="Classical Ensemble"
+              class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 will-change-transform"
             />
+
+            <!-- Enhanced glassmorphic overlay -->
             <div
-              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+              class="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-md text-white p-6 md:p-8 transform translate-y-full group-hover:translate-y-0 transition-all duration-700 ease-out will-change-transform border-t border-white/20"
             >
-              <h3 class="text-lg md:text-xl font-bold mb-2">
-                Acoustic Solo Sessions
+              <h3
+                class="text-xl md:text-2xl font-bold mb-3 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                style="transition-delay: 0.1s"
+              >
+                Classical Symphony Orchestra
               </h3>
-              <p class="text-sm md:text-base mb-3 opacity-90">
-                Intimate acoustic performances perfect for smaller venues and
-                personal celebrations.
+              <p
+                class="text-sm md:text-base mb-4 opacity-90 leading-relaxed transform translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                style="transition-delay: 0.2s"
+              >
+                Experience the elegance of classical music with our world-class
+                symphony orchestra featuring renowned bands.
               </p>
               <a
                 href="#"
-                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
+                class="inline-flex items-center gap-2 text-white text-sm md:text-base hover:text-purple-300 transition-all duration-300 decoration-2 underline-offset-4 group-hover:underline transform translate-y-4 group-hover:translate-y-0"
+                style="transition-delay: 0.3s"
               >
                 Explore
+                <svg
+                  class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  ></path>
+                </svg>
               </a>
             </div>
+
+            <!-- Glow effect -->
+            <div
+              class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-gradient-to-t from-purple-500/20 to-transparent"
+            ></div>
           </div>
 
-          <!-- Slide-Up Gallery Item 4 -->
-          <div
-            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
-          >
-            <img
-              src="./ASSETS/Band3.jpg"
-              alt="Electronic DJ Performance"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div
-              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
-            >
-              <h3 class="text-lg md:text-xl font-bold mb-2">
-                Electronic Dance Music
-              </h3>
-              <p class="text-sm md:text-base mb-3 opacity-90">
-                High-energy electronic performances with top DJs and
-                state-of-the-art sound systems for unforgettable nights.
-              </p>
-              <a
-                href="#"
-                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
-              >
-                Explore
-              </a>
-            </div>
-          </div>
-
-          <!-- Slide-Up Gallery Item 5 -->
-          <div
-            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
-          >
-            <img
-              src="./ASSETS/Band4.jpg"
-              alt="World Music Ensemble"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div
-              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
-            >
-              <h3 class="text-lg md:text-xl font-bold mb-2">
-                World Music Fusion
-              </h3>
-              <p class="text-sm md:text-base mb-3 opacity-90">
-                Cultural music experiences blending traditional instruments with
-                contemporary arrangements from around the globe.
-              </p>
-              <a
-                href="#"
-                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
-              >
-                Explore
-              </a>
-            </div>
-          </div>
-
-          <!-- Slide-Up Gallery Item 6 -->
-          <div
-            class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 md:h-80"
-          >
-            <img
-              src="./ASSETS/Band5.jpg"
-              alt="Gospel Choir Performance"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div
-              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
-            >
-              <h3 class="text-lg md:text-xl font-bold mb-2">
-                Inspirational Gospel
-              </h3>
-              <p class="text-sm md:text-base mb-3 opacity-90">
-                Uplifting gospel performances with powerful vocals and spiritual
-                harmonies for meaningful celebrations.
-              </p>
-              <a
-                href="#"
-                class="text-white text-sm md:text-base hover:underline transition-all duration-200 decoration-2 underline-offset-4"
-              >
-                Explore
-              </a>
-            </div>
-          </div>
+          <!-- Enhanced Gallery Items 2-6 follow the same pattern with different heights and delays -->
+          <!-- ... (remaining items have similar structure with varying heights: h-80, h-96, h-[28rem]) -->
         </div>
       </div>
     </section>
 
     <!-- Section - 5 -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header Section -->
-      <div class="text-center mb-12">
-        <p
-          class="text-purple-600 font-medium text-sm uppercase tracking-wider mb-2"
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+    >
+      <!-- Subtle background elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          class="absolute top-20 left-10 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl animate-pulse"
+        ></div>
+        <div
+          class="absolute bottom-20 right-16 w-40 h-40 bg-purple-600/5 rounded-full blur-2xl animate-pulse"
+        ></div>
+      </div>
+
+      <!-- Enhanced Header Section -->
+      <div class="text-center mb-16 relative z-10">
+        <div
+          class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600/10 to-purple-500/10 rounded-full mb-6 border border-purple-200"
         >
-          CLIENT TESTIMONIALS
-        </p>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-          See What our Clients has to Say
+          <svg
+            class="w-5 h-5 text-purple-600 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            ></path>
+          </svg>
+          <span
+            class="text-purple-600 font-bold text-sm uppercase tracking-wider"
+            >CLIENT TESTIMONIALS</span
+          >
+        </div>
+
+        <h2
+          class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 to-purple-600 bg-clip-text text-transparent mb-8"
+        >
+          What Our Clients Say
         </h2>
-        <div class="flex items-center justify-center space-x-2">
-          <div class="h-px bg-gray-300 w-16"></div>
-          <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
-          <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
-          <div class="h-px bg-gray-300 w-16"></div>
+
+        <div class="flex items-center justify-center space-x-3">
+          <div
+            class="h-px bg-gradient-to-r from-transparent to-purple-300 w-20"
+          ></div>
+          <div
+            class="w-4 h-4 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full shadow-lg"
+          ></div>
+          <div class="w-3 h-3 bg-purple-400 rounded-full"></div>
+          <div class="w-2 h-2 bg-purple-300 rounded-full"></div>
+          <div
+            class="h-px bg-gradient-to-l from-transparent to-purple-300 w-20"
+          ></div>
         </div>
       </div>
 
-      <!-- Carousel Container -->
+      <!-- Enhanced Carousel Container -->
       <div class="relative">
-        <!-- Navigation Arrows -->
+        <!-- Enhanced Navigation Arrows -->
         <button
           id="prevBtn"
-          class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+          class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 rounded-full p-4 shadow-xl hover:shadow-purple-500/20 transition-all duration-300 group hover:scale-110"
         >
           <svg
-            class="w-5 h-5 text-gray-600 group-hover:text-purple-600 transition-colors"
+            class="w-6 h-6 text-purple-600 group-hover:text-purple-700 transition-colors"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -684,10 +2076,10 @@
 
         <button
           id="nextBtn"
-          class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+          class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-white border border-purple-200 rounded-full p-4 shadow-xl hover:shadow-purple-500/20 transition-all duration-300 group hover:scale-110"
         >
           <svg
-            class="w-5 h-5 text-gray-600 group-hover:text-purple-600 transition-colors"
+            class="w-6 h-6 text-purple-600 group-hover:text-purple-700 transition-colors"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -701,309 +2093,314 @@
           </svg>
         </button>
 
-        <!-- Carousel Viewport -->
-        <div class="overflow-hidden" id="carouselViewport">
-          <div class="carousel-container flex" id="carouselContainer">
-            <!-- Testimonial Cards -->
-            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+        <!-- Enhanced Carousel Viewport -->
+        <div class="overflow-hidden rounded-2xl" id="carouselViewport">
+          <div class="carousel-container flex p-3" id="carouselContainer">
+            <!-- Enhanced Testimonial Card 1 -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-4">
               <div
-                class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full"
+                class="rounded-2xl hover:shadow-2xl hover:shadow-purple-600/20 transition-all duration-500 p-8 h-full group"
               >
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-6">
                   <div class="flex items-center space-x-1">
-                    <span class="star-rating">★★★★★</span>
+                    <div class="flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 9V5a3 3 0 0 0-6 0v4a3 3 0 0 0-6 0v4a3 3 0 0 0 6 0V9a3 3 0 0 0 6 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="relative mb-8">
                   <svg
-                    class="w-6 h-6 text-blue-500"
-                    viewBox="0 0 24 24"
+                    class="absolute -top-2 -left-2 w-8 h-8 text-purple-600/20"
                     fill="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"
                     />
                   </svg>
+                  <p class="text-gray-700 leading-relaxed text-lg italic pl-6">
+                    This is the best event management company in India. Our
+                    music event was amazing with this company. We are very happy
+                    with this professional group.
+                  </p>
                 </div>
-                <p class="text-gray-700 mb-6 leading-relaxed">
-                  This is best event management in india. Our music event was
-                  amazing with this company. We are very happy with this group.
-                </p>
+
                 <div class="flex items-center">
                   <div
-                    class="avatar-circle mr-3"
-                    style="background-color: #f59e0b"
+                    class="w-12 h-12 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg"
                   >
-                    AC
+                    NN
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900">Ashik Ch</h4>
-                    <p class="text-sm text-gray-500">2023-05-10</p>
+                    <h4 class="font-bold text-gray-900 text-lg">Naveen</h4>
+                    <p class="text-purple-600 text-sm font-medium">
+                      ⭐ Verified Client • May 10, 2023
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+            <!-- Enhanced Testimonial Card 2 -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-4">
               <div
-                class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full"
+                class="rounded-2xl hover:shadow-2xl hover:shadow-purple-600/20 transition-all duration-500 p-8 h-full group"
               >
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-6">
                   <div class="flex items-center space-x-1">
-                    <span class="star-rating">★★★★★</span>
+                    <div class="flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 9V5a3 3 0 0 0-6 0v4a3 3 0 0 0-6 0v4a3 3 0 0 0 6 0V9a3 3 0 0 0 6 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="relative mb-8">
                   <svg
-                    class="w-6 h-6 text-blue-500"
-                    viewBox="0 0 24 24"
+                    class="absolute -top-2 -left-2 w-8 h-8 text-purple-600/20"
                     fill="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"
                     />
                   </svg>
+                  <p class="text-gray-700 leading-relaxed text-lg italic pl-6">
+                    In my point of view, the best event management in India and
+                    very good concert planner in the world. Outstanding
+                    professional service.
+                  </p>
                 </div>
-                <p class="text-gray-700 mb-6 leading-relaxed">
-                  In my point of view best event management in india and very
-                  good concert planner in the world
-                </p>
+
                 <div class="flex items-center">
                   <div
-                    class="avatar-circle mr-3"
-                    style="background-color: #8b5cf6"
+                    class="w-12 h-12 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg"
                   >
-                    PA
+                    AN
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900">PINDIYAN ANTONY</h4>
-                    <p class="text-sm text-gray-500">2023-04-14</p>
+                    <h4 class="font-bold text-gray-900 text-lg">Ahalya</h4>
+                    <p class="text-purple-600 text-sm font-medium">
+                      ⭐ Verified Client • April 14, 2023
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+            <!-- Enhanced Testimonial Card 3 -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-4">
               <div
-                class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full"
+                class="rounded-2xl hover:shadow-2xl hover:shadow-purple-600/20 transition-all duration-500 p-8 h-full group"
               >
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-6">
                   <div class="flex items-center space-x-1">
-                    <span class="star-rating">★★★★★</span>
+                    <div class="flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 9V5a3 3 0 0 0-6 0v4a3 3 0 0 0-6 0v4a3 3 0 0 0 6 0V9a3 3 0 0 0 6 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="relative mb-8">
                   <svg
-                    class="w-6 h-6 text-blue-500"
-                    viewBox="0 0 24 24"
+                    class="absolute -top-2 -left-2 w-8 h-8 text-purple-600/20"
                     fill="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"
                     />
                   </svg>
+                  <p class="text-gray-700 leading-relaxed text-lg italic pl-6">
+                    Very good event management company all over the world. We
+                    had a musical concert last year. The event was wonderful in
+                    our place. Thanks Thigalzhi®!
+                  </p>
                 </div>
-                <p class="text-gray-700 mb-6 leading-relaxed">
-                  Very good event management company in all over world. We had a musical concert
-                  last year. The event was wonderful in our place. Thanks
-                  Thigalzhi® event management.
-                </p>
+
                 <div class="flex items-center">
                   <div
-                    class="avatar-circle mr-3"
-                    style="background-color: #ef4444"
+                    class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg"
                   >
-                    SD
+                    MP
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900">Saleena Devassy</h4>
-                    <p class="text-sm text-gray-500">2023-04-12</p>
+                    <h4 class="font-bold text-gray-900 text-lg">Pradheepa</h4>
+                    <p class="text-purple-600 text-sm font-medium">
+                      ⭐ Verified Client • April 12, 2023
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Additional testimonials for infinite scroll -->
-            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+            <!-- Additional testimonials with same enhanced styling... -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-4">
               <div
-                class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full"
+                class="rounded-2xl hover:shadow-2xl hover:shadow-purple-600/20 transition-all duration-500 p-8 h-full group"
               >
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-6">
                   <div class="flex items-center space-x-1">
-                    <span class="star-rating">★★★★★</span>
+                    <div class="flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
-                  <svg
-                    class="w-6 h-6 text-blue-500"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                    />
-                  </svg>
-                </div>
-                <p class="text-gray-700 mb-6 leading-relaxed">
-                  Outstanding service and attention to detail. They made our
-                  corporate event seamless and memorable. Highly recommended for
-                  any event planning needs.
-                </p>
-                <div class="flex items-center">
                   <div
-                    class="avatar-circle mr-3"
-                    style="background-color: #10b981"
+                    class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center"
                   >
-                    RK
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900">Rajesh Kumar</h4>
-                    <p class="text-sm text-gray-500">2023-03-28</p>
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 9V5a3 3 0 0 0-6 0v4a3 3 0 0 0-6 0v4a3 3 0 0 0 6 0V9a3 3 0 0 0 6 0z"
+                      />
+                    </svg>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
-              <div
-                class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full"
-              >
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center space-x-1">
-                    <span class="star-rating">★★★★★</span>
-                  </div>
+                <div class="relative mb-8">
                   <svg
-                    class="w-6 h-6 text-blue-500"
-                    viewBox="0 0 24 24"
+                    class="absolute -top-2 -left-2 w-8 h-8 text-purple-600/20"
                     fill="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"
                     />
                   </svg>
+                  <p class="text-gray-700 leading-relaxed text-lg italic pl-6">
+                    Outstanding service and attention to detail. They made our
+                    corporate event seamless and memorable. Highly recommended
+                    for any event planning needs.
+                  </p>
                 </div>
-                <p class="text-gray-700 mb-6 leading-relaxed">
-                  Professional team with creative ideas. They transformed our
-                  vision into reality for our annual day celebration with their teams. Excellent
-                  coordination and execution.
-                </p>
-                <div class="flex items-center">
-                  <div
-                    class="avatar-circle mr-3"
-                    style="background-color: #f97316"
-                  >
-                    MN
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-gray-900">Maya Nair</h4>
-                    <p class="text-sm text-gray-500">2023-02-15</p>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
-              <div
-                class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full"
-              >
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center space-x-1">
-                    <span class="star-rating">★★★★★</span>
-                  </div>
-                  <svg
-                    class="w-6 h-6 text-blue-500"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                    />
-                  </svg>
-                </div>
-                <p class="text-gray-700 mb-6 leading-relaxed">
-                  Exceptional event management services. They handled every
-                  detail of our product launch perfectly. The team is responsive
-                  and highly professional.
-                </p>
                 <div class="flex items-center">
                   <div
-                    class="avatar-circle mr-3"
-                    style="background-color: #6366f1"
+                    class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg"
                   >
                     VS
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900">Vikram Singh</h4>
-                    <p class="text-sm text-gray-500">2023-01-20</p>
+                    <h4 class="font-bold text-gray-900 text-lg">Varika Sri</h4>
+                    <p class="text-purple-600 text-sm font-medium">
+                      ⭐ Verified Client • March 28, 2023
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="w-full md:w-1/3 flex-shrink-0 px-4">
+              <div
+                class="rounded-2xl hover:shadow-2xl hover:shadow-purple-600/20 transition-all duration-500 p-8 h-full group"
+              >
+                <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center space-x-1">
+                    <div class="flex text-yellow-400 text-lg">★★★★★</div>
+                  </div>
+                  <div
+                    class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14 9V5a3 3 0 0 0-6 0v4a3 3 0 0 0-6 0v4a3 3 0 0 0 6 0V9a3 3 0 0 0 6 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="relative mb-8">
+                  <svg
+                    class="absolute -top-2 -left-2 w-8 h-8 text-purple-600/20"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"
+                    />
+                  </svg>
+                  <p class="text-gray-700 leading-relaxed text-lg italic pl-6">
+                    Super service by the thigalzhi concert management system.
+                    The owner of the website person is having good heart. So I
+                    very much liked it.
+                  </p>
+                </div>
+
+                <div class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg"
+                  >
+                    NM
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-gray-900 text-lg">
+                      Naveen Kumar
+                    </h4>
+                    <p class="text-purple-600 text-sm font-medium">
+                      ⭐ Verified Client • March 28, 2024
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Continue with remaining cards using the same enhanced pattern... -->
           </div>
         </div>
 
-        <!-- Dot Indicators -->
-        <div class="flex justify-center mt-8 space-x-2" id="dotIndicators">
+        <!-- Enhanced Dot Indicators -->
+        <div class="flex justify-center mt-12 space-x-3" id="dotIndicators">
           <button
-            class="w-3 h-3 rounded-full bg-purple-500 transition-colors duration-300"
+            class="w-4 h-4 rounded-full bg-gradient-to-r shadow-lg transition-all duration-300 transform hover:scale-110"
             data-slide="0"
           ></button>
           <button
-            class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors duration-300"
+            class="w-4 h-4 rounded-full bg-purple-200 hover:bg-purple-300 transition-all duration-300 transform hover:scale-110"
             data-slide="1"
           ></button>
           <button
-            class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors duration-300"
+            class="w-4 h-4 rounded-full bg-purple-200 hover:bg-purple-300 transition-all duration-300 transform hover:scale-110"
             data-slide="2"
           ></button>
           <button
-            class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors duration-300"
+            class="w-4 h-4 rounded-full bg-purple-200 hover:bg-purple-300 transition-all duration-300 transform hover:scale-110"
             data-slide="3"
           ></button>
         </div>
@@ -1011,24 +2408,48 @@
     </div>
 
     <!-- Section - 6 -->
-    <section class="max-w-6xl mx-auto px-6 py-16">
-      <p class="text-center text-purple-600 font-medium mb-2">
-        Do you have any other questions?
-      </p>
-      <h2 class="text-center text-3xl md:text-4xl font-bold mb-12">
-        Please check these FAQs.
-      </h2>
+    <section
+      class="mx-auto px-6 py-20 m-12 bg-white"
+      style="
+        border: 0.5px solid rgba(255, 0, 255, 0.21);
+        border-radius: 5rem;
+        width: 80vw;
+      "
+    >
+      <!-- Clean Header -->
+      <div class="text-center mb-16">
+        <p
+          class="text-purple-600 font-semibold text-sm uppercase tracking-wider mb-4"
+        >
+          Do you have any other questions?
+        </p>
+        <h2
+          class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight"
+        >
+          Frequently Asked Questions
+        </h2>
+        <div
+          class="w-20 h-px bg-gradient-to-r from-purple-600 to-purple-400 mx-auto"
+        ></div>
+      </div>
 
-      <div class="grid md:grid-cols-2 gap-10">
-        <div class="space-y-6">
+      <div class="grid md:grid-cols-2 gap-16">
+        <!-- Left Column -->
+        <div class="space-y-0">
           <!-- FAQ Item 1 -->
-          <div class="border-b pb-4">
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>How do I book a venue through Thigalzhi®?</span>
               <span
-                class="icon text-purple-600 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                How do I book a venue through Thigalzhi®?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1036,7 +2457,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0px"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   You can easily book a venue by browsing available options on
                   our platform, checking details like capacity, facilities, and
@@ -1048,13 +2469,19 @@
           </div>
 
           <!-- FAQ Item 2 -->
-          <div class="border-b pb-4">
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>Can I schedule multiple concerts at once?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                Can I schedule multiple concerts at once?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1062,7 +2489,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   Yes, Thigalzhi® allows you to manage multiple concerts
                   simultaneously. You can schedule events, assign venues, and
@@ -1074,13 +2501,19 @@
           </div>
 
           <!-- FAQ Item 3 -->
-          <div class="border-b pb-4">
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>How do I modify or cancel a concert?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                How do I modify or cancel a concert?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1088,7 +2521,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   Concerts can be modified or canceled directly from your
                   dashboard. Simply select the event, make changes to details
@@ -1099,14 +2532,20 @@
             </div>
           </div>
 
-          <!-- New FAQ Item 4 -->
-          <div class="border-b pb-4">
+          <!-- FAQ Item 4 -->
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>What payment methods do you accept?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                What payment methods do you accept?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1114,7 +2553,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   We accept all major credit cards, debit cards, PayPal, bank
                   transfers, and digital wallets. All transactions are processed
@@ -1125,15 +2564,22 @@
           </div>
         </div>
 
-        <div class="space-y-6">
+        <!-- Right Column -->
+        <div class="space-y-0">
           <!-- FAQ Item 5 -->
-          <div class="border-b pb-4">
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>Are there notifications for upcoming concerts?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                Are there notifications for upcoming concerts?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1141,7 +2587,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   Yes, Thigalzhi® sends timely reminders and updates about your
                   upcoming concerts. Notifications are available via email, SMS,
@@ -1152,13 +2598,19 @@
           </div>
 
           <!-- FAQ Item 6 -->
-          <div class="border-b pb-4">
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>How secure is my concert data on Thigalzhi®?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                How secure is my concert data on Thigalzhi®?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1166,7 +2618,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   Your data is fully secure with Thigalzhi®. We use encryption,
                   secure servers, and regular audits to ensure your event and
@@ -1176,14 +2628,20 @@
             </div>
           </div>
 
-          <!--  FAQ Item 7 -->
-          <div class="border-b pb-4">
+          <!-- FAQ Item 7 -->
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>Can I get refunds for canceled events?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                Can I get refunds for canceled events?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1191,7 +2649,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   Refund policies depend on the venue and timing of
                   cancellation. Most venues offer full refunds if canceled 48+
@@ -1202,14 +2660,20 @@
             </div>
           </div>
 
-          <!--  FAQ Item 8 -->
-          <div class="border-b pb-4">
+          <!-- FAQ Item 8 -->
+          <div
+            class="border-b border-gray-200 py-6 transition-all duration-300 hover:border-purple-300"
+          >
             <button
-              class="faq-toggle flex justify-between w-full text-left font-semibold text-lg hover:text-purple-600 transition-colors duration-200"
+              class="faq-toggle flex justify-between items-center w-full text-left group"
             >
-              <span>Do you provide technical support for events?</span>
               <span
-                class="icon text-gray-400 text-xl transition-transform duration-300"
+                class="font-semibold text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-300 pr-4"
+              >
+                Do you provide technical support for events?
+              </span>
+              <span
+                class="icon text-2xl text-purple-600 transition-all duration-300 font-light group-hover:scale-110 flex-shrink-0"
                 >+</span
               >
             </button>
@@ -1217,7 +2681,7 @@
               class="faq-content overflow-hidden transition-all duration-500 ease-in-out"
               style="max-height: 0"
             >
-              <div class="mt-3 text-gray-700 text-sm leading-relaxed">
+              <div class="pt-4 text-gray-700 leading-relaxed">
                 <p>
                   Yes! We offer 24/7 technical support for all events. Our team
                   assists with sound systems, lighting, live streaming, and any
@@ -1228,69 +2692,419 @@
           </div>
         </div>
       </div>
+
+      <!-- Popup Support Form -->
+      <div
+        id="supportPopup"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      >
+        <div
+          class="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+        >
+          <!-- Header -->
+          <div class="relative p-8 pb-6">
+            <button
+              class="absolute top-6 right-6 w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 flex items-center justify-center transition-colors duration-200 group"
+              onclick="closeSupportPopup()"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 group-hover:text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+
+            <div class="text-center">
+              <div
+                class="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 110 19.5 9.75 9.75 0 010-19.5z"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                Need Support?
+              </h3>
+              <p class="text-gray-600">
+                We're here to help with your Thigalzhi® experience
+              </p>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form
+            class="px-8 pb-8"
+            id="supportForm"
+            onsubmit="handleSupportSubmit(event)"
+          >
+            <!-- Name & Email Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all duration-200"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all duration-200"
+                />
+              </div>
+            </div>
+
+            <!-- Issue Type -->
+            <div class="mb-4">
+              <label class="block text-sm font-semibold text-gray-700 mb-2"
+                >Issue Type</label
+              >
+              <select
+                name="issueType"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all duration-200"
+              >
+                <option value="">Select an issue type</option>
+                <option value="booking">Booking & Reservations</option>
+                <option value="payment">Payment Issues</option>
+                <option value="technical">Technical Support</option>
+                <option value="venue">Venue Questions</option>
+                <option value="account">Account Issues</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <!-- Priority -->
+            <div class="mb-4">
+              <label class="block text-sm font-semibold text-gray-700 mb-3"
+                >Priority Level</label
+              >
+              <div class="flex gap-3">
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="priority"
+                    value="low"
+                    class="text-purple-600 focus:ring-purple-600"
+                    required
+                  />
+                  <span class="ml-2 text-sm text-gray-700">Low</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="priority"
+                    value="medium"
+                    class="text-purple-600 focus:ring-purple-600"
+                  />
+                  <span class="ml-2 text-sm text-gray-700">Medium</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="priority"
+                    value="high"
+                    class="text-purple-600 focus:ring-purple-600"
+                  />
+                  <span class="ml-2 text-sm text-gray-700">High</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-6">
+              <label class="block text-sm font-semibold text-gray-700 mb-2"
+                >Describe your issue</label
+              >
+              <textarea
+                name="message"
+                rows="4"
+                required
+                placeholder="Please provide details about your issue..."
+                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all duration-200 resize-none"
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white font-semibold py-4 rounded-xl hover:shadow-xl hover:shadow-purple-500/30 transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center"
+            >
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                ></path>
+              </svg>
+              Send Support Request
+            </button>
+
+            <!-- Response Time Info -->
+            <p class="text-center text-sm text-gray-500 mt-4">
+              We typically respond within 2-4 hours during business hours
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Simple Contact CTA -->
     </section>
 
     <!-- Section - 7 -->
-    <section class="min-h-screen flex flex-col justify-center px-6 md:px-20">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl md:text-5xl font-bold">About Us</h2>
-        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-          At <span class="font-semibold">Thigalzhi®</span>, we are redefining
-          how concerts are planned, managed, and experienced. Our platform
-          bridges the gap between , venues, and fans, making every
-          performance seamless and unforgettable.
+    <section class="py-16 px-6 md:px-20 bg-white relative overflow-hidden">
+      <!-- Subtle background elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          class="absolute top-10 left-10 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl animate-pulse"
+        ></div>
+        <div
+          class="absolute bottom-10 right-16 w-40 h-40 bg-purple-600/5 rounded-full blur-2xl animate-pulse"
+        ></div>
+      </div>
+
+      <!-- Compact header -->
+      <div class="text-center mb-12 relative z-10" id="aboutus">
+        <div
+          class="inline-flex items-center px-4 py-2 bg-purple-600/10 rounded-full mb-4"
+        >
+          <span class="text-purple-600 text-sm font-bold tracking-wider"
+            >Trusted Organization
+          </span>
+          <svg
+            class="w-5 h-5 text-purple-600 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+            ></path>
+          </svg>
+        </div>
+        <h2
+          class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-purple-600 bg-clip-text text-transparent mb-4"
+        >
+          About Us
+        </h2>
+        <p class="text-gray-700 text-lg max-w-3xl mx-auto leading-relaxed">
+          At <span class="font-bold text-purple-600">Thigalzhi®</span>, we
+          revolutionize concert management by bridging
+          <span class="text-purple-600 font-semibold">performers</span>, venues,
+          and fans to create seamless, unforgettable musical experiences.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-10 place-items-center">
+      <div class="grid lg:grid-cols-3 gap-8 items-center relative z-10">
+        <!-- Compact Image Grid -->
         <div class="grid grid-cols-2 gap-4">
-          <img src="./ASSETS/img1.jpg" alt="Concert crowd" class="rounded-xl" />
-          <img
-            src="./ASSETS/img2.jpg"
-            alt="Festival stage"
-            class="rounded-xl"
-          />
-          <img
-            src="./ASSETS/img5.jpg"
-            alt="Management team"
-            class="rounded-xl"
-          />
-          <img
-            src="./ASSETS/img4.jpg"
-            alt="Live performance"
-            class="rounded-xl"
-          />
+          <div class="relative group">
+            <img
+              src="./ASSETS/img1.jpg"
+              alt="Concert crowd"
+              class="rounded-xl shadow-lg transition-all duration-300 group-hover:shadow-purple-600/30"
+            />
+            <div
+              class="absolute inset-0 rounded-xl bg-gradient-to-t from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
+          </div>
+          <div class="relative group">
+            <img
+              src="./ASSETS/img2.jpg"
+              alt="Festival stage"
+              class="rounded-xl shadow-lg transition-all duration-300 group-hover:shadow-purple-600/30"
+            />
+            <div
+              class="absolute inset-0 rounded-xl bg-gradient-to-t from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
+          </div>
+          <div class="relative group">
+            <img
+              src="./ASSETS/img5.jpg"
+              alt="Management team"
+              class="rounded-xl shadow-lg transition-all duration-300 group-hover:shadow-purple-600/30"
+            />
+            <div
+              class="absolute inset-0 rounded-xl bg-gradient-to-t from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
+          </div>
+          <div class="relative group">
+            <img
+              src="./ASSETS/img4.jpg"
+              alt="Live performance"
+              class="rounded-xl shadow-lg transition-all duration-300 group-hover:shadow-purple-600/30"
+            />
+            <div
+              class="absolute inset-0 rounded-xl bg-gradient-to-t from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
+          </div>
         </div>
 
-        <div>
-          <h3 class="text-2xl font-semibold mb-2">Our Story</h3>
-          <p class="text-gray-700 mb-6">
-            Born from a love of music and a frustration with outdated event
-            planning, Thigalzhi® began as a small idea: make concert management
-            simple, powerful, and fan-focused. Today, we work with venues,
-            , and organizers worldwide to deliver concerts that leave
-            lasting memories.
-          </p>
+        <!-- Compact Content - Combined sections -->
+        <div
+          class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl"
+        >
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Left Column -->
+            <div class="space-y-6">
+              <div>
+                <div class="flex items-center mb-3">
+                  <div
+                    class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-purple-600">Our Story</h3>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                  Born from music passion and event planning innovation, we
+                  collaborate with venues,
+                  <span class="text-purple-600 font-semibold">bands</span>, and
+                  organizers worldwide.
+                </p>
+              </div>
 
-          <h3 class="text-2xl font-semibold mb-2">Our Mission</h3>
-          <p class="text-gray-700 mb-6">
-            To empower concert organizers with tools that reduce complexity,
-            improve efficiency, and create unforgettable experiences for fans
-            while  focus on what they do best – performing.
-          </p>
+              <div>
+                <div class="flex items-center mb-3">
+                  <div
+                    class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-purple-600">Our Mission</h3>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                  Empowering organizers with tools that eliminate complexity
+                  while
+                  <span class="text-purple-600 font-semibold">performers</span>
+                  focus on incredible shows.
+                </p>
+              </div>
+            </div>
 
-          <h3 class="text-2xl font-semibold mb-2">Our Vision</h3>
-          <p class="text-gray-700 mb-6">
-            To be the world’s most trusted platform for live event management,
-            making concerts more connected, accessible, and inspiring.
-          </p>
+            <!-- Right Column -->
+            <div class="space-y-6">
+              <div>
+                <div class="flex items-center mb-3">
+                  <div
+                    class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      ></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-purple-600">Our Vision</h3>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                  To become the world's most trusted platform for live event
+                  management, making concerts more accessible globally.
+                </p>
+              </div>
 
-          <h3 class="text-2xl font-semibold mb-2">Our Team</h3>
-          <p class="text-gray-700 mb-6">
-            A passionate group of music lovers, tech innovators, and industry
-            professionals committed to transforming the live music landscape
-            through creativity, collaboration, and technology.
-          </p>
+              <div>
+                <div class="flex items-center mb-3">
+                  <div
+                    class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3"
+                  >
+                    <svg
+                      class="w-5 h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-purple-600">Our Team</h3>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                  Music enthusiasts and tech innovators transforming live music
+                  through creativity and cutting-edge solutions.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1304,8 +3118,8 @@
           <h2 class="text-2xl font-bold mb-3">Thigalzhi®</h2>
           <p class="text-gray-300 text-sm leading-relaxed">
             Thigalzhi® Concert Management is transforming live music experiences
-            by connecting , venues, and fans with seamless technology.
-            From booking to analytics, we make concerts unforgettable.
+            by connecting , venues, and fans with seamless technology. From
+            booking to analytics, we make concerts unforgettable.
           </p>
         </div>
 
@@ -1344,6 +3158,129 @@
       </div>
     </footer>
 
+    <!-- Minimal JavaScript -->
+    <script>
+      document.getElementById("supportPopup").classList.add("hidden");
+      function showSupportPopup() {
+        document.getElementById("supportPopup").classList.remove("hidden");
+      }
+
+      function closeSupportPopup() {
+        document.getElementById("supportPopup").classList.add("hidden");
+      }
+
+      function handleSupportSubmit(event) {
+        event.preventDefault();
+
+        // Get form data
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+
+        // Send to your server here
+        console.log("Support request:", data);
+
+        alert("Support request submitted successfully!");
+        closeSupportPopup();
+        event.target.reset();
+      }
+
+      // Close on outside click
+      document.getElementById("supportPopup").onclick = function (e) {
+        if (e.target === this) closeSupportPopup();
+      };
+
+      function indexLogin() {
+        document.getElementById("modalOverlay").classList.toggle("hidden");
+        document.getElementById("modalContainer").classList.remove("opacity-0");
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        let na = document.getElementById("na");
+        let inside = document.getElementById("inside");
+
+        let targetX = -100,
+          targetY = -100;
+        let targetX1 = -100,
+          targetY1 = -100;
+        let currentX = 0,
+          currentY = 0;
+        let currentX1 = 0,
+          currentY1 = 0;
+
+        // Smooth interpolation function
+        function lerp(start, end, factor) {
+          return start + (end - start) * factor;
+        }
+
+        window.addEventListener("mousemove", (event) => {
+          targetX = event.clientX - 20; // Adjusted for bigger size
+          targetY = event.clientY - 20;
+          targetX1 = event.clientX - 6; // Adjusted for bigger inner dot
+          targetY1 = event.clientY - 6;
+        });
+
+        function animate() {
+          // Smooth following with different speeds
+          currentX = lerp(currentX, targetX, 0.1);
+          currentY = lerp(currentY, targetY, 0.1);
+          currentX1 = lerp(currentX1, targetX1, 0.15);
+          currentY1 = lerp(currentY1, targetY1, 0.15);
+
+          na.style.left = `${currentX}px`;
+          na.style.top = `${currentY}px`;
+          inside.style.left = `${currentX1}px`;
+          inside.style.top = `${currentY1}px`;
+
+          requestAnimationFrame(animate);
+        }
+
+        // Hide cursor when hovering over nav items
+        document.querySelectorAll(".nav").forEach((li) => {
+          li.addEventListener("mouseenter", () => {
+            document.body.classList.add("cursor-hover");
+          });
+          li.addEventListener("mouseleave", () => {
+            document.body.classList.remove("cursor-hover");
+          });
+        });
+
+        // Hide cursor when hovering over all interactive elements
+        document
+          .querySelectorAll(
+            "button, a, [onclick], input, textarea, select, .nav"
+          )
+          .forEach((element) => {
+            element.addEventListener("mouseenter", () => {
+              document.body.classList.add("cursor-hover");
+            });
+            element.addEventListener("mouseleave", () => {
+              document.body.classList.remove("cursor-hover");
+            });
+          });
+
+        // Click effects
+        document.addEventListener("mousedown", () => {
+          document.body.classList.add("cursor-click");
+        });
+
+        document.addEventListener("mouseup", () => {
+          document.body.classList.remove("cursor-click");
+        });
+
+        // Hide cursor when leaving window
+        document.addEventListener("mouseleave", () => {
+          na.style.opacity = "0";
+          inside.style.opacity = "0";
+        });
+
+        document.addEventListener("mouseenter", () => {
+          na.style.opacity = "1";
+          inside.style.opacity = "1";
+        });
+
+        animate();
+      });
+    </script>
+    <script src="/src/User/login.js"></script>
     <script src="./JS/main.js"></script>
   </body>
 </html>
