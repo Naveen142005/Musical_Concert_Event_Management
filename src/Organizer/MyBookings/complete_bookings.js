@@ -550,7 +550,7 @@ function goHome() {
     // Replace 'index.html' with your actual home page URL
     showNotification('Redirecting to home page...', 'success');
     setTimeout(() => {
-        window.location.href = '/index.html'; // Change this to your home page URL
+        window.location.href = '/index_.html'; // Change this to your home page URL
     }, 1000);
 }
 

@@ -78,7 +78,7 @@ function emailExists(users, email) {
 function findUser(data, email, password) {
     const organizers = data.Organizers || [];
     const audience = data.Audience || [];
-
+    const admin = data.admin || [];
     // Check in Organizers array
     let user = organizers.find(
         (user) =>
@@ -100,7 +100,13 @@ function findUser(data, email, password) {
     if (user) {
         return { user, role: "audience" };
     }
+    
+    user = admin.find((user) => {
+        user.email.toLowerCase() === email.toLowerCase() &&
+            user.password === password
+    })
 
+    if (user) window.location.href='/src/Admin/features/dashboard.html'
     return null;
 }
 

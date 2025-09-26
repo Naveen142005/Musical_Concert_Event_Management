@@ -60,77 +60,31 @@ const bookingsData = [
 let currentBookingToCancel = null;
 let currentTab = 'current';
 
-// Custom cursor functionality
-let na, inside, targetX = -100, targetY = -100, targetX1 = -100, targetY1 = -100;
-let currentX = 0, currentY = 0, currentX1 = 0, currentY1 = 0;
-
-function lerp(start, end, factor) {
-    return start + (end - start) * factor;
-}
-
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    initializeCursor();
+    const currentUser = localStorage.getItem('currentaudienceName');
+    if (currentUser) {
+        // User is logged in, show profile button
+        // document.getElementById('signInBtn').classList.add('hidden');
+        document.getElementById('profileBtn').classList.remove('hidden');
+    } else {
+        // User is not logged in, show sign in button
+        // document.getElementById('signInBtn').classList.remove('hidden');
+        document.getElementById('profileBtn').classList.add('hidden');
+    }
+
     checkLoginStatus();
     loadBookings();
     setupEventListeners();
 });
 
-// Custom cursor setup
-function initializeCursor() {
-    if (window.innerWidth >= 1024) {
-        na = document.getElementById('na');
-        inside = document.getElementById('inside');
-        
-        if (na && inside) {
-            na.style.display = 'flex';
-            inside.style.display = 'block';
-            
-            window.addEventListener('mousemove', (event) => {
-                targetX = event.clientX - 20;
-                targetY = event.clientY - 20;
-                targetX1 = event.clientX - 6;
-                targetY1 = event.clientY - 6;
-            });
-            
-            animate();
-            
-            // Add hover effects
-            document.querySelectorAll("button, a, [onclick], input, textarea, select").forEach(element => {
-                element.addEventListener("mouseenter", () => {
-                    document.body.classList.add('cursor-hover');
-                });
-                element.addEventListener("mouseleave", () => {
-                    document.body.classList.remove('cursor-hover');
-                });
-            });
-        }
-    }
-}
-
-function animate() {
-    if (na && inside) {
-        currentX = lerp(currentX, targetX, 0.1);
-        currentY = lerp(currentY, targetY, 0.1);
-        currentX1 = lerp(currentX1, targetX1, 0.15);
-        currentY1 = lerp(currentY1, targetY1, 0.15);
-
-        na.style.left = `${currentX}px`;
-        na.style.top = `${currentY}px`;
-        inside.style.left = `${currentX1}px`;
-        inside.style.top = `${currentY1}px`;
-    }
-    
-    requestAnimationFrame(animate);
-}
-
 // Profile and authentication
 function checkLoginStatus() {
-    const currentAudienceId = localStorage.getItem('currentaudienceid');
+    const currentAudienceId = localStorage.getItem('currentaudienceId');
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     
     if (!currentAudienceId) {
-        window.location.href = 'userbookings.html';
+        window.location.href = '../Bookings/userbookings.html';
         return;
     }
     
@@ -154,7 +108,8 @@ function setupEventListeners() {
     
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
-        if (!document.getElementById('profileSection').contains(e.target)) {
+        const profileSection = document.getElementById('profileSection');
+        if (profileSection && !profileSection.contains(e.target)) {
             profileDropdown.classList.add('hidden');
         }
     });
@@ -163,16 +118,17 @@ function setupEventListeners() {
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            localStorage.removeItem('currentaudienceid');
+            localStorage.removeItem('currentaudienceId');
             localStorage.removeItem('userData');
-            window.location.href = 'userbookings.html';
+            window.location.href = '../Bookings/userbookings.html';
         });
     }
 }
 
+
 // Navigation
 function goBack() {
-    window.history.back();
+    window.location.href = localStorage.getItem('redirecturl');
 }
 
 // Tab switching

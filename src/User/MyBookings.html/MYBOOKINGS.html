@@ -53,50 +53,9 @@
             color: white;
         }
         
-        /* Custom cursor styles */
-        #na {
-            z-index: 10000;
-            position: fixed;
-            pointer-events: none;
-            display: flex;
-            width: 40px;
-            height: 40px;
-            border: 1px solid #9333EA;
-            border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-            background: rgba(147, 51, 234, 0.1);
-            opacity: 1;
-        }
 
-        #inside {
-            z-index: 10001;
-            position: fixed;
-            pointer-events: none;
-            width: 12px;
-            height: 12px;
-            background: #9333EA;
-            border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 0 8px rgba(147, 51, 234, 0.4);
-            opacity: 1;
-        }
-
-        * { cursor: none !important; }
-        
-        @media (max-width: 768px) {
-            .custom-cursor, #na, #inside {
-                display: none !important;
-                visibility: hidden !important;
-            }
-            body * { cursor: auto !important; }
-        }
-        
-        .cursor-hover #na { opacity: 0; transform: scale(0.5); }
-        .cursor-hover #inside { opacity: 0; transform: scale(0.5); }
     </style>
+   
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-purple-50 min-h-screen font-body">
     
@@ -149,14 +108,14 @@
                         </div>
 
                         <div class="py-2">
-                            <a href="#profile" class="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 transition-colors">
+                            <a href="../profiles/profile.html" class="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 transition-colors">
                                 <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <span class="font-medium text-slate-900">Profile</span>
                             </a>
 
-                            <a href="userbookings.html" class="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 transition-colors">
+                            <a href="../Bookings/userbookings.html" class="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 transition-colors">
                                 <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 7 4-4 4 4"></path>
@@ -238,7 +197,7 @@
                 </div>
                 <h3 class="text-xl font-display font-semibold text-slate-900 mb-2">No Bookings Yet</h3>
                 <p class="text-slate-600 mb-6">Start your musical journey by booking your first concert experience</p>
-                <a href="userbookings.html" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+                <a href="../Bookings/userbookings.html" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -272,7 +231,7 @@
         </div>
     </div>
 
-    <script src="../Mybookings/mybookingU.js"></script>
+    <script src="./MYBOOKING.js"></script>
     <script>
         feather.replace();
     </script>

@@ -306,7 +306,7 @@ function displayEvents() {
                         <p class="font-body text-slate-500 text-sm mb-1">Starting from</p>
                         <p class="text-2xl font-display font-bold price-highlight">₹${event.tickets.silver}</p>
                     </div>
-                    <button onclick="openBookingModal('${event.id}')" 
+                    <button onclick="handleBookingClick('${event.id}')" 
                         class="button-primary px-8 py-3 rounded-2xl font-display center transition-all duration-300 ${event.availableTickets === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''}"
                         ${event.availableTickets === 0 ? 'disabled' : ''}>
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -322,6 +322,144 @@ function displayEvents() {
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     loadMoreBtn.classList.toggle('hidden', displayedEvents >= filteredEvents.length);
 }
+
+// Authentication check function
+function checkUserAuthentication() {
+    const currentOrganizerId = localStorage.getItem('currentorganizerId');
+    const currentAudienceId = localStorage.getItem('currentaudienceId');
+    
+    if (!currentOrganizerId && !currentAudienceId) {
+        return { authenticated: false, userType: null };
+    }
+    
+    if (currentOrganizerId) {
+        return { authenticated: true, userType: 'organizer' };
+    }
+    
+    if (currentAudienceId) {
+        return { authenticated: true, userType: 'audience' };
+    }
+    
+    return { authenticated: false, userType: null };
+}
+
+// Handle booking click with authentication check
+function handleBookingClick(eventId) {
+    const auth = checkUserAuthentication();
+    
+    if (!auth.authenticated) {
+        // User not logged in
+        showAuthMessage('Please login to book tickets for this event.', 'info');
+        return;
+    }
+    
+    if (auth.userType === 'organizer') {
+        // Organizer trying to book
+        showAuthMessage('Organizers cannot book tickets. Please login as an audience member to book tickets.', 'warning');
+        return;
+    }
+    
+    if (auth.userType === 'audience') {
+        // Valid audience user - proceed with booking
+        openBookingModal(eventId);
+        return;
+    }
+}
+
+// Show authentication message function
+function showAuthMessage(message, type = 'info') {
+    // Create or get existing message container
+    let messageContainer = document.getElementById('auth-message-container');
+    
+    if (!messageContainer) {
+        messageContainer = document.createElement('div');
+        messageContainer.id = 'auth-message-container';
+        messageContainer.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 z-50';
+        document.body.appendChild(messageContainer);
+    }
+    
+    // Message styling based on type
+    const messageStyles = {
+        info: 'bg-blue-500 border-blue-600',
+        warning: 'bg-orange-500 border-orange-600',
+        error: 'bg-red-500 border-red-600',
+        success: 'bg-green-500 border-green-600'
+    };
+    
+    const iconStyles = {
+        info: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+               </svg>`,
+        warning: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                  </svg>`,
+        error: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`,
+        success: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>`
+    };
+    
+    // Create message HTML
+    const messageHtml = `
+        <div class="auth-message ${messageStyles[type]} text-white px-6 py-4 rounded-xl shadow-2xl border-2 flex items-center space-x-3 max-w-md backdrop-blur-sm animate-slide-down">
+            <div class="flex-shrink-0">
+                ${iconStyles[type]}
+            </div>
+            <div class="flex-1">
+                <p class="font-semibold text-sm">${message}</p>
+            </div>
+            <button onclick="closeAuthMessage()" class="flex-shrink-0 hover:bg-white/20 rounded-full p-1 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    `;
+    
+    messageContainer.innerHTML = messageHtml;
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        closeAuthMessage();
+    }, 5000);
+}
+
+// Close authentication message
+function closeAuthMessage() {
+    const messageContainer = document.getElementById('auth-message-container');
+    if (messageContainer) {
+        messageContainer.innerHTML = '';
+    }
+}
+
+// Add CSS for the slide-down animation
+const authMessageStyles = `
+    <style>
+        .animate-slide-down {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .auth-message {
+            animation: slideDown 0.3s ease-out;
+        }
+    </style>
+`;
+
+// Add the styles to the document head
+document.head.insertAdjacentHTML('beforeend', authMessageStyles);
 
 
 
@@ -1336,6 +1474,32 @@ function updateBookingSummary() {
 // Proceed to payment
 function proceedToPayment() {
     if (selectedTickets.length === 0) return;
+    const desktopTermsAccepted = document.getElementById('desktopTermsCheckbox')?.checked;
+    const mobileTermsAccepted = document.getElementById('mobileTermsCheckbox')?.checked;
+    
+    if (!desktopTermsAccepted && !mobileTermsAccepted) {
+        alert('Please accept the Terms and Conditions to proceed');
+        return;
+    }
+    const desktopPaymentMethod = document.getElementById('paymentMethodSelect')?.value;
+    const mobilePaymentMethod = document.getElementById('mobilePaymentMethodSelect')?.value;
+    
+    const selectedMethod = desktopPaymentMethod || mobilePaymentMethod;
+    
+    if (!selectedMethod) {
+        alert('Please select a payment method');
+        return;
+    }
+
+    if (selectedTickets.length === 0) {
+        return;
+    }
+
+    closeBookingModal();
+    
+    // Your payment logic here
+    document.getElementById('paymentModal').classList.remove('hidden');
+    processPayment();
 
     closeBookingModal();
     // You can add your payment logic here
@@ -1414,7 +1578,7 @@ function openLoginModal() {
 
 // Initialize login state on page load
 document.addEventListener('DOMContentLoaded', function () {
-    const currentUser = localStorage.getItem('currentaudienceName');
+    const currentUser = localStorage.getItem('currentaudienceId');
     if (currentUser) {
         // User is logged in, show profile button
         document.getElementById('signInBtn').classList.add('hidden');
@@ -1435,3 +1599,9 @@ document.addEventListener('keydown', function (e) {
         document.removeEventListener('click', closeProfileDropdownOnOutsideClick);
     }
 });
+
+
+
+// const redirecting_url = localStorage.getItem('redirecturl');
+
+localStorage.setItem('redirecturl', window.location.href);

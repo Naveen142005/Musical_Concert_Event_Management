@@ -107,7 +107,7 @@ toggles.forEach(toggle => {
 //     await Promise.all([
 //         injectComponent('./src/User/login_signup.html', 'modalOverlay')]);
 
-        
+
 // })
 
 
@@ -181,33 +181,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileEvents = document.getElementById('mobileEvents');
     const mobileEventsMenu = document.getElementById('mobileEventsMenu');
 
+    localStorage.setItem('redirecturl', window.location.href);
 
-     document.getElementById('profileBtn').addEventListener('click', () => {
+    document.getElementById('profileBtn').addEventListener('click', () => {
 
-         document.getElementById('profileDropdown').classList.remove('hidden');
-     })
-    
+        document.getElementById('profileDropdown').classList.remove('hidden');
+    })
+
 
     // Check authentication state on page load
+    // mainBtn
+    let currentOrganizerId = localStorage.getItem('currentorganizerId');
+    let currentAudienceId = localStorage.getItem('currentaudienceId');
+
+   
+
+    if (currentAudienceId) {
+        document.getElementById('BookBtn').innerText = 'Go to Events'
+    }
+
     function checkAuthState() {
-        const currentOrganizerId =  localStorage.getItem('currentorganizerId');
+        const currentOrganizerId = localStorage.getItem('currentorganizerId');
         const currentAudienceId = localStorage.getItem('currentaudienceId');
         console.log(currentAudienceId);
         console.log(currentOrganizerId);
-        
+
         if (currentOrganizerId || currentAudienceId) {
 
-            document.getElementById('support_1').style.display='block';
-            document.getElementById('support_2').style.display='block';
+            document.getElementById('support_1').style.display = 'block';
+            document.getElementById('support_2').style.display = 'block';
             // User is authenticated - show profile
             loginBtn.classList.add('hidden');
             profileSection.classList.remove('hidden');
 
-            if (localStorage.getItem('currentaudienceName')) {
+            if (localStorage.getItem('currentaudienceId')) {
                 document.getElementById('username').innerText = localStorage.getItem('currentaudienceName')
                 document.getElementById('role').innerText = 'Audience';
             }
-            else if (localStorage.getItem('currentorganizerName')){
+            else if (localStorage.getItem('currentorganizerId')) {
                 document.getElementById('username').innerText = localStorage.getItem('currentorganizerName')
                 document.getElementById('role').innerText = 'Organizer';
             }
@@ -220,13 +231,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Profile dropdown toggle
     let profileDropdownOpen = false;
-    
-    profileBtn?.addEventListener('click', function(e) {
+
+    profileBtn?.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         profileDropdownOpen = !profileDropdownOpen;
-        
+
         if (profileDropdownOpen) {
             profileDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
             profileDropdown.classList.add('opacity-100', 'visible', 'scale-100');
@@ -237,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Close profile dropdown when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (profileDropdownOpen && !profileSection.contains(e.target)) {
             profileDropdownOpen = false;
             profileDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
@@ -246,21 +257,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Logout functionality
-  
+
     // Mobile menu functionality
-    mobileMenuBtn?.addEventListener('click', function() {
+    mobileMenuBtn?.addEventListener('click', function () {
         mobileMenu.classList.remove('-translate-x-full');
     });
 
-    closeMobileMenu?.addEventListener('click', function() {
+    closeMobileMenu?.addEventListener('click', function () {
         mobileMenu.classList.add('-translate-x-full');
     });
 
     // Mobile dropdown toggles
-    mobileFacilities?.addEventListener('click', function() {
+    mobileFacilities?.addEventListener('click', function () {
         const isOpen = !mobileFacilitiesMenu.classList.contains('hidden');
         const arrow = this.querySelector('svg');
-        
+
         if (isOpen) {
             mobileFacilitiesMenu.classList.add('hidden');
             arrow.classList.remove('rotate-180');
@@ -270,10 +281,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    mobileEvents?.addEventListener('click', function() {
+    mobileEvents?.addEventListener('click', function () {
         const isOpen = !mobileEventsMenu.classList.contains('hidden');
         const arrow = this.querySelector('svg');
-        
+
         if (isOpen) {
             mobileEventsMenu.classList.add('hidden');
             arrow.classList.remove('rotate-180');
@@ -283,23 +294,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    logoutBtn.addEventListener('click' , () =>{
+    logoutBtn.addEventListener('click', () => {
         console.log("hello");
-        
-         const currentOrganizerId =  localStorage.getItem('currentorganizerId');
-         const currentAudienceId = localStorage.getItem('currentaudienceId');
 
-         if (currentAudienceId) localStorage.removeItem('currentaudienceId');
-         else if (currentOrganizerId) localStorage.removeItem('currentorganizerId')
-         loginBtn.classList.remove('hidden');
-            profileSection.classList.add('hidden');
-             document.getElementById('support_1').style.display='none';
-            document.getElementById('support_2').style.display='none';
-        
-    } )  
+        const currentOrganizerId = localStorage.getItem('currentorganizerId');
+        const currentAudienceId = localStorage.getItem('currentaudienceId');
+
+        if (currentAudienceId) localStorage.removeItem('currentaudienceId');
+        else if (currentOrganizerId) localStorage.removeItem('currentorganizerId')
+        loginBtn.classList.remove('hidden');
+        profileSection.classList.add('hidden');
+        document.getElementById('support_1').style.display = 'none';
+        document.getElementById('support_2').style.display = 'none';
+
+    })
 
     // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
             mobileMenu.classList.add('-translate-x-full');
         }
@@ -308,6 +319,45 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize authentication state
     checkAuthState();
 
-   
+     document.getElementById('mainBtn').addEventListener('click', () => {
+        const currentOrganizerId = localStorage.getItem('currentorganizerId');
+        const currentAudienceId = localStorage.getItem('currentaudienceId');
+
+        if (currentAudienceId) {
+            window.location.href = '/src/User/Bookings/userbookings.html';
+        }
+        else if (currentOrganizerId) {
+            window.location.href = '/src/Organizer/New_concert-Bookings/concert_booking.html'
+        }
+    })
+
+    console.log(document.getElementById('profileidxbtn'));
+     
+    document.getElementById('profileidxbtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const currentOrganizerId = localStorage.getItem('currentorganizerId');
+        const currentAudienceId = localStorage.getItem('currentaudienceId');
+        if (currentAudienceId) {
+            window.location.href = '/src/User/profiles/profile.html';
+        }
+        else {
+            window.location.href = '/src/Organizer/Profiles/profile.html';
+        }
+    })
+
+    document.getElementById('bookingsbtn').addEventListener('click', () => {
+         const currentOrganizerId = localStorage.getItem('currentorganizerId');
+        const currentAudienceId = localStorage.getItem('currentaudienceId');
+        if (currentAudienceId) {
+            window.location.href = '/src/User/MyBookings.html/MYBOOKINGS.html'
+        }
+        else {
+            window.location.href = "src/Organizer/MyBookings/complete_bookings.html"
+        }
+    })
+
+    
 
 });

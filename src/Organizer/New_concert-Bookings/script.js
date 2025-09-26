@@ -1417,7 +1417,7 @@ function app() {
    * @param {Object} bookingData - The complete booking data object
    * @returns {Promise} - API response promise
    */
-  
+  // showStep(7)
   async function submitToMockAPI(bookingData) {
     const apiUrl = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2';
 
@@ -1425,9 +1425,10 @@ function app() {
       // Generate booking ID
       
       // Store banner photo in localStorage with booking ID
-      if (bookingData.basicDetails.eventBannerFile) {
-        storeEventBannerPhoto(bookingId, bookingData.basicDetails.eventBannerFile);
-      }
+      // if (bookingData.basicDetails.eventBannerFile) {
+
+      //   storeEventBannerPhoto(bookingId, bookingData.basicDetails.eventBannerFile);
+      // }
       
       // First, fetch the current data from the API
       const currentResponse = await fetch(apiUrl);
@@ -1612,11 +1613,13 @@ function app() {
 
     try {
       // Submit to MockAPI
+      console.log(finalBooking);
+      
       await submitToMockAPI(finalBooking);
       document.getElementById('successModal').classList.remove('hidden');
       return true;
     } catch (error) {
-      alert('Failed to submit booking. Please try again.');
+      alert('Failed to submit booking. Please try again.', error);
       return false;
     }
   }

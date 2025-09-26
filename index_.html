@@ -408,7 +408,7 @@
               ></span>
             </div>
 
-            <button
+            <button 
               type="submit"
               id="loginBtn"
               class="button-primary w-full text-white py-4 px-6 rounded-2xl font-display font-semibold text-lg flex items-center justify-center gap-3 shadow-xl"
@@ -917,7 +917,7 @@
                 >
                   <div class="p-3 xl:p-4" id="sz">
                     <a
-                      href="#venues"
+                      href="/src/Facilities/venues.html"
                       class="flex items-center space-x-4 p-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
                     >
                       <div
@@ -946,7 +946,7 @@
                     </a>
 
                     <a
-                      href="#bands"
+                      href="/src/Facilities/bands.html"
                       class="flex items-center space-x-4 p-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
                     >
                       <div
@@ -975,7 +975,7 @@
                     </a>
 
                     <a
-                      href="#decorations"
+                      href="/src/Facilities/Decoration.html"
                       class="flex items-center space-x-4 p-4 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
                     >
                       <div
@@ -1008,7 +1008,7 @@
             </li>
           </a>
 
-          <a href="">
+          <a href="/src/User/Bookings/userbookings.html">
             <li
               class="relative group text-white hover:text-purple-300 transition-all duration-300 hover:scale-105"
             >
@@ -1069,7 +1069,7 @@
                     </a>
 
                     <a
-                      href="#event-galleries"
+                      href="/pastevent.html"
                       class="flex items-center space-x-4 p-3 text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white rounded-xl transition-all duration-300 group/item transform hover:scale-[1.02]"
                     >
                       <div
@@ -1225,10 +1225,9 @@
                   </div>
                 </div>
               </div>
-
               <div class="py-2">
                 <a
-                  href="#profile"
+                  href=""
                   class="flex items-center space-x-2 sm:space-x-3 px-4 py-2 sm:py-3 hover:bg-slate-50 transition-colors text-sm sm:text-base"
                 >
                   <svg
@@ -1244,10 +1243,10 @@
                       d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  <span class="font-medium text-slate-900">Profile</span>
+                  <span class="font-medium text-slate-900" id = "profileidxbtn">Profile</span>
                 </a>
 
-                <a
+                <a id="bookingsbtn"
                   href="#bookings"
                   class="flex items-center space-x-2 sm:space-x-3 px-4 py-2 sm:py-3 hover:bg-slate-50 transition-colors text-sm sm:text-base"
                 >
@@ -1352,17 +1351,17 @@
               </button>
               <div id="mobileFacilitiesMenu" class="hidden pl-4 pt-3 space-y-2">
                 <a
-                  href="#venues"
+                  href="./src/Facilities/venues.html"
                   class="block py-2 sm:py-3 text-base text-purple-200 hover:text-white transition-colors duration-300"
                   >Premium Venues</a
                 >
                 <a
-                  href="#bands"
+                  href="/src//Facilities/bands.html"
                   class="block py-2 sm:py-3 text-base text-purple-200 hover:text-white transition-colors duration-300"
-                  >Top Artists</a
+                  >Top Bands</a
                 >
                 <a
-                  href="#decorations"
+                  href="/src/Facilities/Decoration.html"
                   class="block py-2 sm:py-3 text-base text-purple-200 hover:text-white transition-colors duration-300"
                   >Decorations</a
                 >
@@ -1391,12 +1390,12 @@
               </button>
               <div id="mobileEventsMenu" class="hidden pl-4 pt-3 space-y-2">
                 <a
-                  href="#ongoing-events"
+                  href="./src/User/Bookings/userbookings.html"
                   class="block py-2 text-base text-purple-200 hover:text-white transition-colors duration-300"
                   >Live Events</a
                 >
                 <a
-                  href="#event-galleries"
+                  href="/pastevent.html"
                   class="block py-2 text-base text-purple-200 hover:text-white transition-colors duration-300"
                   >Gallery</a
                 >
@@ -1457,12 +1456,11 @@
           Experience world-class concerts with premium seating, exclusive
           access, and unforgettable moments.
         </p>
-
         <div class="relative group mb-8">
           <div
             class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-300"
           ></div>
-          <button
+          <button id="mainBtn"
             class="relative bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 hover:from-purple-700 hover:via-purple-800 hover:to-indigo-700 text-white font-black text-xl py-4 px-10 rounded-full shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 overflow-hidden"
           >
             <div
@@ -1482,7 +1480,7 @@
                   d="M13 10V3L4 14h7v7l9-11h-7z"
                 />
               </svg>
-              <span>Go to Booking</span>
+              <span id="BookBtn">Go to Booking</span>
             </span>
           </button>
         </div>
@@ -1588,7 +1586,7 @@
                 </div>
                 <div class="btn">
                   <button style="display: none">See More</button>
-                  <button>Explore More</button>
+                  <button onclick="openvenue()">Explore More</button>
                 </div>
               </div>
             </div>
@@ -1607,7 +1605,7 @@
                 </div>
                 <div class="btn">
                   <button style="display: none">See More</button>
-                  <button>Explore More</button>
+                  <button onclick="openvenue()">Explore More</button>
                 </div>
               </div>
             </div>
@@ -1628,7 +1626,7 @@
                 </div>
                 <div class="btn">
                   <button style="display: none">See More</button>
-                  <button>Explore More</button>
+                  <button onclick="openvenue()">Explore More</button>
                 </div>
               </div>
             </div>
@@ -1647,7 +1645,7 @@
                 </div>
                 <div class="btn">
                   <button style="display: none">See More</button>
-                  <button>Explore More</button>
+                  <button onclick="openvenue()">Explore More</button>
                 </div>
               </div>
             </div>
@@ -1666,7 +1664,7 @@
                 </div>
                 <div class="btn">
                   <button style="display: none">See More</button>
-                  <button>Explore More</button>
+                  <button onclick="openvenue()">Explore More</button>
                 </div>
               </div>
             </div>
@@ -1687,7 +1685,7 @@
                 </div>
                 <div class="btn">
                   <button style="display: none">See More</button>
-                  <button>Explore More</button>
+                  <button onclick="openvenue()">Explore More</button>
                 </div>
               </div>
             </div>
@@ -3188,6 +3186,11 @@
         document.getElementById("modalOverlay").classList.toggle("hidden");
         document.getElementById("modalContainer").classList.remove("opacity-0");
       }
+      function openvenue(){
+        console.log("egelo");
+        
+          window.location.href = './src/Facilities/venues.html'
+        }
       document.addEventListener("DOMContentLoaded", () => {
         let na = document.getElementById("na");
         let inside = document.getElementById("inside");
@@ -3205,6 +3208,7 @@
         function lerp(start, end, factor) {
           return start + (end - start) * factor;
         }
+
 
         window.addEventListener("mousemove", (event) => {
           targetX = event.clientX - 20; // Adjusted for bigger size
@@ -3273,8 +3277,19 @@
         });
 
         animate();
+
+        
+
+        function ons() {
+          if (document.getElementById('loginEmail').value == 'admin123@gmail.com') {
+            window.location.href='/src/Admin/features/dashboard.html'
+          }
+        }
       });
+
     </script>
+    <!-- <script src=""></script> -->
+     <!-- <script src=""></script> -->
     <script src="/src/User/login.js"></script>
     <script src="./JS/main.js"></script>
   </body>
