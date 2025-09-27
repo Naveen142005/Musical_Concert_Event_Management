@@ -103,6 +103,16 @@
           </li>
           <li>
             <a
+              href="q.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-comments"></i>
+              <span>Query Management</span>
+            </a>
+          </li>
+          
+          <li>
+            <a
               href="backup-restore.html"
               class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
             >
@@ -324,179 +334,738 @@
       class ReportManager {
         constructor() {
           this.bookingData = [
-            {
-              id: 1,
-              organizerName: "Rajesh Kumar",
-              eventName: "Rock Night 2024",
-              bookedDate: "2024-01-15",
-              eventDate: "2025-12-20",
-              venue: "Grand Arena",
-              status: "confirmed",
-              venueCharges: 50000,
-            },
-            {
-              id: 2,
-              organizerName: "Priya Sharma",
-              eventName: "Jazz Evening",
-              bookedDate: "2024-01-18",
-              eventDate: "2025-11-25",
-              venue: "Music Hall",
-              status: "pending",
-              venueCharges: 35000,
-            },
-            {
-              id: 3,
-              organizerName: "Amit Patel",
-              eventName: "Classical Symphony",
-              bookedDate: "2024-01-20",
-              eventDate: "2025-10-05",
-              venue: "Concert Hall",
-              status: "confirmed",
-              venueCharges: 75000,
-            },
-            {
-              id: 4,
-              organizerName: "Neha Singh",
-              eventName: "Pop Fusion Night",
-              bookedDate: "2024-01-22",
-              eventDate: "2025-10-10",
-              venue: "Grand Arena",
-              status: "cancelled",
-              venueCharges: 60000,
-            },
-          ];
+  // Original entries
+  {
+    id: 1,
+    organizerName: "Rajesh Kumar",
+    eventName: "Rock Night 2025",
+    bookedDate: "2025-09-15",
+    eventDate: "2025-12-20",
+    venue: "Grand Arena",
+    status: "confirmed",
+    venueCharges: 50000,
+  },
+  {
+    id: 2,
+    organizerName: "Priya Sharma",
+    eventName: "Jazz Evening",
+    bookedDate: "2025-09-18",
+    eventDate: "2025-11-25",
+    venue: "Music Hall",
+    status: "pending",
+    venueCharges: 35000,
+  },
+  {
+    id: 3,
+    organizerName: "Amit Patel",
+    eventName: "Classical Symphony",
+    bookedDate: "2025-09-20",
+    eventDate: "2025-10-05",
+    venue: "Concert Hall",
+    status: "confirmed",
+    venueCharges: 75000,
+  },
+  {
+    id: 4,
+    organizerName: "Neha Singh",
+    eventName: "Pop Fusion Night",
+    bookedDate: "2025-09-22",
+    eventDate: "2025-10-10",
+    venue: "Grand Arena",
+    status: "cancelled",
+    venueCharges: 60000,
+  },
+  // Additional entries
+  {
+    id: 5,
+    organizerName: "Vikram Malhotra",
+    eventName: "Bollywood Beats",
+    bookedDate: "2025-02-05",
+    eventDate: "2025-11-15",
+    venue: "Cultural Center",
+    status: "confirmed",
+    venueCharges: 45000,
+  },
+  {
+    id: 6,
+    organizerName: "Meera Agarwal",
+    eventName: "Electronic Dance Night",
+    bookedDate: "2025-02-08",
+    eventDate: "2025-11-30",
+    venue: "Grand Arena",
+    status: "confirmed",
+    venueCharges: 65000,
+  },
+  {
+    id: 7,
+    organizerName: "Karan Joshi",
+    eventName: "Folk Music Festival",
+    bookedDate: "2025-02-12",
+    eventDate: "2025-12-05",
+    venue: "Open Air Theater",
+    status: "pending",
+    venueCharges: 40000,
+  },
+  {
+    id: 8,
+    organizerName: "Sneha Reddy",
+    eventName: "Hip Hop Battle",
+    bookedDate: "2025-02-15",
+    eventDate: "2025-12-15",
+    venue: "Urban Club",
+    status: "confirmed",
+    venueCharges: 30000,
+  },
+  {
+    id: 9,
+    organizerName: "Ravi Gupta",
+    eventName: "Sufi Night",
+    bookedDate: "2025-02-18",
+    eventDate: "2025-11-20",
+    venue: "Heritage Hall",
+    status: "confirmed",
+    venueCharges: 55000,
+  },
+  {
+    id: 10,
+    organizerName: "Anjali Verma",
+    eventName: "Indie Rock Concert",
+    bookedDate: "2025-02-20",
+    eventDate: "2026-09-10",
+    venue: "Music Hall",
+    status: "pending",
+    venueCharges: 42000,
+  },
+  {
+    id: 11,
+    organizerName: "Deepak Singh",
+    eventName: "Reggae Vibes",
+    bookedDate: "2025-02-22",
+    eventDate: "2026-09-20",
+    venue: "Beach Club",
+    status: "confirmed",
+    venueCharges: 38000,
+  },
+  {
+    id: 12,
+    organizerName: "Pooja Desai",
+    eventName: "Opera Gala",
+    bookedDate: "2025-02-25",
+    eventDate: "2026-02-05",
+    venue: "Concert Hall",
+    status: "confirmed",
+    venueCharges: 85000,
+  },
+  {
+    id: 13,
+    organizerName: "Rahul Bansal",
+    eventName: "Blues Brothers Tribute",
+    bookedDate: "2025-03-01",
+    eventDate: "2026-02-15",
+    venue: "Vintage Club",
+    status: "cancelled",
+    venueCharges: 32000,
+  },
+  {
+    id: 14,
+    organizerName: "Kavita Sharma",
+    eventName: "Country Music Night",
+    bookedDate: "2025-03-05",
+    eventDate: "2026-03-01",
+    venue: "Ranch House",
+    status: "confirmed",
+    venueCharges: 35000,
+  },
+  {
+    id: 15,
+    organizerName: "Manish Kumar",
+    eventName: "Metal Mayhem",
+    bookedDate: "2025-03-08",
+    eventDate: "2026-03-10",
+    venue: "Underground Club",
+    status: "pending",
+    venueCharges: 48000,
+  },
+];
 
-          this.ticketData = [
-            {
-              id: 1,
-              audience: "Arjun Mehta",
-              event: "Rock Night 2024",
-              bookedDate: "2024-01-16",
-              eventDate: "2025-12-20",
-              premium: 2,
-              gold: 3,
-              silver: 1,
-              total: 6,
-              status: "confirmed",
-            },
-            {
-              id: 2,
-              audience: "Kavya Nair",
-              event: "Jazz Evening",
-              bookedDate: "2024-01-19",
-              eventDate: "2025-11-25",
-              premium: 1,
-              gold: 2,
-              silver: 2,
-              total: 5,
-              status: "pending",
-            },
-            {
-              id: 3,
-              audience: "Rohit Gupta",
-              event: "Classical Symphony",
-              bookedDate: "2024-01-21",
-              eventDate: "2025-10-05",
-              premium: 3,
-              gold: 1,
-              silver: 0,
-              total: 4,
-              status: "confirmed",
-            },
-            {
-              id: 4,
-              audience: "Ananya Singh",
-              event: "Pop Fusion Night",
-              bookedDate: "2024-01-23",
-              eventDate: "2025-10-10",
-              premium: 1,
-              gold: 4,
-              silver: 3,
-              total: 8,
-              status: "cancelled",
-            },
-          ];
+this.ticketData = [
+  // Original entries
+  {
+    id: 1,
+    audience: "Arjun Mehta",
+    event: "Rock Night 2025",
+    bookedDate: "2025-09-16",
+    eventDate: "2025-12-20",
+    premium: 2,
+    gold: 3,
+    silver: 1,
+    total: 6,
+    status: "confirmed",
+  },
+  {
+    id: 2,
+    audience: "Kavya Nair",
+    event: "Jazz Evening",
+    bookedDate: "2025-09-19",
+    eventDate: "2025-11-25",
+    premium: 1,
+    gold: 2,
+    silver: 2,
+    total: 5,
+    status: "pending",
+  },
+  {
+    id: 3,
+    audience: "Rohit Gupta",
+    event: "Classical Symphony",
+    bookedDate: "2025-09-21",
+    eventDate: "2025-10-05",
+    premium: 3,
+    gold: 1,
+    silver: 0,
+    total: 4,
+    status: "confirmed",
+  },
+  {
+    id: 4,
+    audience: "Ananya Singh",
+    event: "Pop Fusion Night",
+    bookedDate: "2025-09-23",
+    eventDate: "2025-10-10",
+    premium: 1,
+    gold: 4,
+    silver: 3,
+    total: 8,
+    status: "cancelled",
+  },
+  // Additional entries
+  {
+    id: 5,
+    audience: "Siddharth Jain",
+    event: "Bollywood Beats",
+    bookedDate: "2025-02-06",
+    eventDate: "2025-11-15",
+    premium: 0,
+    gold: 2,
+    silver: 4,
+    total: 6,
+    status: "confirmed",
+  },
+  {
+    id: 6,
+    audience: "Divya Krishnan",
+    event: "Electronic Dance Night",
+    bookedDate: "2025-02-09",
+    eventDate: "2025-11-30",
+    premium: 4,
+    gold: 2,
+    silver: 2,
+    total: 8,
+    status: "confirmed",
+  },
+  {
+    id: 7,
+    audience: "Aditya Sharma",
+    event: "Folk Music Festival",
+    bookedDate: "2025-02-13",
+    eventDate: "2025-12-05",
+    premium: 1,
+    gold: 3,
+    silver: 6,
+    total: 10,
+    status: "pending",
+  },
+  {
+    id: 8,
+    audience: "Priyanka Rao",
+    event: "Hip Hop Battle",
+    bookedDate: "2025-02-16",
+    eventDate: "2025-12-15",
+    premium: 0,
+    gold: 1,
+    silver: 3,
+    total: 4,
+    status: "confirmed",
+  },
+  {
+    id: 9,
+    audience: "Akash Verma",
+    event: "Sufi Night",
+    bookedDate: "2025-02-19",
+    eventDate: "2025-11-20",
+    premium: 2,
+    gold: 2,
+    silver: 1,
+    total: 5,
+    status: "confirmed",
+  },
+  {
+    id: 10,
+    audience: "Shreya Kapoor",
+    event: "Indie Rock Concert",
+    bookedDate: "2025-02-21",
+    eventDate: "2026-09-10",
+    premium: 1,
+    gold: 0,
+    silver: 2,
+    total: 3,
+    status: "pending",
+  },
+  {
+    id: 11,
+    audience: "Nikhil Agarwal",
+    event: "Reggae Vibes",
+    bookedDate: "2025-02-23",
+    eventDate: "2026-09-20",
+    premium: 0,
+    gold: 3,
+    silver: 5,
+    total: 8,
+    status: "confirmed",
+  },
+  {
+    id: 12,
+    audience: "Riya Malhotra",
+    event: "Opera Gala",
+    bookedDate: "2025-02-26",
+    eventDate: "2026-02-05",
+    premium: 2,
+    gold: 0,
+    silver: 0,
+    total: 2,
+    status: "confirmed",
+  },
+  {
+    id: 13,
+    audience: "Varun Khanna",
+    event: "Blues Brothers Tribute",
+    bookedDate: "2025-03-02",
+    eventDate: "2026-02-15",
+    premium: 1,
+    gold: 2,
+    silver: 3,
+    total: 6,
+    status: "cancelled",
+  },
+  {
+    id: 14,
+    audience: "Nisha Patel",
+    event: "Country Music Night",
+    bookedDate: "2025-03-06",
+    eventDate: "2026-03-01",
+    premium: 0,
+    gold: 4,
+    silver: 2,
+    total: 6,
+    status: "confirmed",
+  },
+  {
+    id: 15,
+    audience: "Harsh Gupta",
+    event: "Metal Mayhem",
+    bookedDate: "2025-03-09",
+    eventDate: "2026-03-10",
+    premium: 3,
+    gold: 1,
+    silver: 4,
+    total: 8,
+    status: "pending",
+  },
+  {
+    id: 16,
+    audience: "Tanvi Joshi",
+    event: "Rock Night 2025",
+    bookedDate: "2025-03-12",
+    eventDate: "2025-12-20",
+    premium: 1,
+    gold: 1,
+    silver: 0,
+    total: 2,
+    status: "confirmed",
+  },
+  {
+    id: 17,
+    audience: "Gaurav Singh",
+    event: "Jazz Evening",
+    bookedDate: "2025-03-15",
+    eventDate: "2025-11-25",
+    premium: 0,
+    gold: 2,
+    silver: 4,
+    total: 6,
+    status: "confirmed",
+  },
+  {
+    id: 18,
+    audience: "Swati Reddy",
+    event: "Electronic Dance Night",
+    bookedDate: "2025-03-18",
+    eventDate: "2025-11-30",
+    premium: 2,
+    gold: 3,
+    silver: 3,
+    total: 8,
+    status: "confirmed",
+  },
+];
 
-          this.paymentData = [
-            {
-              id: 1,
-              customer: "Arjun Mehta",
-              event: "Rock Night 2024",
-              paidDate: "2024-01-16",
-              paymentMethod: "Credit Card",
-              totalAmount: 12500,
-              pendingAmount: 0,
-              status: "completed",
-              transactionId: "TXN001234567",
-              role: "audience",
-            },
-            {
-              id: 2,
-              customer: "Kavya Nair",
-              event: "Jazz Evening",
-              paidDate: "2024-01-19",
-              paymentMethod: "UPI",
-              totalAmount: 5000,
-              pendingAmount: 3500,
-              status: "pending",
-              transactionId: "TXN001234568",
-              role: "audience",
-            },
-            {
-              id: 3,
-              customer: "Rajesh Kumar",
-              event: "Rock Night 2024",
-              paidDate: "2024-01-15",
-              paymentMethod: "Net Banking",
-              totalAmount: 50000,
-              pendingAmount: 0,
-              status: "completed",
-              transactionId: "TXN001234569",
-              role: "organizer",
-            },
-            {
-              id: 4,
-              customer: "Priya Sharma",
-              event: "Jazz Evening",
-              paidDate: "2024-01-18",
-              paymentMethod: "Credit Card",
-              totalAmount: 35000,
-              pendingAmount: 15000,
-              status: "pending",
-              transactionId: "TXN001234570",
-              role: "organizer",
-            },
-          ];
+this.paymentData = [
+  // Original entries
+  {
+    id: 1,
+    customer: "Arjun Mehta",
+    event: "Rock Night 2025",
+    paidDate: "2025-09-16",
+    paymentMethod: "Credit Card",
+    totalAmount: 12500,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234567",
+    role: "audience",
+  },
+  {
+    id: 2,
+    customer: "Kavya Nair",
+    event: "Jazz Evening",
+    paidDate: "2025-09-19",
+    paymentMethod: "UPI",
+    totalAmount: 5000,
+    pendingAmount: 3500,
+    status: "pending",
+    transactionId: "TXN001234568",
+    role: "audience",
+  },
+  {
+    id: 3,
+    customer: "Rajesh Kumar",
+    event: "Rock Night 2025",
+    paidDate: "2025-09-15",
+    paymentMethod: "Net Banking",
+    totalAmount: 50000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234569",
+    role: "organizer",
+  },
+  {
+    id: 4,
+    customer: "Priya Sharma",
+    event: "Jazz Evening",
+    paidDate: "2025-09-18",
+    paymentMethod: "Credit Card",
+    totalAmount: 35000,
+    pendingAmount: 15000,
+    status: "pending",
+    transactionId: "TXN001234570",
+    role: "organizer",
+  },
+  // Additional entries
+  {
+    id: 5,
+    customer: "Siddharth Jain",
+    event: "Bollywood Beats",
+    paidDate: "2025-02-06",  
+    paymentMethod: "UPI",
+    totalAmount: 8500,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234571",
+    role: "audience",
+  },
+  {
+    id: 6,
+    customer: "Vikram Malhotra",
+    event: "Bollywood Beats",
+    paidDate: "2025-02-05",
+    paymentMethod: "Net Banking",
+    totalAmount: 45000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234572",
+    role: "organizer",
+  },
+  {
+    id: 7,
+    customer: "Divya Krishnan",
+    event: "Electronic Dance Night",
+    paidDate: "2025-02-09",
+    paymentMethod: "Credit Card",
+    totalAmount: 15000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234573",
+    role: "audience",
+  },
+  {
+    id: 8,
+    customer: "Meera Agarwal",
+    event: "Electronic Dance Night",
+    paidDate: "2025-02-08",
+    paymentMethod: "Credit Card",
+    totalAmount: 65000,
+    pendingAmount: 25000,
+    status: "pending",
+    transactionId: "TXN001234574",
+    role: "organizer",
+  },
+  {
+    id: 9,
+    customer: "Aditya Sharma",
+    event: "Folk Music Festival",
+    paidDate: "2025-02-13",
+    paymentMethod: "UPI",
+    totalAmount: 12000,
+    pendingAmount: 4000,
+    status: "pending",
+    transactionId: "TXN001234575",
+    role: "audience",
+  },
+  {
+    id: 10,
+    customer: "Karan Joshi",
+    event: "Folk Music Festival",
+    paidDate: "2025-02-12",
+    paymentMethod: "Net Banking",
+    totalAmount: 40000,
+    pendingAmount: 20000,
+    status: "pending",
+    transactionId: "TXN001234576",
+    role: "organizer",
+  },
+  {
+    id: 11,
+    customer: "Priyanka Rao",
+    event: "Hip Hop Battle",
+    paidDate: "2025-02-16",
+    paymentMethod: "UPI",
+    totalAmount: 6500,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234577",
+    role: "audience",
+  },
+  {
+    id: 12,
+    customer: "Sneha Reddy",
+    event: "Hip Hop Battle",
+    paidDate: "2025-02-15",
+    paymentMethod: "UPI",
+    totalAmount: 30000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234578",
+    role: "organizer",
+  },
+  {
+    id: 13,
+    customer: "Akash Verma",
+    event: "Sufi Night",
+    paidDate: "2025-02-19",
+    paymentMethod: "Credit Card",
+    totalAmount: 9500,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234579",
+    role: "audience",
+  },
+  {
+    id: 14,
+    customer: "Ravi Gupta",
+    event: "Sufi Night",
+    paidDate: "2025-02-18",
+    paymentMethod: "Net Banking",
+    totalAmount: 55000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234580",
+    role: "organizer",
+  },
+  {
+    id: 15,
+    customer: "Shreya Kapoor",
+    event: "Indie Rock Concert",
+    paidDate: "2025-02-21",
+    paymentMethod: "UPI",
+    totalAmount: 4500,
+    pendingAmount: 1500,
+    status: "pending",
+    transactionId: "TXN001234581",
+    role: "audience",
+  },
+  {
+    id: 16,
+    customer: "Anjali Verma",
+    event: "Indie Rock Concert",
+    paidDate: "2025-02-20",
+    paymentMethod: "Credit Card",
+    totalAmount: 42000,
+    pendingAmount: 21000,
+    status: "pending",
+    transactionId: "TXN001234582",
+    role: "organizer",
+  },
+  {
+    id: 17,
+    customer: "Nikhil Agarwal",
+    event: "Reggae Vibes",
+    paidDate: "2025-02-23",
+    paymentMethod: "Net Banking",
+    totalAmount: 11500,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234583",
+    role: "audience",
+  },
+  {
+    id: 18,
+    customer: "Deepak Singh",
+    event: "Reggae Vibes",
+    paidDate: "2025-02-22",
+    paymentMethod: "UPI",
+    totalAmount: 38000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234584",
+    role: "organizer",
+  },
+  {
+    id: 19,
+    customer: "Riya Malhotra",
+    event: "Opera Gala",
+    paidDate: "2025-02-26",
+    paymentMethod: "Credit Card",
+    totalAmount: 18000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234585",
+    role: "audience",
+  },
+  {
+    id: 20,
+    customer: "Pooja Desai",
+    event: "Opera Gala",
+    paidDate: "2025-02-25",
+    paymentMethod: "Net Banking",
+    totalAmount: 85000,
+    pendingAmount: 0,
+    status: "completed",
+    transactionId: "TXN001234586",
+    role: "organizer",
+  },
+];
 
-          this.reports = [
-            {
-              id: 1,
-              name: "Event Bookings Report",
-              type: "booking",
-              format: "pdf",
-              date: "2024-02-01",
-              size: "2.4 MB",
-              period: "January 2024",
-            },
-            {
-              id: 2,
-              name: "Ticket Bookings Report",
-              type: "ticket",
-              format: "excel",
-              date: "2024-01-15",
-              size: "1.8 MB",
-              period: "December 2023",
-            },
-            {
-              id: 3,
-              name: "Payment Report",
-              type: "payment",
-              format: "csv",
-              date: "2024-01-05",
-              size: "856 KB",
-              period: "December 2023",
-            },
-          ];
+this.reports = [
+  // Original entries
+  {
+    id: 1,
+    name: "Event Bookings Report",
+    type: "booking",
+    format: "pdf",
+    date: "2025-02-01",
+    size: "2.4 MB",
+    period: "January 2025",
+  },
+  {
+    id: 2,
+    name: "Ticket Bookings Report",
+    type: "ticket",
+    format: "excel",
+    date: "2025-09-15",
+    size: "1.8 MB",
+    period: "December 2023",
+  },
+  {
+    id: 3,
+    name: "Payment Report",
+    type: "payment",
+    format: "csv",
+    date: "2025-09-05",
+    size: "856 KB",
+    period: "December 2023",
+  },
+  // Additional entries
+  {
+    id: 4,
+    name: "Monthly Revenue Report",
+    type: "revenue",
+    format: "pdf",
+    date: "2025-03-01",
+    size: "3.2 MB",
+    period: "February 2025",
+  },
+  {
+    id: 5,
+    name: "Venue Utilization Report",
+    type: "venue",
+    format: "excel",
+    date: "2025-02-28",
+    size: "1.5 MB",
+    period: "February 2025",
+  },
+  {
+    id: 6,
+    name: "Customer Analytics Report",
+    type: "analytics",
+    format: "pdf",
+    date: "2025-02-25",
+    size: "4.1 MB",
+    period: "Q1 2025",
+  },
+  {
+    id: 7,
+    name: "Event Performance Report",
+    type: "performance",
+    format: "csv",
+    date: "2025-02-20",
+    size: "720 KB",
+    period: "January 2025",
+  },
+  {
+    id: 8,
+    name: "Organizer Commission Report",
+    type: "commission",
+    format: "excel",
+    date: "2025-02-15",
+    size: "2.1 MB",
+    period: "January 2025",
+  },
+  {
+    id: 9,
+    name: "Ticket Sales Trend Report",
+    type: "trend",
+    format: "pdf",
+    date: "2025-02-10",
+    size: "3.8 MB",
+    period: "Q4 2023",
+  },
+  {
+    id: 10,
+    name: "Refund & Cancellation Report",
+    type: "refund",
+    format: "csv",
+    date: "2025-02-05",
+    size: "645 KB",
+    period: "January 2025",
+  },
+  {
+    id: 11,
+    name: "Genre Popularity Report",
+    type: "genre",
+    format: "excel",
+    date: "2025-09-30",
+    size: "1.9 MB",
+    period: "2023 Annual",
+  },
+  {
+    id: 12,
+    name: "Marketing Campaign Report",
+    type: "marketing",
+    format: "pdf",
+    date: "2025-09-25",
+    size: "5.2 MB",
+    period: "December 2023",
+  },
+];
 
           this.filteredReports = [...this.reports];
           this.previewChart = null;
@@ -769,85 +1338,226 @@
           return titles[reportType] || "Report";
         }
 
-        createPreviewChart(data, reportType) {
-          const canvas = document.getElementById("preview-chart");
-          if (!canvas) return;
+       createPreviewChart(data, reportType) {
+    const canvas = document.getElementById("preview-chart");
+    if (!canvas) return;
 
-          if (this.previewChart) {
-            this.previewChart.destroy();
-          }
+    if (this.previewChart) {
+        this.previewChart.destroy();
+    }
 
-          let chartData;
-          switch (reportType) {
-            case "booking":
-              const statusCounts = { confirmed: 0, pending: 0, cancelled: 0 };
-              data.forEach((item) => statusCounts[item.status]++);
-              chartData = {
+    let chartData;
+    let chartTitle;
+    
+    switch (reportType) {
+        case "booking":
+            const statusCounts = { confirmed: 0, pending: 0, cancelled: 0 };
+            data.forEach((item) => statusCounts[item.status]++);
+            chartData = {
                 labels: ["Confirmed", "Pending", "Cancelled"],
                 datasets: [
-                  {
-                    data: [
-                      statusCounts.confirmed,
-                      statusCounts.pending,
-                      statusCounts.cancelled,
-                    ],
-                    backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
-                  },
+                    {
+                        label: 'Booking Status',
+                        data: [
+                            statusCounts.confirmed,
+                            statusCounts.pending,
+                            statusCounts.cancelled,
+                        ],
+                        backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
+                        borderColor: ["#10b981", "#f59e0b", "#ef4444"],
+                        borderWidth: 2,
+                        hoverBackgroundColor: ["#059669", "#d97706", "#dc2626"],
+                        hoverBorderColor: ["#059669", "#d97706", "#dc2626"]
+                    },
                 ],
-              };
-              break;
-            case "ticket":
-              const ticketTypes = { premium: 0, gold: 0, silver: 0 };
-              data.forEach((item) => {
+            };
+            chartTitle = "Booking Status Distribution";
+            break;
+            
+        case "ticket":
+            const ticketTypes = { premium: 0, gold: 0, silver: 0 };
+            data.forEach((item) => {
                 ticketTypes.premium += item.premium;
                 ticketTypes.gold += item.gold;
                 ticketTypes.silver += item.silver;
-              });
-              chartData = {
+            });
+            chartData = {
                 labels: ["Premium", "Gold", "Silver"],
                 datasets: [
-                  {
-                    data: [
-                      ticketTypes.premium,
-                      ticketTypes.gold,
-                      ticketTypes.silver,
-                    ],
-                    backgroundColor: ["#f59e0b", "#eab308", "#6b7280"],
-                  },
+                    {
+                        label: 'Ticket Types',
+                        data: [
+                            ticketTypes.premium,
+                            ticketTypes.gold,
+                            ticketTypes.silver,
+                        ],
+                        backgroundColor: ["#7c3aed", "#eab308", "#6b7280"],
+                        borderColor: ["#7c3aed", "#eab308", "#6b7280"],
+                        borderWidth: 2,
+                        hoverBackgroundColor: ["#6d28d9", "#ca8a04", "#4b5563"],
+                        hoverBorderColor: ["#6d28d9", "#ca8a04", "#4b5563"]
+                    },
                 ],
-              };
-              break;
-            case "payment":
-              const paymentStatus = { completed: 0, pending: 0, failed: 0 };
-              data.forEach((item) => paymentStatus[item.status]++);
-              chartData = {
+            };
+            chartTitle = "Ticket Type Distribution";
+            break;
+            
+        case "payment":
+            const paymentStatus = { completed: 0, pending: 0, failed: 0 };
+            data.forEach((item) => {
+                if (item.status === 'completed') paymentStatus.completed++;
+                else if (item.status === 'pending') paymentStatus.pending++;
+                else paymentStatus.failed++;
+            });
+            chartData = {
                 labels: ["Completed", "Pending", "Failed"],
                 datasets: [
-                  {
-                    data: [
-                      paymentStatus.completed,
-                      paymentStatus.pending,
-                      paymentStatus.failed || 0,
-                    ],
-                    backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
-                  },
+                    {
+                        label: 'Payment Status',
+                        data: [
+                            paymentStatus.completed,
+                            paymentStatus.pending,
+                            paymentStatus.failed || 0,
+                        ],
+                        backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
+                        borderColor: ["#10b981", "#f59e0b", "#ef4444"],
+                        borderWidth: 2,
+                        hoverBackgroundColor: ["#059669", "#d97706", "#dc2626"],
+                        hoverBorderColor: ["#059669", "#d97706", "#dc2626"]
+                    },
                 ],
-              };
-              break;
-          }
+            };
+            chartTitle = "Payment Status Distribution";
+            break;
 
-          this.previewChart = new Chart(canvas, {
-            type: "doughnut",
-            data: chartData,
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { display: false },
-              },
+        case "revenue":
+            const monthlyRevenue = {};
+            data.forEach((item) => {
+                const month = new Date(item.paidDate).toLocaleDateString('en-US', { month: 'short' });
+                monthlyRevenue[month] = (monthlyRevenue[month] || 0) + item.totalAmount;
+            });
+            chartData = {
+                labels: Object.keys(monthlyRevenue),
+                datasets: [
+                    {
+                        label: 'Monthly Revenue',
+                        data: Object.values(monthlyRevenue),
+                        backgroundColor: ["#7c3aed", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"],
+                        borderColor: ["#7c3aed", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"],
+                        borderWidth: 2
+                    },
+                ],
+            };
+            chartTitle = "Monthly Revenue Distribution";
+            break;
+
+        default:
+            chartData = {
+                labels: ["No Data"],
+                datasets: [{
+                    data: [1],
+                    backgroundColor: ["#9ca3af"],
+                }],
+            };
+            chartTitle = "No Data Available";
+    }
+
+    this.previewChart = new Chart(canvas, {
+        type: "doughnut",
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: chartTitle,
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                    color: '#374151',
+                    padding: {
+                        top: 10,
+                        bottom: 20
+                    }
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        padding: 15,
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        },
+                        color: '#374151',
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            const total = data.datasets[0].data.reduce((sum, value) => sum + value, 0);
+                            
+                            return data.labels.map((label, i) => {
+                                const value = data.datasets[0].data[i];
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                
+                                return {
+                                    text: `${label} (${percentage}%)`,
+                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                    strokeStyle: data.datasets[0].borderColor[i],
+                                    lineWidth: data.datasets[0].borderWidth,
+                                    pointStyle: 'circle',
+                                    hidden: false,
+                                    index: i
+                                };
+                            });
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#374151',
+                    bodyColor: '#374151',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                            
+                            let displayValue = value;
+                            if (reportType === 'payment' || reportType === 'revenue') {
+                                displayValue = '₹' + value.toLocaleString('en-IN');
+                            }
+                            
+                            return `${label}: ${displayValue} (${percentage}%)`;
+                        }
+                    }
+                }
             },
-          });
+            cutout: '50%', // Makes it a doughnut instead of pie
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            },
+            interaction: {
+                intersect: false,
+            },
+            elements: {
+                arc: {
+                    borderWidth: 2,
+                    hoverBorderWidth: 3
+                }
+            }
         }
+    });
+}
+
 
         generateReport() {
           const reportType = document.getElementById("report-type").value;
@@ -1279,8 +1989,8 @@
             this.downloadActualFile(
               report,
               report.type,
-              "2024-01-01",
-              "2024-01-31"
+              "2025-09-01",
+              "2025-09-31"
             );
           }
         }

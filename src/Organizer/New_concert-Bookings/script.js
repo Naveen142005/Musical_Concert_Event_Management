@@ -4,7 +4,8 @@ let decorationData = [];
 
 function checkAuthentication() {
   const currentOrganizerId = localStorage.getItem('currentorganizerId');
-
+  console.log("hwllo");
+  
   if (!currentOrganizerId) {
 
     alert('Please log in to access the booking system.');

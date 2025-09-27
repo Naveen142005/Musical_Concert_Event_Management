@@ -6,7 +6,6 @@
     <title>Dashboard - THIGALZHI® ADMIN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Added Chart.js for dynamic charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
@@ -24,7 +23,7 @@
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50 lg:translate-x-0 -translate-x-full">
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50">
         <div class="p-6 border-b border-gray-200">
             <div class="flex items-center space-x-3">
                 <i class="fas fa-music text-primary text-2xl"></i>
@@ -34,91 +33,49 @@
         
         <nav class="mt-6">
             <ul class="space-y-2 px-4">
-                <li>
-                    <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="events-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events Bookings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="ticket-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-ticket-alt"></i>
-                        <span>Ticket Bookings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="payments.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-credit-card"></i>
-                        <span>Payments</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="reports.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="content-management.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-edit"></i>
-                        <span>Content Management</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="feedback.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-comments"></i>
-                        <span>Feedback</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="backup-restore.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-database"></i>
-                        <span>Backup & Restore</span>
-                    </a>
-                </li>
+                <li><a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary"><i class="fas fa-chart-line"></i><span class="font-medium">Dashboard</span></a></li>
+                <li><a href="events-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-calendar-alt"></i><span>Events Bookings</span></a></li>
+                <li><a href="ticket-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-ticket-alt"></i><span>Ticket Bookings</span></a></li>
+                <li><a href="payments.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-credit-card"></i><span>Payments</span></a></li>
+                <li><a href="reports.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-chart-bar"></i><span>Reports</span></a></li>
+                <li><a href="content-management.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-edit"></i><span>Content Management</span></a></li>
+                <li><a href="feedback.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-comments"></i><span>Feedback</span></a></li>
+                <li><a href="query-management.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-question-circle"></i><span>Query Management</span></a></li>
+                <li><a href="backup-restore.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"><i class="fas fa-database"></i><span>Backup & Restore</span></a></li>
             </ul>
         </nav>
     </div>
 
-    <!-- Mobile Sidebar Overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
     <!-- Main Content -->
-    <div class="lg:ml-64">
+    <div id="main-content" class="ml-64 transition-all duration-300">
         <!-- Header -->
         <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="flex items-center justify-between px-6 py-4">
+            <div class="flex items-center justify-between px-4 lg:px-6 py-4">
                 <div class="flex items-center space-x-4">
-                    <button id="sidebar-toggle" class="lg:hidden text-gray-600 hover:text-gray-800">
+                    <button id="sidebar-toggle" class="text-gray-600 hover:text-gray-800">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
-                        <p class="text-sm text-gray-600">Welcome back! Here's your concert management overview.</p>
+                        <h1 class="text-xl lg:text-2xl font-bold text-gray-800">Dashboard</h1>
+                        <p class="text-xs lg:text-sm text-gray-600">Welcome back! Here's your concert management overview.</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <!-- <div class="relative">
-                        <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-primary"></i>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">3</span>
-                    </div> -->
+                
+                <div class="flex items-center space-x-2 lg:space-x-4">
                     <div class="flex items-center space-x-2">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Profile" class="w-8 h-8 rounded-full">
-                        <span class="text-sm font-medium text-gray-700">Admin User</span>
+                        <img src="placeholder.svg?height=32&width=32" alt="Profile" class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-gray-300">
+                        <span class="text-xs lg:text-sm font-medium text-gray-700 hidden sm:block">Admin User</span>
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- Dashboard Content -->
-        <main class="p-6">
-            <!-- Enhanced metrics grid with loading animations and dynamic updates -->
+        <main class="p-3 lg:p-6">
+            <!-- Enhanced metrics grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                     <div class="flex items-center justify-between">
@@ -129,7 +86,6 @@
                                 <i class="fas fa-arrow-up mr-1"></i>
                                 <span id="revenue-growth">+0%</span> from last month
                             </p>
-                            <!-- Added mini sparkline chart -->
                             <canvas id="revenue-chart" width="100" height="30" class="mt-2"></canvas>
                         </div>
                         <div class="bg-primary bg-opacity-10 p-3 rounded-full">
@@ -188,7 +144,7 @@
                 </div>
             </div>
 
-            <!-- Enhanced analytics section with interactive charts -->
+            <!-- Analytics Overview -->
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-xl font-bold text-gray-800">Analytics Overview</h2>
@@ -204,7 +160,7 @@
                 </div>
             </div>
 
-            <!-- Enhanced activity feed and popular events with real-time updates -->
+            <!-- Activity Feed and Popular Events -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Activity Feed -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
@@ -240,6 +196,7 @@
     <script>
         class DashboardManager {
             constructor() {
+                this.sidebarVisible = true;
                 this.data = {
                     revenue: { current: 245680, growth: 12.5, history: [200000, 210000, 225000, 235000, 245680] },
                     tickets: { current: 1247, growth: 8.2, history: [1000, 1050, 1100, 1180, 1247] },
@@ -252,9 +209,9 @@
                     { type: 'feedback', message: 'New feedback received', detail: '5-star rating - 10 minutes ago', icon: 'fas fa-star', color: 'blue-500' }
                 ];
                 this.events = [
-                    { name: 'Rock Night 2024', tickets: 245, revenue: 45000, rating: 4.9, image: '/placeholder.svg?height=48&width=48' },
-                    { name: 'Jazz Evening', tickets: 189, revenue: 32500, rating: 4.7, image: '/placeholder.svg?height=48&width=48' },
-                    { name: 'Classical Symphony', tickets: 156, revenue: 28000, rating: 4.8, image: '/placeholder.svg?height=48&width=48' }
+                    { name: 'Rock Night 2024', tickets: 245, revenue: 45000, rating: 4.9, image: 'placeholder.svg?height=48&width=48' },
+                    { name: 'Jazz Evening', tickets: 189, revenue: 32500, rating: 4.7, image: 'placeholder.svg?height=48&width=48' },
+                    { name: 'Classical Symphony', tickets: 156, revenue: 28000, rating: 4.8, image: 'placeholder.svg?height=48&width=48' }
                 ];
                 this.init();
             }
@@ -266,26 +223,46 @@
                 this.populateActivityFeed();
                 this.populatePopularEvents();
                 this.setupEventListeners();
-                this.startRealTimeUpdates();
             }
 
             setupSidebar() {
                 const sidebarToggle = document.getElementById('sidebar-toggle');
                 const sidebar = document.getElementById('sidebar');
                 const sidebarOverlay = document.getElementById('sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
 
                 const toggleSidebar = () => {
-                    sidebar.classList.toggle('-translate-x-full');
-                    sidebarOverlay.classList.toggle('hidden');
+                    this.sidebarVisible = !this.sidebarVisible;
+                    
+                    if (this.sidebarVisible) {
+                        sidebar.classList.remove('-translate-x-full');
+                        mainContent.classList.remove('ml-0');
+                        mainContent.classList.add('ml-64');
+                        if (window.innerWidth < 1024) {
+                            sidebarOverlay.classList.remove('hidden');
+                        }
+                    } else {
+                        sidebar.classList.add('-translate-x-full');
+                        mainContent.classList.remove('ml-64');
+                        mainContent.classList.add('ml-0');
+                        sidebarOverlay.classList.add('hidden');
+                    }
                 };
 
                 sidebarToggle?.addEventListener('click', toggleSidebar);
-                sidebarOverlay?.addEventListener('click', toggleSidebar);
+                sidebarOverlay?.addEventListener('click', () => {
+                    if (this.sidebarVisible) {
+                        toggleSidebar();
+                    }
+                });
 
                 window.addEventListener('resize', () => {
                     if (window.innerWidth >= 1024) {
-                        sidebar.classList.remove('-translate-x-full');
                         sidebarOverlay.classList.add('hidden');
+                    } else {
+                        if (this.sidebarVisible) {
+                            sidebarOverlay.classList.remove('hidden');
+                        }
                     }
                 });
             }
@@ -407,10 +384,7 @@
                                 title: {
                                     display: true,
                                     text: 'Month',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    },
+                                    font: { size: 14, weight: 'bold' },
                                     color: '#374151'
                                 }
                             },
@@ -419,10 +393,7 @@
                                 title: {
                                     display: true,
                                     text: 'Revenue',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    },
+                                    font: { size: 14, weight: 'bold' },
                                     color: '#374151'
                                 },
                                 ticks: {
@@ -459,7 +430,7 @@
 
                 container.innerHTML = this.events.map(event => `
                     <div class="flex items-center space-x-4 p-3 border border-gray-200 rounded-lg hover:bg-accent transition-all duration-300 cursor-pointer transform hover:scale-105">
-                        <img src="${event.image}" alt="Event" class="w-12 h-12 rounded-lg object-cover">
+                        <img src="${event.image}" alt="Event" class="w-12 h-12 rounded-lg object-cover bg-gray-300">
                         <div class="flex-1">
                             <h4 class="font-medium text-gray-800">${event.name}</h4>
                             <p class="text-sm text-gray-600">${event.tickets} tickets sold</p>
@@ -476,17 +447,14 @@
             }
 
             setupEventListeners() {
-                // Analytics filter
                 document.getElementById('analytics-filter')?.addEventListener('change', (e) => {
                     this.updateMainChart(e.target.value);
                 });
 
-                // Events filter
                 document.getElementById('events-filter')?.addEventListener('change', (e) => {
                     this.sortEvents(e.target.value);
                 });
 
-                // Refresh activity
                 document.getElementById('refresh-activity')?.addEventListener('click', () => {
                     this.refreshActivityFeed();
                 });
@@ -500,8 +468,7 @@
                         color: '#3b82f6', 
                         chartType: 'line',
                         yAxisFormatter: (value) => value.toLocaleString('en-IN'),
-                        yAxisLabel: 'Number of Users',
-                        xAxisLabel: 'Month'
+                        yAxisLabel: 'Number of Users'
                     },
                     booking: { 
                         label: 'Bookings', 
@@ -509,8 +476,7 @@
                         color: '#10b981', 
                         chartType: 'bar',
                         yAxisFormatter: (value) => value.toLocaleString('en-IN'),
-                        yAxisLabel: 'Number of Bookings',
-                        xAxisLabel: 'Month'
+                        yAxisLabel: 'Number of Bookings'
                     },
                     ticket: { 
                         label: 'Tickets', 
@@ -518,8 +484,7 @@
                         color: '#f59e0b', 
                         chartType: 'line',
                         yAxisFormatter: (value) => value.toLocaleString('en-IN'),
-                        yAxisLabel: 'Tickets Sold',
-                        xAxisLabel: 'Month'
+                        yAxisLabel: 'Tickets Sold'
                     },
                     revenue: { 
                         label: 'Revenue', 
@@ -527,17 +492,14 @@
                         color: '#7c3aed', 
                         chartType: 'bar',
                         yAxisFormatter: (value) => '₹' + value.toLocaleString('en-IN'),
-                        yAxisLabel: 'Revenue',
-                        xAxisLabel: 'Month'
+                        yAxisLabel: 'Revenue'
                     }
                 };
 
                 const dataset = datasets[type];
                 
-                // Update chart type
                 this.mainChart.config.type = dataset.chartType;
                 
-                // Update dataset
                 this.mainChart.data.datasets[0] = {
                     label: dataset.label,
                     data: dataset.data,
@@ -549,10 +511,8 @@
                     tension: dataset.chartType === 'line' ? 0.4 : 0
                 };
                 
-                // Update y-axis formatter and labels
                 this.mainChart.options.scales.y.ticks.callback = dataset.yAxisFormatter;
                 this.mainChart.options.scales.y.title.text = dataset.yAxisLabel;
-                this.mainChart.options.scales.x.title.text = dataset.xAxisLabel;
                 
                 this.mainChart.update('active');
             }
@@ -577,7 +537,6 @@
                 icon.classList.add('fa-spin');
                 
                 setTimeout(() => {
-                    // Simulate new activity
                     this.activities.unshift({
                         type: 'new',
                         message: 'System updated',
@@ -590,27 +549,12 @@
                     icon.classList.remove('fa-spin');
                 }, 1000);
             }
-
-            // startRealTimeUpdates() {
-            //     // Simulate real-time updates every 30 seconds
-            //     setInterval(() => {
-            //         // Update metrics slightly
-            //         this.data.revenue.current += Math.floor(Math.random() * 1000);
-            //         this.data.tickets.current += Math.floor(Math.random() * 5);
-                    
-            //         // Update display
-            //         document.getElementById('total-revenue').textContent = '₹' + this.data.revenue.current.toLocaleString('en-IN');
-            //         document.getElementById('tickets-sold').textContent = this.data.tickets.current.toLocaleString('en-IN');
-            //     }, 30000);
-            // }
         }
 
-        // Initialize dashboard when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             new DashboardManager();
         });
 
-        // Add CSS animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes fade-in {

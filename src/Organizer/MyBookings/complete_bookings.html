@@ -190,7 +190,7 @@
         border-left: 4px solid #ef4444;
       }
 
-      .status-postponed {
+      .status-Rescheduled {
         background: linear-gradient(
           135deg,
           rgba(245, 158, 11, 0.1),
@@ -645,9 +645,9 @@
       </div>
     </div>
 
-    <!-- Postpone Event Modal -->
+    <!-- Reschedule Event Modal -->
     <div
-      id="postponeModal"
+      id="RescheduleModal"
       class="fixed inset-0 modal-backdrop hidden z-50 flex items-center justify-center p-4"
     >
       <div
@@ -656,10 +656,10 @@
         <div class="p-6 border-b border-border">
           <div class="flex items-center justify-between">
             <h3 class="text-2xl font-bold text-card-foreground">
-              Postpone Event
+              Reschedule Event
             </h3>
             <button
-              onclick="closeModal('postponeModal')"
+              onclick="closeModal('RescheduleModal')"
               class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors"
             >
               <svg
@@ -678,7 +678,7 @@
             </button>
           </div>
         </div>
-        <div id="postponeContent" class="p-6">
+        <div id="RescheduleContent" class="p-6">
           <!-- Content will be populated by JavaScript -->
         </div>
       </div>

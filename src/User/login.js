@@ -325,6 +325,17 @@ loginForm.addEventListener("submit", async (e) => {
 
     if (data) {
         const result = findUser(data, email, password);
+        console.log(result.role);
+        if (result.role != 'organizer') {
+            localStorage.removeItem('currentorganizerId')
+            localStorage.removeItem('currentorganizerEmail')
+            localStorage.removeItem('currentorganizerName')
+        }
+        else {
+            localStorage.removeItem('currentaudienceId')
+            localStorage.removeItem('currentaudienceEmail')
+            localStorage.removeItem('currentaudienceName')
+        }
 
         if (result) {
             const Id = `current${result.role}Id`;

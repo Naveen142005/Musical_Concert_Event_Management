@@ -30,8 +30,8 @@
 //             gold: 500,
 //             silver: 300
 //         },
-//         postponeCount: 0,
-//         maxPostpones: 1,
+//         RescheduleCount: 0,
+//         maxReschedules: 1,
 //         registeredUsers: [
 //             { name: "John Smith", email: "john@example.com", ticketType: "Premium", quantity: 2, amount: 10 },
 //             { name: "Sarah Johnson", email: "sarah@example.com", ticketType: "Gold", quantity: 3, amount: 12 },
@@ -131,9 +131,9 @@ async function startApp() {
 }
 
 function getStatusClass(status) {
-    switch(status) {
+    switch (status) {
         case 'confirmed': return 'text-success';
-        case 'postponed': return 'text-warning';
+        case 'Rescheduled': return 'text-warning';
         case 'cancelled': return 'text-destructive';
         case 'completed': return 'text-primary';
         default: return 'text-success';
@@ -154,7 +154,7 @@ function APP(eventData) {
     const currentBookings = [];
     const pastBookings = [];
     console.log(eventsBookings);
-    
+
     eventsBookings.EventsBookings.forEach(booking => {
         if (booking.bookedSlots && booking.bookedSlots.length > 0) {
             const eventDateStr = booking.bookedSlots[0].split('-').slice(0, 3).join('-');
@@ -173,7 +173,7 @@ function APP(eventData) {
     const currentContainer = document.getElementById('currentBookings');
     if (currentContainer) {
         currentContainer.innerHTML = '';
-        
+
         if (currentBookings.length === 0) {
             currentContainer.innerHTML = `
                 <div class="text-center py-12">
@@ -198,7 +198,7 @@ function APP(eventData) {
     const pastContainer = document.getElementById('pastBookings');
     if (pastContainer) {
         pastContainer.innerHTML = '';
-        
+
         if (pastBookings.length === 0) {
             pastContainer.innerHTML = `
                 <div class="text-center py-12">
@@ -220,9 +220,9 @@ function APP(eventData) {
     }
     setTimeout(() => {
         currentBookings.forEach(booking => {
-            if (booking.bookingStatus == 'postponed' ) {
-                const postponeButtons = document.querySelectorAll(`button[onclick="postponeEvent('${booking.bookingId}')"]`);
-                postponeButtons.forEach(button => {
+            if (booking.bookingStatus == 'Rescheduled') {
+                const RescheduleButtons = document.querySelectorAll(`button[onclick="RescheduleEvent('${booking.bookingId}')"]`);
+                RescheduleButtons.forEach(button => {
                     button.style.display = 'none';
                 });
             }
@@ -245,19 +245,19 @@ function createCurrentEventCard(booking, index) {
     const card = document.createElement('div');
     card.className = `bg-card rounded-xl p-4 sm:p-6 border border-border premium-shadow status-${booking.bookingStatus} relative`;
     card.id = `card_${booking.bookingId}`;
-    
+
     // Your existing current booking card HTML here
     card.innerHTML = `
         <div class="mobile-menu-icon sm:hidden">
-            <button onclick="toggleMenu('menu${index+1}')" class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors border border-border shadow-sm">
+            <button onclick="toggleMenu('menu${index + 1}')" class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors border border-border shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
                 </svg>
             </button>
-            <div id="menu${index+1}" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-20">
+            <div id="menu${index + 1}" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-20">
                 <button class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors">Show event poster </button>
                 <button onclick="viewRegistrations('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors" style="display: ${booking.ticketingEnabled ? 'block' : 'none'}">View Registrations</button>
-                <button onclick="postponeEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent transition-colors">Postpone Event</button>
+                <button onclick="RescheduleEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent transition-colors">Reschedule Event</button>
                 <button onclick="cancelEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-destructive/20 text-destructive rounded-b-lg transition-colors">Cancel Event</button>
             </div>
         </div>
@@ -292,19 +292,19 @@ function createCurrentEventCard(booking, index) {
                     View Details
                 </button>
                 <div class="relative hidden sm:block">
-                    <button onclick="toggleMenu('menu${index+1}_desktop')" class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors">
+                    <button onclick="toggleMenu('menu${index + 1}_desktop')" class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
                         </svg>
                     </button>
-                    <div id="menu${index+1}_desktop" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-10">
+                    <div id="menu${index + 1}_desktop" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-10">
                     <button onclick="showBanner('${booking.bookingId}')" 
                             class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors flex items-center justify-between" 
                             style="display: ${true ? 'block' : 'none'}">
                             Show Event Banner
                     </button>
                         <button onclick="viewRegistrations('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent rounded-t-lg transition-colors" style="display: ${booking.ticketingEnabled ? 'block' : 'none'}">View Registrations</button>
-                        <button onclick="postponeEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent transition-colors">Postpone Event</button>
+                        <button onclick="RescheduleEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent transition-colors">Reschedule Event</button>
                         <button onclick="cancelEvent('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-destructive/20 text-destructive rounded-b-lg transition-colors">Cancel Event</button>
                     </div>
                 </div>
@@ -318,7 +318,9 @@ function createCurrentEventCard(booking, index) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    startApp();
+    if (localStorage.getItem('currentorganizerId'))
+        startApp();
+    else alert("Please login as a organizer.")
 });
 
 
@@ -334,38 +336,38 @@ function showBanner(bookingId) {
     const bannerImage = document.getElementById('bannerImage');
     const bannerTitle = document.getElementById('bannerTitle');
     const bannerBookingIdEl = document.getElementById('bannerBookingId');
-    
+
     // Show modal and loading state
     modal.classList.remove('hidden');
     loading.classList.remove('hidden');
     content.classList.add('hidden');
     error.classList.add('hidden');
-    
+
     // Animate modal appearance
     setTimeout(() => {
         modal.style.animation = 'fadeIn 0.3s ease-out';
     }, 10);
-    
+
     // Try to retrieve banner from localStorage
     const bannerKey = `event_banner_${bookingId}`;
     const bannerData = localStorage.getItem(bannerKey);
-    
+
     setTimeout(() => {
         if (bannerData) {
             // Banner found - show it
             bannerImage.src = bannerData;
             bannerTitle.textContent = `Event Banner`;
             bannerBookingIdEl.textContent = `Booking ID: ${bookingId}`;
-            
+
             // Hide loading, show content
             loading.classList.add('hidden');
             content.classList.remove('hidden');
-            
-            bannerImage.onload = function() {
+
+            bannerImage.onload = function () {
                 console.log('Banner image loaded successfully');
             };
-            
-            bannerImage.onerror = function() {
+
+            bannerImage.onerror = function () {
                 console.error('Failed to load banner image');
                 showBannerError();
             };
@@ -374,7 +376,7 @@ function showBanner(bookingId) {
             showBannerError();
         }
     }, 500);
-    
+
     function showBannerError() {
         loading.classList.add('hidden');
         content.classList.add('hidden');
@@ -385,14 +387,14 @@ function showBanner(bookingId) {
 // Simple Close Banner Modal Function
 function closeBannerModal() {
     const modal = document.getElementById('bannerModal');
-    
+
     // Animate modal disappearance
     modal.style.animation = 'fadeOut 0.3s ease-in';
-    
+
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.style.animation = '';
-        
+
         // Reset modal states
         document.getElementById('bannerLoading').classList.remove('hidden');
         document.getElementById('bannerContent').classList.add('hidden');
@@ -408,26 +410,26 @@ window.closeBannerModal = closeBannerModal;
 // Enhanced Close Banner Modal Function
 function closeBannerModal() {
     const modal = document.getElementById('bannerModal');
-    
+
     // Enhanced animation
     modal.style.animation = 'fadeOutLarge 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    
+
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.style.animation = '';
-        
+
         // Reset modal states
         document.getElementById('bannerLoading').classList.remove('hidden');
         document.getElementById('bannerContent').classList.add('hidden');
         document.getElementById('bannerError').classList.add('hidden');
-        
+
         // Reset image animation
         const bannerImage = document.getElementById('bannerImage');
         if (bannerImage) {
             bannerImage.style.animation = '';
         }
     }, 400);
-    
+
     // Remove keyboard event listener
     document.removeEventListener('keydown', handleBannerKeyPress);
 }
@@ -436,20 +438,20 @@ function closeBannerModal() {
 // Close Banner Modal Function
 function closeBannerModal() {
     const modal = document.getElementById('bannerModal');
-    
+
     // Animate modal disappearance
     modal.style.animation = 'fadeOut 0.3s ease-in';
-    
+
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.style.animation = '';
-        
+
         // Reset modal states
         document.getElementById('bannerLoading').classList.remove('hidden');
         document.getElementById('bannerContent').classList.add('hidden');
         document.getElementById('bannerError').classList.add('hidden');
     }, 300);
-    
+
     // Remove keyboard event listener
     document.removeEventListener('keydown', handleBannerKeyPress);
 }
@@ -462,11 +464,11 @@ function handleBannerKeyPress(event) {
 }
 
 // Close modal when clicking outside
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const bannerModal = document.getElementById('bannerModal');
-    
+
     if (bannerModal) {
-        bannerModal.addEventListener('click', function(event) {
+        bannerModal.addEventListener('click', function (event) {
             // Close if clicked on the modal backdrop (not on the content)
             if (event.target === bannerModal) {
                 closeBannerModal();
@@ -540,7 +542,7 @@ function generateAvailabilityData() {
 const availabilityData = generateAvailabilityData();
 
 let currentBookingId = null;
-let currentPostponePage = 0;
+let currentReschedulePage = 0;
 const daysPerPage = 3;
 let currentSortColumn = '';
 let sortDirection = 'asc';
@@ -773,7 +775,7 @@ function viewDetails(bookingId) {
                     <div class="space-y-2">
                         <p><span class="text-muted-foreground">Booking ID:</span> <span class="font-mono text-primary">${booking.bookingId}</span></p>
                         <p><span class="text-muted-foreground">Event Name:</span> <span class="font-medium">${booking.eventName}</span></p>
-                        <p><span class="text-muted-foreground">Status:</span> <span class="font-medium ${booking.bookingStatus === 'cancelled' ? 'text-destructive' : booking.bookingStatus === 'postponed' ? 'text-warning' : 'text-success'}">${booking.bookingStatus.charAt(0).toUpperCase() + booking.bookingStatus.slice(1)}</span></p>
+                        <p><span class="text-muted-foreground">Status:</span> <span class="font-medium ${booking.bookingStatus === 'cancelled' ? 'text-destructive' : booking.bookingStatus === 'Rescheduled' ? 'text-warning' : 'text-success'}">${booking.bookingStatus.charAt(0).toUpperCase() + booking.bookingStatus.slice(1)}</span></p>
 
                         <p><span class="text-muted-foreground">Event Date:</span> <span class="font-medium" id="detailEventDate${booking.bookingId}">${formattedDate} - ${formattedTime}</span></p>
                         <p><span class="text-muted-foreground">Booking Date:</span> <span class="font-medium">${new Date(booking.bookingDate).toLocaleDateString()}</span></p>
@@ -893,7 +895,7 @@ function viewDetails(bookingId) {
 function viewRegistrations(bookingId) {
     const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
     console.log(booking);
-    
+
     if (!booking.registrations) {
         return;
     }
@@ -1023,26 +1025,26 @@ function animateCounter(elementId, target) {
     }, 40);
 }
 
-function postponeEvent(bookingId) {
+function RescheduleEvent(bookingId) {
     const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
     if (!booking) return;
 
-    // Check if already postponed maximum times
-    if (booking.postponeCount >= booking.maxPostpones) {
-        showNotification('This event has already been postponed the maximum number of times allowed.', 'error');
+    // Check if already Rescheduled maximum times
+    if (booking.RescheduleCount >= booking.maxReschedules) {
+        showNotification('This event has already been Rescheduled the maximum number of times allowed.', 'error');
         return;
     }
 
     currentBookingId = bookingId;
-    currentPostponePage = 0;
+    currentReschedulePage = 0;
 
     const currentSlot = booking.bookedSlots[0];
-    renderPostponeModal(booking, currentSlot);
+    renderRescheduleModal(booking, currentSlot);
 }
 
-function renderPostponeModal(booking, currentSlot) {
+function renderRescheduleModal(booking, currentSlot) {
     const availableDates = Object.keys(availabilityData);
-    const startIndex = currentPostponePage * daysPerPage;
+    const startIndex = currentReschedulePage * daysPerPage;
     const endIndex = Math.min(startIndex + daysPerPage, availableDates.length);
     const currentDates = availableDates.slice(startIndex, endIndex);
 
@@ -1146,14 +1148,14 @@ function renderPostponeModal(booking, currentSlot) {
                         <span class="inline-block w-3 h-3 bg-destructive/20 border-2 border-destructive rounded mr-2 ml-4"></span>Booked
                     </div>
                     <div class="flex items-center space-x-2">
-                        <button onclick="changePostponePage(-1)" ${currentPostponePage === 0 ? 'disabled' : ''} 
+                        <button onclick="changeReschedulePage(-1)" ${currentReschedulePage === 0 ? 'disabled' : ''} 
                                 class="pagination-btn px-3 py-1 bg-secondary text-secondary-foreground rounded hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             Previous
                         </button>
                         <span class="text-sm text-muted-foreground">
-                            ${currentPostponePage + 1} of ${Math.ceil(availableDates.length / daysPerPage)}
+                            ${currentReschedulePage + 1} of ${Math.ceil(availableDates.length / daysPerPage)}
                         </span>
-                        <button onclick="changePostponePage(1)" ${endIndex >= availableDates.length ? 'disabled' : ''} 
+                        <button onclick="changeReschedulePage(1)" ${endIndex >= availableDates.length ? 'disabled' : ''} 
                                 class="pagination-btn px-3 py-1 bg-secondary text-secondary-foreground rounded hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             Next
                         </button>
@@ -1171,7 +1173,7 @@ function renderPostponeModal(booking, currentSlot) {
                             <div>
                                 <p class="font-medium text-warning">Current Event: ${booking.eventName}</p>
                                 <p class="text-sm text-muted-foreground">Currently scheduled for ${new Date(currentSlot.split('-').slice(0, 3).join('-')).toLocaleDateString()} - ${currentSlot.split('-')[3]}</p>
-                                <p class="text-xs text-muted-foreground mt-1">Postpones remaining: ${booking.maxPostpones - booking.postponeCount}</p>
+                                <p class="text-xs text-muted-foreground mt-1">Reschedules remaining: ${booking.maxReschedules - booking.RescheduleCount}</p>
                                 <p class="text-xs text-success mt-1">🗓️ New dates start from tomorrow morning onwards</p>
                             </div>
                         </div>
@@ -1188,21 +1190,21 @@ function renderPostponeModal(booking, currentSlot) {
                 </div>
             `;
 
-    document.getElementById('postponeContent').innerHTML = content;
-    document.getElementById('postponeModal').classList.remove('hidden');
+    document.getElementById('RescheduleContent').innerHTML = content;
+    document.getElementById('RescheduleModal').classList.remove('hidden');
 }
 
-function changePostponePage(direction) {
+function changeReschedulePage(direction) {
     const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking) return;
 
     const totalPages = Math.ceil(Object.keys(availabilityData).length / daysPerPage);
-    const newPage = currentPostponePage + direction;
+    const newPage = currentReschedulePage + direction;
 
     if (newPage >= 0 && newPage < totalPages) {
-        currentPostponePage = newPage;
+        currentReschedulePage = newPage;
         const currentSlot = booking.bookedSlots[0];
-        renderPostponeModal(booking, currentSlot);
+        renderRescheduleModal(booking, currentSlot);
     }
 }
 
@@ -1222,7 +1224,7 @@ function selectNewSlot(slotKey) {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-card-foreground mb-2">Confirm Postponement</h3>
+                    <h3 class="text-xl font-bold text-card-foreground mb-2">Confirm Reschedulement</h3>
                     <p class="text-muted-foreground mb-2">Move event to:</p>
                    <span class="${booking.bookingStatus === 'cancelled' ? 'text-destructive' : 'text-success'} font-medium">${booking.bookingStatus.charAt(0).toUpperCase() + booking.bookingStatus.slice(1)}</span>
 
@@ -1230,20 +1232,20 @@ function selectNewSlot(slotKey) {
                         ${booking.registrations.total} users are already registered. They will receive notification about the schedule change and can request refunds if needed.
                     </p>
                     <div class="flex space-x-3">
-                        <button onclick="closeModal('postponeModal')" class="flex-1 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-accent transition-colors">
+                        <button onclick="closeModal('RescheduleModal')" class="flex-1 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-accent transition-colors">
                             Cancel
                         </button>
-                        <button onclick="confirmPostpone('${slotKey}')" class="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                            Confirm Postponement
+                        <button onclick="confirmReschedule('${slotKey}')" class="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                            Confirm Reschedulement
                         </button>
                     </div>
                 </div>
             `;
 
-    document.getElementById('postponeContent').innerHTML = confirmContent;
+    document.getElementById('RescheduleContent').innerHTML = confirmContent;
 }
 
-async function confirmPostpone(newSlot) {
+async function confirmReschedule(newSlot) {
     const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking) return;
 
@@ -1261,13 +1263,13 @@ async function confirmPostpone(newSlot) {
         const bookingIndex = apiData.EventsBookings.findIndex(b => b.bookingId === currentBookingId);
         if (bookingIndex !== -1) {
             apiData.EventsBookings[bookingIndex].bookedSlots = [newSlot];
-            apiData.EventsBookings[bookingIndex].postponeCount += 1;
-            apiData.EventsBookings[bookingIndex].bookingStatus = 'postponed';
+            apiData.EventsBookings[bookingIndex].RescheduleCount += 1;
+            apiData.EventsBookings[bookingIndex].bookingStatus = 'Rescheduled';
         }
 
         // Remove old slot from resources
         removeOldSlotFromResources(apiData, oldSlot, booking);
-        
+
         // Add new slot to resources
         addNewSlotToResources(apiData, newSlot, booking);
 
@@ -1276,22 +1278,22 @@ async function confirmPostpone(newSlot) {
 
         // Update local data
         booking.bookedSlots = [newSlot];
-        booking.postponeCount += 1;
-        booking.bookingStatus = 'postponed';
+        booking.RescheduleCount += 1;
+        booking.bookingStatus = 'Rescheduled';
 
-        const postponeButtons = document.querySelectorAll(`button[onclick="postponeEvent('${currentBookingId}')"]`);
-        postponeButtons.forEach(button => {
+        const RescheduleButtons = document.querySelectorAll(`button[onclick="RescheduleEvent('${currentBookingId}')"]`);
+        RescheduleButtons.forEach(button => {
             button.style.display = 'none';
         });
 
-        console.log(`Event ${currentBookingId} postponed to ${newSlot}`);
-        
-        closeModal('postponeModal');
+        console.log(`Event ${currentBookingId} Rescheduled to ${newSlot}`);
+
+        closeModal('RescheduleModal');
         updateBookingCard(currentBookingId);
-        showNotification('Event successfully postponed! All registered users have been notified. Database updated.', 'success');
+        showNotification('Event successfully Rescheduled! All registered users have been notified. Database updated.', 'success');
 
     } catch (error) {
-        console.error('Error updating postponement:', error);
+        console.error('Error updating Reschedulement:', error);
         showNotification('Failed to update event schedule. Please try again.', 'error');
     }
 }
@@ -1301,7 +1303,7 @@ function updateBookingCard(bookingId) {
     const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
     if (!booking) return;
 
- 
+
 
     // Update main card date
     const mainDateElement = document.getElementById(`eventDate_${bookingId}`);
@@ -1331,14 +1333,14 @@ function updateBookingCard(bookingId) {
 
     // Update status
     const statusElement = document.getElementById(`eventStatus_${bookingId}`);
-    if (statusElement && booking.bookingStatus === 'postponed') {
+    if (statusElement && booking.bookingStatus === 'Rescheduled') {
         statusElement.className = 'text-warning font-medium';
-        statusElement.textContent = 'Postponed';
+        statusElement.textContent = 'Rescheduled';
 
         // Update card class
-        const card = statusElement.closest('.status-confirmed, .status-postponed');
+        const card = statusElement.closest('.status-confirmed, .status-Rescheduled');
         if (card) {
-            card.className = card.className.replace('status-confirmed', 'status-postponed');
+            card.className = card.className.replace('status-confirmed', 'status-Rescheduled');
         }
     }
 }
@@ -1346,7 +1348,7 @@ function updateBookingCard(bookingId) {
 // API Update Functions
 async function updateMockAPI(updatedData) {
     const APIBASE = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2';
-    
+
     try {
         const response = await fetch(APIBASE, {
             method: 'PUT',
@@ -1464,7 +1466,7 @@ async function confirmCancel() {
         booking.bookingStatus = 'cancelled';
 
         console.log(`Event ${currentBookingId} cancelled`);
-        
+
         closeModal('cancelModal');
         moveBookingToPast(currentBookingId);
         showNotification('Event successfully cancelled! All registered users will receive full refunds. Database updated.', 'success');
@@ -1532,22 +1534,22 @@ function createPastEventCard(booking, index) {
     const timeSlot = booking.bookedSlots[0].split('-')[3];
 
     const card = document.createElement('div');
-    
+
     // Determine card status class
     let statusClass = 'status-completed';
     if (booking.bookingStatus === 'cancelled') statusClass = 'status-cancelled';
-    else if (booking.bookingStatus === 'postponed') statusClass = 'status-postponed';
-    
+    else if (booking.bookingStatus === 'Rescheduled') statusClass = 'status-Rescheduled';
+
     card.className = `bg-card rounded-xl p-4 sm:p-6 border border-border premium-shadow ${statusClass} relative`;
     card.innerHTML = `
         <!-- Mobile Menu Button (limited actions for past events) -->
         <div class="mobile-menu-icon sm:hidden">
-            <button onclick="toggleMenu('pastMenu${index+1}')" class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors border border-border shadow-sm">
+            <button onclick="toggleMenu('pastMenu${index + 1}')" class="p-2 rounded-lg bg-secondary hover:bg-accent transition-colors border border-border shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
                 </svg>
             </button>
-            <div id="pastMenu${index+1}" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-20">
+            <div id="pastMenu${index + 1}" class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg premium-shadow-lg hidden z-20">
                 <button onclick="viewDetails('${booking.bookingId}')" class="w-full text-left px-4 py-2 hover:bg-accent rounded-lg transition-colors">View Details</button>
             </div>
         </div>
@@ -1589,9 +1591,9 @@ function createPastEventCard(booking, index) {
     return card;
 }
 function getStatusClass(status) {
-    switch(status) {
+    switch (status) {
         case 'confirmed': return 'text-success';
-        case 'postponed': return 'text-warning';
+        case 'Rescheduled': return 'text-warning';
         case 'cancelled': return 'text-destructive';
         case 'completed': return 'text-primary';
         default: return 'text-success';
@@ -1599,9 +1601,9 @@ function getStatusClass(status) {
 }
 
 function getStatusText(status) {
-    switch(status) {
+    switch (status) {
         case 'confirmed': return 'Confirmed';
-        case 'postponed': return 'Postponed';
+        case 'Rescheduled': return 'Rescheduled';
         case 'cancelled': return 'Cancelled';
         case 'completed': return 'Completed';
         default: return 'Confirmed';

@@ -1,121 +1,192 @@
-  // Enhanced Events Data with Music-Related Content
-const eventsData = [
-    {
-        id: "evt101",
-        name: "Symphony Under the Stars",
-        date: "2025-10-05",
-        time: "7:00 PM",
-        band: "Orchestra Nova",
-        venue: "Grand Music Hall, Chennai",
-        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format",
-        category: "Classical",
-        description: "Experience the magic of classical music under a starlit sky with Chennai's premier orchestra",
-        duration: "2 hours 30 minutes",
-        tickets: { premium: 1500, gold: 1000, silver: 500 },
-        availableTickets: 120
-    },
-    {
-        id: "evt102",
-        name: "Electric Nights Festival",
-        date: "2025-10-12",
-        time: "8:00 PM",
-        band: "Neon Pulse",
-        venue: "Phoenix Arena, Mumbai",
-        image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&auto=format",
-        category: "Electronic",
-        description: "A high-energy electronic music festival featuring cutting-edge sounds and visual spectacles",
-        duration: "4 hours",
-        tickets: { premium: 2000, gold: 1200, silver: 700 },
-        availableTickets: 8
-    },
-    {
-        id: "evt103",
-        name: "Jazz & Soul Evening",
-        date: "2025-10-18",
-        time: "7:30 PM",
-        band: "Smooth Operators",
-        venue: "Blue Note Club, Bangalore",
-        image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&h=600&fit=crop&auto=format",
-        category: "Jazz",
-        description: "An intimate evening of smooth jazz and soulful melodies in Bangalore's premier jazz venue",
-        duration: "2 hours 15 minutes",
-        tickets: { premium: 1200, gold: 800, silver: 400 },
-        availableTickets: 35
-    },
-    {
-        id: "evt104",
-        name: "Acoustic Dreams",
-        date: "2025-10-25",
-        time: "6:30 PM",
-        band: "Strings & Stories",
-        venue: "Harmony Gardens, Pune",
-        image: "https://images.unsplash.com/photo-1481715169005-a45cb3e67163?w=800&h=600&fit=crop&auto=format",
-        category: "Acoustic",
-        description: "Unplugged acoustic performances in a beautiful garden setting with storytelling elements",
-        duration: "2 hours",
-        tickets: { premium: 1000, gold: 650, silver: 350 },
-        availableTickets: 0
-    },
-    {
-        id: "evt105",
-        name: "Pop Culture Celebration",
-        date: "2025-11-02",
-        time: "8:30 PM",
-        band: "Vibrant Stars",
-        venue: "Crystal Palace, Delhi",
-        image: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=600&fit=crop&auto=format",
-        category: "Pop",
-        description: "A celebration of contemporary pop music with chart-topping hits and spectacular performances",
-        duration: "3 hours",
-        tickets: { premium: 2200, gold: 1400, silver: 800 },
-        availableTickets: 95
-    },
-    {
-        id: "evt106",
-        name: "Rock Revolution",
-        date: "2025-11-08",
-        time: "9:00 PM",
-        band: "Thunder Strike",
-        venue: "Metal Arena, Hyderabad",
-        image: "https://images.unsplash.com/photo-1571266028243-d220c6ae6ee8?w=800&h=600&fit=crop&auto=format",
-        category: "Rock",
-        description: "High-octane rock concert featuring powerful guitar riffs and thunderous drum beats",
-        duration: "2 hours 45 minutes",
-        tickets: { premium: 1800, gold: 1100, silver: 600 },
-        availableTickets: 25
-    },
-    {
-        id: "evt107",
-        name: "Classical Fusion Night",
-        date: "2025-11-15",
-        time: "7:00 PM",
-        band: "Heritage Ensemble",
-        venue: "Royal Theatre, Mumbai",
-        image: "https://images.unsplash.com/photo-1519683109079-d5f539e1542f?w=800&h=600&fit=crop&auto=format",
-        category: "Fusion",
-        description: "A unique blend of classical Indian music with modern arrangements and instruments",
-        duration: "2 hours 20 minutes",
-        tickets: { premium: 1600, gold: 950, silver: 550 },
-        availableTickets: 65
-    },
-    {
-        id: "evt108",
-        name: "Indie Showcase",
-        date: "2025-11-22",
-        time: "8:00 PM",
-        band: "Alternative Minds",
-        venue: "Underground Club, Kolkata",
-        image: "https://images.unsplash.com/photo-1564103049-e7fc7ddf52bb?w=800&h=600&fit=crop&auto=format",
-        category: "Indie",
-        description: "Discover emerging independent artists and alternative sounds in an intimate venue setting",
-        duration: "2 hours 30 minutes",
-        tickets: { premium: 1300, gold: 750, silver: 450 },
-        availableTickets: 3
+//   // Enhanced Events Data with Music-Related Content
+// let eventsData = [
+//     {
+//         id: "evt101",
+//         name: "Symphony Under the Stars",
+//         date: "2025-10-05",
+//         time: "7:00 PM",
+//         band: "Orchestra Nova",
+//         venue: "Grand Music Hall, Chennai",
+//         image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format",
+//         category: "Classical",
+//         description: "Experience the magic of classical music under a starlit sky with Chennai's premier orchestra",
+//         duration: "2 hours 30 minutes",
+//         tickets: { premium: 1500, gold: 1000, silver: 500 },
+//         availableTickets: 120
+//     },
+//     {
+//         id: "evt102",
+//         name: "Electric Nights Festival",
+//         date: "2025-10-12",
+//         time: "8:00 PM",
+//         band: "Neon Pulse",
+//         venue: "Phoenix Arena, Mumbai",
+//         image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&auto=format",
+//         category: "Electronic",
+//         description: "A high-energy electronic music festival featuring cutting-edge sounds and visual spectacles",
+//         duration: "4 hours",
+//         tickets: { premium: 2000, gold: 1200, silver: 700 },
+//         availableTickets: 8
+//     },
+//     {
+//         id: "evt103",
+//         name: "Jazz & Soul Evening",
+//         date: "2025-10-18",
+//         time: "7:30 PM",
+//         band: "Smooth Operators",
+//         venue: "Blue Note Club, Bangalore",
+//         image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&h=600&fit=crop&auto=format",
+//         category: "Jazz",
+//         description: "An intimate evening of smooth jazz and soulful melodies in Bangalore's premier jazz venue",
+//         duration: "2 hours 15 minutes",
+//         tickets: { premium: 1200, gold: 800, silver: 400 },
+//         availableTickets: 35
+//     },
+//     {
+//         id: "evt104",
+//         name: "Acoustic Dreams",
+//         date: "2025-10-25",
+//         time: "6:30 PM",
+//         band: "Strings & Stories",
+//         venue: "Harmony Gardens, Pune",
+//         image: "https://images.unsplash.com/photo-1481715169005-a45cb3e67163?w=800&h=600&fit=crop&auto=format",
+//         category: "Acoustic",
+//         description: "Unplugged acoustic performances in a beautiful garden setting with storytelling elements",
+//         duration: "2 hours",
+//         tickets: { premium: 1000, gold: 650, silver: 350 },
+//         availableTickets: 0
+//     },
+//     {
+//         id: "evt105",
+//         name: "Pop Culture Celebration",
+//         date: "2025-11-02",
+//         time: "8:30 PM",
+//         band: "Vibrant Stars",
+//         venue: "Crystal Palace, Delhi",
+//         image: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=600&fit=crop&auto=format",
+//         category: "Pop",
+//         description: "A celebration of contemporary pop music with chart-topping hits and spectacular performances",
+//         duration: "3 hours",
+//         tickets: { premium: 2200, gold: 1400, silver: 800 },
+//         availableTickets: 95
+//     },
+//     {
+//         id: "evt106",
+//         name: "Rock Revolution",
+//         date: "2025-11-08",
+//         time: "9:00 PM",
+//         band: "Thunder Strike",
+//         venue: "Metal Arena, Hyderabad",
+//         image: "https://images.unsplash.com/photo-1571266028243-d220c6ae6ee8?w=800&h=600&fit=crop&auto=format",
+//         category: "Rock",
+//         description: "High-octane rock concert featuring powerful guitar riffs and thunderous drum beats",
+//         duration: "2 hours 45 minutes",
+//         tickets: { premium: 1800, gold: 1100, silver: 600 },
+//         availableTickets: 25
+//     },
+//     {
+//         id: "evt107",
+//         name: "Classical Fusion Night",
+//         date: "2025-11-15",
+//         time: "7:00 PM",
+//         band: "Heritage Ensemble",
+//         venue: "Royal Theatre, Mumbai",
+//         image: "https://images.unsplash.com/photo-1519683109079-d5f539e1542f?w=800&h=600&fit=crop&auto=format",
+//         category: "Fusion",
+//         description: "A unique blend of classical Indian music with modern arrangements and instruments",
+//         duration: "2 hours 20 minutes",
+//         tickets: { premium: 1600, gold: 950, silver: 550 },
+//         availableTickets: 65
+//     },
+//     {
+//         id: "evt108",
+//         name: "Indie Showcase",
+//         date: "2025-11-22",
+//         time: "8:00 PM",
+//         band: "Alternative Minds",
+//         venue: "Underground Club, Kolkata",
+//         image: "https://images.unsplash.com/photo-1564103049-e7fc7ddf52bb?w=800&h=600&fit=crop&auto=format",
+//         category: "Indie",
+//         description: "Discover emerging independent artists and alternative sounds in an intimate venue setting",
+//         duration: "2 hours 30 minutes",
+//         tickets: { premium: 1300, gold: 750, silver: 450 },
+//         availableTickets: 3
+//     }
+// ];
+
+let eventsData;
+let filteredEvents;
+async function getData() {
+    try {
+        const data = await fetch('https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2');
+        const res = await data.json();
+        console.log('API Response:', res);
+
+        // Create lookup maps
+        const venueMap = Object.fromEntries(res.Venues.map(v => [v.id, v.name]));
+        const bandMap = Object.fromEntries(res.Bands.map(b => [b.id, b.name]));
+        const decorMap = Object.fromEntries(res.Decorations.map(d => [d.id, d.name]));
+
+        const eventBookings = res.EventsBookings;
+        console.log('Event Bookings:', eventBookings);
+
+        // Transform API data to match frontend format
+        eventsData = eventBookings.map((item, index) => {
+            let date, timeRaw;
+            if (item.bookedSlots && item.bookedSlots.length > 0) {
+                let slot = item.bookedSlots[0];
+                let parts = slot.split("-");
+                timeRaw = parts.pop(); // last part = time
+                date = parts.join("-"); // rest = date
+            }
+
+            // Normalize time text
+            const timeMap = {
+                morning: "Morning",
+                afternoon: "Afternoon",
+                night: "Night"
+            };
+            const time = timeMap[timeRaw?.toLowerCase()] || "N/A";
+
+            return {
+                id: item.bookingId || `evt${index + 1}`,
+                name: item.eventName,
+                date: date || item.bookingDate?.slice(0, 10) || "2025-10-01",
+                time: time,
+                band: bandMap[item.bandId] || "Unknown Band",
+                venue: venueMap[item.venueId] || "Unknown Venue",
+                decoration: decorMap[item.decorId] || null,
+                category: item.category || "General",
+                description: item.eventDescription || "An amazing musical event",
+                duration: item.duration || "2 hours",
+                image: item.image || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format",
+                tickets: {
+                    premium: item.ticketPrices?.premiumPrice || 1500,
+                    gold: item.ticketPrices?.goldPrice || 1000,
+                    silver: item.ticketPrices?.silverPrice || 500
+                },
+                availableTickets: item.availableTickets || 100
+            };
+        });
+        filteredEvents = [...eventsData];
+        // console.log('Transformed Events Data:', apiEventsData);
+        hideLoadingSkeleton();
+        displayEvents();
+        // eventsData = apiEventsData;
+        // Start the app with API data
+        // startapp(apiEventsData);
+
+
+    } catch (error) {
+        console.error('Error fetching events data:', error);
+        console.log('Using static fallback data');
+        // Fallback to static data if API fails
+        // startapp(staticEventsData);
     }
-];
+}
 
 // Application State
-let filteredEvents = [...eventsData];
+
 let displayedEvents = 6;
 let currentBookingEvent = null;
 let searchTimeout = null;
@@ -123,19 +194,31 @@ let ticketSelections = {};
 
 // Navigation History
 let navigationHistory = [];
-
 // Initialize Application
 document.addEventListener('DOMContentLoaded', function () {
 
     const signInBtn = document.getElementById('signInBtn');
     const profileBtn = document.getElementById('profileBtn');
     const profileName = document.getElementById('pname');
-
-    if (signInBtn && profileBtn) {
+    console.log("helloooo");
+    
+    
+    if (localStorage.getItem('currentaudienceId') || localStorage.getItem('currentorganizerId')) {
+        console.log("hkhkjh");
+        console.log(localStorage.getItem('currentorganizerId') + localStorage.getItem('currentorganizerName'));
+        
         signInBtn.classList.add('hidden');
         profileBtn.classList.remove('hidden');
-        profileName.innerText = localStorage.getItem('currentaudienceName')
+        if (localStorage.getItem('currentaudienceName'))
+            profileName.innerText = localStorage.getItem('currentaudienceName')
+        else
+            profileName.innerText = localStorage.getItem('currentorganizerName')
     }
+    // else if (localStorage.getItem('currentorganizerId')) {
+    //     signInBtn.classList.add('hidden');
+    //     profileBtn.classList.remove('hidden');
+    //     profileName.innerText = localStorage.getItem('currentorganizerName')
+    // }
     feather.replace();
     showLoadingSkeleton();
 
@@ -144,14 +227,10 @@ document.addEventListener('DOMContentLoaded', function () {
         page: 'main',
         timestamp: Date.now()
     });
-
-    setTimeout(() => {
-        hideLoadingSkeleton();
-        displayEvents();
-        updateEventCount();
-        setupEventListeners();
-    }, 2000);
+    getData();
 });
+
+
 
 // Enhanced Back Button Functionality
 function goBack() {
@@ -320,6 +399,8 @@ function displayEvents() {
     `).join('');
 
     const loadMoreBtn = document.getElementById('loadMoreBtn');
+    console.log(loadMoreBtn);
+
     loadMoreBtn.classList.toggle('hidden', displayedEvents >= filteredEvents.length);
 }
 
@@ -327,38 +408,30 @@ function displayEvents() {
 function checkUserAuthentication() {
     const currentOrganizerId = localStorage.getItem('currentorganizerId');
     const currentAudienceId = localStorage.getItem('currentaudienceId');
-    
-    if (!currentOrganizerId && !currentAudienceId) {
-        return { authenticated: false, userType: null };
-    }
+
     
     if (currentOrganizerId) {
-        return { authenticated: true, userType: 'organizer' };
+        showAuthMessage('Organizers cannot book tickets. Please login as an audience member to book tickets.', 'warning');
+        // return { authenticated: true, userType: 'organizer' };
     }
-    
+    if (!currentOrganizerId && !currentAudienceId) {
+         showAuthMessage('Please login as an audience', 'warning');
+        return { authenticated: false, userType: null };
+    }
+
     if (currentAudienceId) {
         return { authenticated: true, userType: 'audience' };
     }
-    
+
     return { authenticated: false, userType: null };
 }
 
 // Handle booking click with authentication check
 function handleBookingClick(eventId) {
     const auth = checkUserAuthentication();
+
     
-    if (!auth.authenticated) {
-        // User not logged in
-        showAuthMessage('Please login to book tickets for this event.', 'info');
-        return;
-    }
-    
-    if (auth.userType === 'organizer') {
-        // Organizer trying to book
-        showAuthMessage('Organizers cannot book tickets. Please login as an audience member to book tickets.', 'warning');
-        return;
-    }
-    
+
     if (auth.userType === 'audience') {
         // Valid audience user - proceed with booking
         openBookingModal(eventId);
@@ -370,14 +443,14 @@ function handleBookingClick(eventId) {
 function showAuthMessage(message, type = 'info') {
     // Create or get existing message container
     let messageContainer = document.getElementById('auth-message-container');
-    
+
     if (!messageContainer) {
         messageContainer = document.createElement('div');
         messageContainer.id = 'auth-message-container';
         messageContainer.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 z-50';
         document.body.appendChild(messageContainer);
     }
-    
+
     // Message styling based on type
     const messageStyles = {
         info: 'bg-blue-500 border-blue-600',
@@ -385,7 +458,7 @@ function showAuthMessage(message, type = 'info') {
         error: 'bg-red-500 border-red-600',
         success: 'bg-green-500 border-green-600'
     };
-    
+
     const iconStyles = {
         info: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -400,7 +473,7 @@ function showAuthMessage(message, type = 'info') {
                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>`
     };
-    
+
     // Create message HTML
     const messageHtml = `
         <div class="auth-message ${messageStyles[type]} text-white px-6 py-4 rounded-xl shadow-2xl border-2 flex items-center space-x-3 max-w-md backdrop-blur-sm animate-slide-down">
@@ -417,9 +490,9 @@ function showAuthMessage(message, type = 'info') {
             </button>
         </div>
     `;
-    
+
     messageContainer.innerHTML = messageHtml;
-    
+
     // Auto-hide after 5 seconds
     setTimeout(() => {
         closeAuthMessage();
@@ -520,8 +593,10 @@ function updateEventCount() {
     // document.getElementById('eventCount').textContent = filteredEvents.length;
 }
 
-function loadMoreEvents() {
+function loadmoreevents() {
     displayedEvents += 6;
+    console.log("hhel");
+
     displayEvents();
 }
 
@@ -798,9 +873,9 @@ function processPayment() {
                                     }
 
                                     console.log('Ticket count found:', ticketCount);
-                                    document.getElementById('successTicketCount').textContent = ticketCount + ' tickets';
+                                    // document.getElementById('successTicketCount').textContent = ticketCount + ' tickets';
 
-                                    document.getElementById('successTotalAmount').textContent = '₹' + totalPrice;
+                                    // document.getElementById('successTotalAmount').textContent = '₹' + totalPrice;
 
                                     document.getElementById('successModalContent').classList.remove('scale-95', 'opacity-0');
                                     document.getElementById('successModalContent').classList.add('scale-100', 'opacity-100');
@@ -1372,7 +1447,7 @@ function loadEventDataIntoModal(event) {
                         <p class="text-xl font-bold text-purple-600">₹${price}</p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <button onclick="changeQuantity('${ticket.type}', ${price}, -1)" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-200 disabled:opacity-50" disabled>
+                        <button onclick="changeQuantity('${ticket.type}', ${price}, -1)" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-200 disabled:opacity-50" >
                             <i data-feather="minus" class="w-4 h-4"></i>
                         </button>
                         <span id="qty-${ticket.type}" class="font-semibold text-slate-900 min-w-[2rem] text-center">0</span>
@@ -1392,6 +1467,7 @@ function loadEventDataIntoModal(event) {
 // Change ticket quantity
 function changeQuantity(ticketType, price, change) {
     const qtyElement = document.getElementById(`qty-${ticketType}`);
+
     let currentQty = parseInt(qtyElement.textContent) || 0;
     let newQty = Math.max(0, Math.min(10, currentQty + change));
 
@@ -1418,6 +1494,39 @@ function changeQuantity(ticketType, price, change) {
     updateBookingSummary();
 }
 
+document.getElementById('desktopBookButton').addEventListener('click', () => {
+    document.getElementById('successTotalAmount').innerText = document.getElementById('desktopTotalAmount').innerText;
+    let p = document.getElementById('qty-premium').innerText;
+    let g = document.getElementById('qty-gold').innerText
+    let s = document.getElementById('qty-silver').innerText
+
+
+    console.log("hwlloooo");
+
+    console.log(p);
+    // console.log(typeof p);
+
+
+    document.getElementById('successTicketCount').innerText = Number(p) + Number(g) + Number(s);
+
+})
+
+
+document.getElementById('mobileBookButton').addEventListener('click', () => {
+    document.getElementById('successTotalAmount').innerText = document.getElementById('desktopTotalAmount').innerText;
+    let p = document.getElementById('qty-premium').innerText;
+    let g = document.getElementById('qty-gold').innerText
+    let s = document.getElementById('qty-silver').innerText
+
+
+    console.log("hwlloooo");
+
+    console.log(p);
+    // console.log(typeof p);
+
+
+    document.getElementById('successTicketCount').innerText = Number(p) + Number(g) + Number(s);
+})
 // Update summary for both mobile and desktop
 function updateBookingSummary() {
     const total = selectedTickets.reduce((sum, ticket) => sum + (ticket.quantity * ticket.price), 0);
@@ -1476,16 +1585,16 @@ function proceedToPayment() {
     if (selectedTickets.length === 0) return;
     const desktopTermsAccepted = document.getElementById('desktopTermsCheckbox')?.checked;
     const mobileTermsAccepted = document.getElementById('mobileTermsCheckbox')?.checked;
-    
+
     if (!desktopTermsAccepted && !mobileTermsAccepted) {
         alert('Please accept the Terms and Conditions to proceed');
         return;
     }
     const desktopPaymentMethod = document.getElementById('paymentMethodSelect')?.value;
     const mobilePaymentMethod = document.getElementById('mobilePaymentMethodSelect')?.value;
-    
+
     const selectedMethod = desktopPaymentMethod || mobilePaymentMethod;
-    
+
     if (!selectedMethod) {
         alert('Please select a payment method');
         return;
@@ -1496,7 +1605,7 @@ function proceedToPayment() {
     }
 
     closeBookingModal();
-    
+
     // Your payment logic here
     document.getElementById('paymentModal').classList.remove('hidden');
     processPayment();
