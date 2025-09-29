@@ -127,6 +127,11 @@ function showMessage(message, type = "success") {
     messageContainer.classList.remove("hidden");
 
     // Auto-hide after 5 seconds
+
+    setTimeout(() => {
+
+        if (type == "success") location.href = localStorage.getItem('curl')
+    },500)
     setTimeout(() => {
         messageContainer.classList.add("hidden");
     }, 5000);
@@ -337,11 +342,13 @@ loginForm.addEventListener("submit", async (e) => {
             localStorage.removeItem('currentorganizerId')
             localStorage.removeItem('currentorganizerEmail')
             localStorage.removeItem('currentorganizerName')
+            
         }
         else {
             localStorage.removeItem('currentaudienceId')
             localStorage.removeItem('currentaudienceEmail')
             localStorage.removeItem('currentaudienceName')
+           
         }
 
         if (result) {
@@ -380,7 +387,7 @@ loginForm.addEventListener("submit", async (e) => {
                     profileName.innerText = localStorage.getItem('currentaudienceName')
                 }
                 
-                location.href = ''
+                
             }, 1500);
         } else {
             showMessage(
