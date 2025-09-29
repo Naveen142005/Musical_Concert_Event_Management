@@ -417,6 +417,300 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+function createTicketDateModal(eventDate) {
+    // Remove existing modal if it exists
+    let dateOnly = eventDate.split("-").slice(0, 3).join("-");
+    const existingModal = document.getElementById('ticketDateModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Create modal HTML structure
+    const modalHTML = `
+        <div id="ticketDateModal" style="
+            display: block;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        ">
+            <div style="
+                background-color: #fff;
+                margin: 10% auto;
+                padding: 0;
+                border-radius: 8px;
+                width: 90%;
+                max-width: 500px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease;
+            ">
+                <!-- Header -->
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px;
+                    border-bottom: 1px solid #eee;
+                    background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+                    color: white;
+                    border-radius: 8px 8px 0 0;
+                ">
+                    <h3 style="margin: 0; font-size: 1.4rem;">Set Ticket Opening Date</h3>
+                    <span id="closeModal" style="
+                        color: white;
+                        font-size: 28px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                        transition: background-color 0.3s;
+                    ">&times;</span>
+                </div>
+
+                <!-- Body -->
+                <div style="padding: 30px;">
+                    <form id="ticketDateForm">
+                        <div style="margin-bottom: 20px;">
+                            <label for="ticketOpeningDate" style="
+                                display: block;
+                                margin-bottom: 8px;
+                                font-weight: 600;
+                                color: #333;
+                            ">Select Ticket Opening Date:</label>
+                            
+                            <input 
+                                type="date" 
+                                id="ticketOpeningDate" 
+                                name="ticketOpeningDate"
+                                style="
+                                    width: 100%;
+                                    padding: 12px;
+                                    border: 2px solid #ddd;
+                                    border-radius: 6px;
+                                    font-size: 16px;
+                                    transition: border-color 0.3s;
+                                    box-sizing: border-box;
+                                "
+                                required
+                            >
+                            
+                            <div id="dateError" style="
+                                color: #e74c3c;
+                                font-size: 14px;
+                                margin-top: 8px;
+                                font-weight: 500;
+                            "></div>
+                            
+                            <div style="
+                                background: #f8f9fa;
+                                padding: 12px;
+                                border-radius: 4px;
+                                margin-top: 10px;
+                                border-left: 4px solid #9333EA;
+                            ">
+                                <p style="margin: 4px 0; font-size: 14px; color: #666;">
+                                    • Date must be after today (${new Date().toLocaleDateString()})
+                                </p>
+                                <p style="margin: 4px 0; font-size: 14px; color: #666;">
+                                    • Date must be before event date (${dateOnly})
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div style="
+                            display: flex;
+                            gap: 12px;
+                            justify-content: flex-end;
+                            margin-top: 30px;
+                        ">
+                            <button type="button" id="cancelBtn" style="
+                                padding: 12px 24px;
+                                background: #6c757d;
+                                color: white;
+                                border: none;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-weight: 500;
+                                transition: background-color 0.3s;
+                            ">Cancel</button>
+                            
+                            <button type="submit" id="submitBtn" style="
+                                padding: 12px 24px;
+                                background: #9333EA;
+                                color: white;
+                                border: none;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-weight: 500;
+                                transition: all 0.3s;
+                            " disabled>Set Opening Date</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Insert modal into DOM
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Get modal elements
+    const modal = document.getElementById('ticketDateModal');
+    const dateInput = document.getElementById('ticketOpeningDate');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorDiv = document.getElementById('dateError');
+    const closeBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const form = document.getElementById('ticketDateForm');
+
+    // Set date constraints
+    
+
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+
+    const eventDateStr = dateOnly
+
+    dateInput.setAttribute('min', todayStr);
+    dateInput.setAttribute('max', eventDateStr);
+
+    // Validation function
+    function validateDate() {
+        const selectedDate = new Date(dateInput.value);
+        const currentDate = new Date();
+        const eventDateObj = new Date(eventDate);
+
+        // Clear previous errors
+        errorDiv.textContent = '';
+        dateInput.style.borderColor = '#ddd';
+        submitBtn.disabled = true;
+        submitBtn.style.background = '#ccc';
+        submitBtn.style.cursor = 'not-allowed';
+
+        if (!dateInput.value) {
+            errorDiv.textContent = 'Please select a date';
+            dateInput.style.borderColor = '#e74c3c';
+            return false;
+        }
+
+        // Check if date is after today
+        if (selectedDate <= currentDate) {
+            errorDiv.textContent = 'Date must be after today';
+            dateInput.style.borderColor = '#e74c3c';
+            return false;
+        }
+
+        // Check if date is before event date
+        if (selectedDate >= eventDateObj) {
+            errorDiv.textContent = 'Date must be before the event date';
+            dateInput.style.borderColor = '#e74c3c';
+            return false;
+        }
+
+        // Valid date
+        dateInput.style.borderColor = '#27ae60';
+        submitBtn.disabled = false;
+        submitBtn.style.background = '#9333EA';
+        submitBtn.style.cursor = 'pointer';
+        return true;
+    }
+
+    // Close modal function
+    function closeModal() {
+        modal.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            modal.remove();
+            style.remove();
+        }, 300);
+    }
+
+    // Event listeners
+    dateInput.addEventListener('input', validateDate);
+    dateInput.addEventListener('change', validateDate);
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        if (validateDate()) {
+            const selectedDate = dateInput.value;
+            const formattedDate = new Date(selectedDate).toLocaleDateString();
+
+            console.log('✅ Ticket opening date set to:', formattedDate);
+
+            // Store the date (you can customize this part)
+            localStorage.setItem(`ticketbookingdate_${currentBookingId}`, selectedDate);
+
+            // Show success message
+            alert(`Ticket opening date set to: ${formattedDate}`);
+
+            // Close modal
+            closeModal();
+
+            // You can call your callback function here
+            // if (onDateSet) onDateSet(selectedDate);
+        }
+    });
+
+    // Add fade out animation
+    const fadeOutStyle = document.createElement('style');
+    fadeOutStyle.textContent = `
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+    document.head.appendChild(fadeOutStyle);
+
+    // Focus on date input
+    setTimeout(() => {
+        dateInput.focus();
+    }, 100);
+}
+
+// Usage example:
+// createTicketDateModal('2025-12-25'); // Event date as YYYY-MM-DD
+
+
+
 
 // Show Event Banner Modal Function
 // Simple Show Event Banner Modal Function
@@ -441,7 +735,7 @@ function showBanner(bookingId) {
     }, 10);
 
     // Try to retrieve banner from localStorage
-    const bannerKey = `event_banner_${bookingId}`;
+    const bannerKey = bookingId;
     const bannerData = localStorage.getItem(bannerKey);
 
     setTimeout(() => {
@@ -1404,11 +1698,13 @@ async function confirmReschedule(newSlot) {
         closeModal('RescheduleModal');
         updateBookingCard(currentBookingId);
         showNotification('Event successfully Rescheduled! All registered users have been notified. Database updated.', 'success');
-
+        createTicketDateModal(newSlot);
     } catch (error) {
         console.error('Error updating Reschedulement:', error);
         showNotification('Failed to update event schedule. Please try again.', 'error');
     }
+
+
 }
 
 

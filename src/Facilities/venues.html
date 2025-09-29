@@ -349,7 +349,7 @@
             </span>
           </div>
         </a>
-        <button onclick="indexLogin()" id="profilelogin">
+        <button onclick="indexLogin()" id="profilelogin" style="display: none;">
           <div
             class="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-600 text-white font-bold text-sm py-2 px-4 rounded-full shadow-2xl hover:shadow-purple-500/50 hover:scale-110 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 transform flex-shrink-0"
           >
@@ -372,7 +372,7 @@
           </div>
         </button>
 
-        <div id="profileSection" class="relative hidden">
+        <div id="profileSection" class="relative hidden" style="display: none;">
           <button
             id="profileBtn"
             class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 rounded-full flex items-center justify-center shadow-xl hover:shadow-purple-500/50 hover:scale-110 focus:scale-95 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 relative overflow-hidden flex-shrink-0"
@@ -1317,6 +1317,7 @@
       </div>
     </div>
     <script src="../User/login.js"></script>
+    
     <script>
         // Venues data
         const venuesData = [
@@ -1331,7 +1332,7 @@
                 id: 2, name: "Royal Auditorium", location: "Delhi",
                 capacity: 1800, price: "₹150k", type: "Auditorium", rating: 4.8,
                 "booked-slot": ["27-09-2025-afternoon", "04-10-2025-night"],
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format",
+                image: "/ASSETS/img2.jpg",
                 description: "Historic auditorium with elegant architecture"
             },
             {

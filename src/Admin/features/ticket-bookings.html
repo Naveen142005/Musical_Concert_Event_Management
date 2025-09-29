@@ -1,1027 +1,1351 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ticket Bookings - THIGALZHI® ADMIN</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#7c3aed',
-                        accent: '#f8fafc', 
-                        success: '#10b981'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#7c3aed",
+              accent: "#f8fafc",
+              success: "#10b981",
+            },
+          },
+        },
+      };
     </script>
-       <style>
-        table tr:nth-child(even) {
-            background: #fcfbfb;
-        }
-        table th  {
-            background: #7c3aedd6;
-            color: rgb(255, 255, 255) !important;
-        }
+    <style>
+      table tr:nth-child(even) {
+        background: #fcfbfb;
+      }
+      table th {
+        background: #7c3aedd6;
+        color: rgb(255, 255, 255) !important;
+      }
     </style>
-</head>
-<body class="bg-gray-50 font-sans">
+  </head>
+  <body class="bg-gray-50 font-sans">
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50">
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex items-center space-x-3">
-                <i class="fas fa-music text-primary text-2xl"></i>
-                <span class="text-xl font-bold text-gray-800">THIGALZHI® ADMIN</span>
-            </div>
+    <div
+      id="sidebar"
+      class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50"
+    >
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-music text-primary text-2xl"></i>
+          <span class="text-xl font-bold text-gray-800">THIGALZHI® ADMIN</span>
         </div>
-        
-        <nav class="mt-6 flex flex-col h-[calc(100%-120px)]">
-            <ul class="space-y-2 px-4">
-                <li>
-                    <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="events-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events Bookings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="ticket-bookings.html" class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary">
-                        <i class="fas fa-ticket-alt"></i>
-                        <span class="font-medium">Ticket Bookings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="payments.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-credit-card"></i>
-                        <span>Payments</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="reports.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="content-management.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-edit"></i>
-                        <span>Content Management</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="feedback.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-comments"></i>
-                        <span>Feedback</span>
-                    </a>
-                </li> 
-                <li>
-                    <a href="query-management.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-comments"></i>
-                        <span>Query Management</span>
-                    </a>
-                </li> 
-                <li>
-                    <a href="backup-restore.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-database"></i>
-                        <span>Backup & Restore</span>
-                    </a>
-                </li>
-            </ul>
-             <div class="px-4 pb-6 mt-auto">
-            <div class="border-t border-gray-200 pt-4">
-                <button onclick="handleLogout()" class="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full text-left">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </button>
-            </div>
+      </div>
+
+      <nav class="mt-6 flex flex-col h-[calc(100%-120px)]">
+        <ul class="space-y-2 px-4">
+          <li>
+            <a
+              href="dashboard.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-chart-line"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="events-bookings.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-calendar-alt"></i>
+              <span>Events Bookings</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="ticket-bookings.html"
+              class="flex items-center space-x-3 px-4 py-3 text-primary bg-purple-50 rounded-lg border-l-4 border-primary"
+            >
+              <i class="fas fa-ticket-alt"></i>
+              <span class="font-medium">Ticket Bookings</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="payments.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-credit-card"></i>
+              <span>Payments</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="reports.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-chart-bar"></i>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="content-management.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-edit"></i>
+              <span>Content Management</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="feedback.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-comments"></i>
+              <span>Feedback</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="query-management.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-comments"></i>
+              <span>Query Management</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="backup-restore.html"
+              class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <i class="fas fa-database"></i>
+              <span>Backup & Restore</span>
+            </a>
+          </li>
+        </ul>
+        <div class="px-4 pb-6 mt-auto">
+          <div class="border-t border-gray-200 pt-4">
+            <button
+              onclick="handleLogout()"
+              class="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full text-left"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
-        </nav>
+      </nav>
     </div>
 
     <!-- Mobile Sidebar Overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+    ></div>
 
     <!-- Main Content -->
     <div id="main-content" class="ml-64 transition-all duration-300">
-        <!-- Header -->
-        <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="flex items-center justify-between px-6 py-4">
-                <div class="flex items-center space-x-4">
-                    <button id="sidebar-toggle" class="text-gray-600 hover:text-gray-800">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Ticket Bookings</h1>
-                        <p class="text-sm text-gray-600">Manage audience ticket bookings and sales</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <!-- <div class="relative">
+      <!-- Header -->
+      <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center space-x-4">
+            <button
+              id="sidebar-toggle"
+              class="text-gray-600 hover:text-gray-800"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-800">Ticket Bookings</h1>
+              <p class="text-sm text-gray-600">
+                Manage audience ticket bookings and sales
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <!-- <div class="relative">
                         <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-primary"></i>
                         <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                     </div> -->
-                    <div class="flex items-center space-x-2">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Profile" class="w-8 h-8 rounded-full">
-                        <span class="text-sm font-medium text-gray-700">Admin User</span>
-                    </div>
-                </div>
+            <div class="flex items-center space-x-2">
+              <img
+                src="/placeholder.svg?height=32&width=32"
+                alt="Profile"
+                class="w-8 h-8 rounded-full"
+              />
+              <span class="text-sm font-medium text-gray-700">Admin User</span>
             </div>
-        </header>
+          </div>
+        </div>
+      </header>
 
-        <!-- Ticket Bookings Content -->
-        <main class="p-6">
-            <!-- Enhanced filter bar with live search -->
-            <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-6">
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-                    <div class="flex flex-wrap gap-2">
-                        <button class="status-filter px-4 py-2 bg-primary text-white rounded-lg font-medium" data-status="all">ALL</button>
-                        <button class="status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors" data-status="confirmed">Confirmed</button>
-                        <button class="status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors" data-status="cancelled">Cancelled</button>
-                        <button class="status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors" data-status="pending">Pending</button>
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <select id="search-type" class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            <option value="audience">Search by Audience Name</option>
-                            <option value="event">Search by Event Name</option>
-                        </select>
-                        <div class="relative">
-                            <input type="text" id="live-search" placeholder="Search..." class="border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        </div>
-                        <!-- Added ticket analytics button -->
-                        <button id="analytics-btn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" style="display: none;">
-                            <i class="fas fa-chart-pie mr-2"></i>Analytics
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Added ticket summary cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-600">Total Bookings</p>
-                            <p id="total-bookings" class="text-2xl font-bold text-gray-800">0</p>
-                        </div>
-                        <i class="fas fa-ticket-alt text-primary text-xl"></i>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-600">Premium Tickets</p>
-                            <p id="premium-tickets" class="text-2xl font-bold text-amber-600">0</p>
-                        </div>
-                        <i class="fas fa-crown text-amber-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-600">Gold Tickets</p>
-                            <p id="gold-tickets" class="text-2xl font-bold text-yellow-600">0</p>
-                        </div>
-                        <i class="fas fa-medal text-yellow-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-600">Silver Tickets</p>
-                            <p id="silver-tickets" class="text-2xl font-bold text-gray-600">0</p>
-                        </div>
-                        <i class="fas fa-award text-gray-500 text-xl"></i>
-                    </div>
-                </div>
+      <!-- Ticket Bookings Content -->
+      <main class="p-6">
+        <!-- Enhanced filter bar with live search -->
+        <div
+          class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-6"
+        >
+          <div
+            class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0"
+          >
+            <div class="flex flex-wrap gap-2">
+              <button
+                class="status-filter px-4 py-2 bg-primary text-white rounded-lg font-medium"
+                data-status="all"
+              >
+                ALL
+              </button>
+              <button
+                class="status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                data-status="confirmed"
+              >
+                Confirmed
+              </button>
+              <button
+                class="status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                data-status="cancelled"
+              >
+                Cancelled
+              </button>
+              <!-- <button class="status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors" data-status="cancelled">cancelled</button> -->
             </div>
 
-            <!-- Enhanced ticket bookings table -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full" id="tickets-table">
-                        <thead class="bg-accent">
-                            <tr>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    S.NO
-                                </th>
-                                <th class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary" data-sort="audience">
-                                    Audience Name <i class="fas fa-sort ml-1"></i>
-                                </th>
-                                <th class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary" data-sort="event">
-                                    Event Name <i class="fas fa-sort ml-1"></i>
-                                </th>
-                                <th class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary" data-sort="booked">
-                                    Booked Date <i class="fas fa-sort ml-1"></i>
-                                </th>
-                                <th class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary" data-sort="eventDate">
-                                    Event Date <i class="fas fa-sort ml-1"></i>
-                                </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Premium
-                                </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Gold
-                                </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Silver
-                                </th>
-                                <th class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary" data-sort="total">
-                                    Total <i class="fas fa-sort ml-1"></i>
-                                </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="tickets-tbody" class="bg-white divide-y divide-gray-200">
-                            <!-- Table rows will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="flex items-center space-x-3">
+                <select
+                  id="date-filter-type"
+                  class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="all">All Dates</option>
+                  <option value="booked">Booked Date</option>
+                  <option value="eventDate">Event Date</option>
+                </select>
 
-                <!-- Enhanced pagination -->
-                <div class="bg-white px-6 py-4 border-t border-gray-200">
-                    <div class="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-sm text-gray-700">Show</span>
-                            <select id="page-size" class="border border-gray-300 rounded px-2 py-1 text-sm">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                            </select>
-                            <span class="text-sm text-gray-700">entries</span>
-                        </div>
-                        <div class="text-sm text-gray-700">
-                            Showing <span id="showing-start">1</span> to <span id="showing-end">10</span> of <span id="total-entries">0</span> results
-                        </div>
-                        <div id="pagination" class="flex items-center space-x-2">
-                            <!-- Pagination will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
+                <input
+                  type="date"
+                  id="start-date"
+                  class="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                />
+                <input
+                  type="date"
+                  id="end-date"
+                  class="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                />
+
+                <button
+                  id="apply-date-filter"
+                  class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-dark"
+                >
+                  Apply
+                </button>
+              </div>
+
+              <div class="relative">
+                <input
+                  type="text"
+                  id="live-search"
+                  placeholder="Search..."
+                  class="border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+                <i
+                  class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                ></i>
+              </div>
+              <!-- Added ticket analytics button -->
+              <button
+                id="analytics-btn"
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                style="display: none"
+              >
+                <i class="fas fa-chart-pie mr-2"></i>Analytics
+              </button>
             </div>
-        </main>
+          </div>
+        </div>
+
+        <!-- Added ticket summary cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Total Bookings</p>
+                <p id="total-bookings" class="text-2xl font-bold text-gray-800">
+                  0
+                </p>
+              </div>
+              <i class="fas fa-ticket-alt text-primary text-xl"></i>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Premium Tickets</p>
+                <p
+                  id="premium-tickets"
+                  class="text-2xl font-bold text-amber-600"
+                >
+                  0
+                </p>
+              </div>
+              <i class="fas fa-crown text-amber-500 text-xl"></i>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Gold Tickets</p>
+                <p id="gold-tickets" class="text-2xl font-bold text-yellow-600">
+                  0
+                </p>
+              </div>
+              <i class="fas fa-medal text-yellow-500 text-xl"></i>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Silver Tickets</p>
+                <p id="silver-tickets" class="text-2xl font-bold text-gray-600">
+                  0
+                </p>
+              </div>
+              <i class="fas fa-award text-gray-500 text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced ticket bookings table -->
+        <div
+          class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full" id="tickets-table">
+              <thead class="bg-accent">
+                <tr>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    S.NO
+                  </th>
+                  <th
+                    class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary"
+                    data-sort="audience"
+                  >
+                    Audience Name <i class="fas fa-sort ml-1"></i>
+                  </th>
+                  <th
+                    class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary"
+                    data-sort="event"
+                  >
+                    Event Name <i class="fas fa-sort ml-1"></i>
+                  </th>
+                  <th
+                    class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary"
+                    data-sort="booked"
+                  >
+                    Booked Date <i class="fas fa-sort ml-1"></i>
+                  </th>
+                  <th
+                    class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary"
+                    data-sort="eventDate"
+                  >
+                    Event Date <i class="fas fa-sort ml-1"></i>
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Premium
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Gold
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Silver
+                  </th>
+                  <th
+                    class="sortable px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary"
+                    data-sort="total"
+                  >
+                    Total <i class="fas fa-sort ml-1"></i>
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="tickets-tbody"
+                class="bg-white divide-y divide-gray-200"
+              >
+                <!-- Table rows will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Enhanced pagination -->
+          <div class="bg-white px-6 py-4 border-t border-gray-200">
+            <div
+              class="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0"
+            >
+              <div class="flex items-center space-x-2">
+                <span class="text-sm text-gray-700">Show</span>
+                <select
+                  id="page-size"
+                  class="border border-gray-300 rounded px-2 py-1 text-sm"
+                >
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+                <span class="text-sm text-gray-700">entries</span>
+              </div>
+              <div class="text-sm text-gray-700">
+                Showing <span id="showing-start">1</span> to
+                <span id="showing-end">10</span> of
+                <span id="total-entries">0</span> results
+              </div>
+              <div id="pagination" class="flex items-center space-x-2">
+                <!-- Pagination will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
 
     <!-- Added analytics modal -->
-    <div id="analytics-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-gray-800">Ticket Analytics</h3>
-                    <button id="close-analytics" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold mb-3">Ticket Distribution</h4>
-                        <canvas id="ticket-chart" width="300" height="300"></canvas>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold mb-3">Booking Trends</h4>
-                        <canvas id="trend-chart" width="300" height="300"></canvas>
-                    </div>
-                </div>
+    <div
+      id="analytics-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+      >
+        <div class="p-6">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold text-gray-800">Ticket Analytics</h3>
+            <button
+              id="close-analytics"
+              class="text-gray-400 hover:text-gray-600"
+            >
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold mb-3">Ticket Distribution</h4>
+              <canvas id="ticket-chart" width="300" height="300"></canvas>
             </div>
+            <div>
+              <h4 class="font-semibold mb-3">Booking Trends</h4>
+              <canvas id="trend-chart" width="300" height="300"></canvas>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        class TicketManager {
-            constructor() {
-                this.tickets = [
-                    // Current Confirmed Bookings
-                    {
-                        id: 1,
-                        audience: 'Arjun Mehta',
-                        event: 'Rock Night 2024',
-                        booked: '2024-01-16',
-                        eventDate: '2025-12-20',
-                        premium: 2,
-                        gold: 3,
-                        silver: 1,
-                        total: 6,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 2,
-                        audience: 'Kavya Nair',
-                        event: 'Jazz Evening',
-                        booked: '2024-01-19',
-                        eventDate: '2025-11-25',
-                        premium: 1,
-                        gold: 2,
-                        silver: 2,
-                        total: 5,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 3,
-                        audience: 'Rohit Gupta',
-                        event: 'Classical Symphony',
-                        booked: '2024-01-21',
-                        eventDate: '2025-10-05',
-                        premium: 3,
-                        gold: 1,
-                        silver: 0,
-                        total: 4,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 4,
-                        audience: 'Ananya Singh',
-                        event: 'Pop Fusion Night',
-                        booked: '2024-01-23',
-                        eventDate: '2025-10-10',
-                        premium: 1,
-                        gold: 4,
-                        silver: 3,
-                        total: 8,
-                        status: 'pending'
-                    },
-                    {
-                        id: 5,
-                        audience: 'Deepak Joshi',
-                        event: 'Folk Music Festival',
-                        booked: '2024-01-26',
-                        eventDate: '2025-11-15',
-                        premium: 0,
-                        gold: 2,
-                        silver: 5,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 6,
-                        audience: 'Priya Sharma',
-                        event: 'Bollywood Night',
-                        booked: '2024-02-02',
-                        eventDate: '2025-12-05',
-                        premium: 4,
-                        gold: 2,
-                        silver: 1,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 7,
-                        audience: 'Vikram Singh',
-                        event: 'Metal Mayhem',
-                        booked: '2024-02-04',
-                        eventDate: '2025-10-25',
-                        premium: 2,
-                        gold: 1,
-                        silver: 2,
-                        total: 5,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 8,
-                        audience: 'Sneha Reddy',
-                        event: 'Acoustic Sessions',
-                        booked: '2024-02-06',
-                        eventDate: '2025-11-08',
-                        premium: 1,
-                        gold: 3,
-                        silver: 2,
-                        total: 6,
-                        status: 'pending'
-                    },
-                    {
-                        id: 9,
-                        audience: 'Raj Kumar',
-                        event: 'Electronic Dance Night',
-                        booked: '2024-02-09',
-                        eventDate: '2025-12-31',
-                        premium: 5,
-                        gold: 3,
-                        silver: 2,
-                        total: 10,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 10,
-                        audience: 'Maya Krishnan',
-                        event: 'Indie Rock Fest',
-                        booked: '2024-02-11',
-                        eventDate: '2025-10-18',
-                        premium: 2,
-                        gold: 2,
-                        silver: 3,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 11,
-                        audience: 'Suresh Babu',
-                        event: 'Blues & Soul',
-                        booked: '2024-02-13',
-                        eventDate: '2025-11-20',
-                        premium: 1,
-                        gold: 4,
-                        silver: 1,
-                        total: 6,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 12,
-                        audience: 'Lakshmi Iyer',
-                        event: 'Reggae Vibes',
-                        booked: '2024-02-16',
-                        eventDate: '2025-12-15',
-                        premium: 3,
-                        gold: 2,
-                        silver: 4,
-                        total: 9,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 13,
-                        audience: 'Amit Patel',
-                        event: 'Hip Hop Battle',
-                        booked: '2024-02-18',
-                        eventDate: '2025-10-28',
-                        premium: 0,
-                        gold: 5,
-                        silver: 3,
-                        total: 8,
-                        status: 'pending'
-                    },
-                    {
-                        id: 14,
-                        audience: 'Nisha Agarwal',
-                        event: 'Country Music Night',
-                        booked: '2024-02-20',
-                        eventDate: '2025-11-12',
-                        premium: 2,
-                        gold: 3,
-                        silver: 2,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 15,
-                        audience: 'Karan Johar',
-                        event: 'Opera Spectacular',
-                        booked: '2024-02-22',
-                        eventDate: '2025-12-08',
-                        premium: 6,
-                        gold: 1,
-                        silver: 0,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 16,
-                        audience: 'Divya Rao',
-                        event: 'Punk Rock Revival',
-                        booked: '2024-02-25',
-                        eventDate: '2025-10-22',
-                        premium: 1,
-                        gold: 2,
-                        silver: 4,
-                        total: 7,
-                        status: 'cancelled'
-                    },
-                    {
-                        id: 17,
-                        audience: 'Ashwin Reddy',
-                        event: 'World Music Fusion',
-                        booked: '2024-02-27',
-                        eventDate: '2025-11-30',
-                        premium: 2,
-                        gold: 4,
-                        silver: 2,
-                        total: 8,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 18,
-                        audience: 'Meera Joshi',
-                        event: 'R&B Smooth Night',
-                        booked: '2024-03-01',
-                        eventDate: '2025-12-12',
-                        premium: 3,
-                        gold: 3,
-                        silver: 1,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 19,
-                        audience: 'Vivek Sharma',
-                        event: 'Alternative Rock Show',
-                        booked: '2024-03-03',
-                        eventDate: '2025-10-30',
-                        premium: 4,
-                        gold: 2,
-                        silver: 3,
-                        total: 9,
-                        status: 'pending'
-                    },
-                    {
-                        id: 20,
-                        audience: 'Pooja Nair',
-                        event: 'Disco Nights',
-                        booked: '2024-03-05',
-                        eventDate: '2025-11-22',
-                        premium: 1,
-                        gold: 3,
-                        silver: 4,
-                        total: 8,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 21,
-                        audience: 'Rakesh Kumar',
-                        event: 'Folk Fusion Festival',
-                        booked: '2024-03-08',
-                        eventDate: '2025-12-18',
-                        premium: 2,
-                        gold: 5,
-                        silver: 2,
-                        total: 9,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 22,
-                        audience: 'Sonia Kapoor',
-                        event: 'Jazz & Blues Night',
-                        booked: '2024-03-10',
-                        eventDate: '2025-11-25',
-                        premium: 3,
-                        gold: 2,
-                        silver: 3,
-                        total: 8,
-                        status: 'cancelled'
-                    },
-                    {
-                        id: 23,
-                        audience: 'Harish Patel',
-                        event: 'Electronic Beats',
-                        booked: '2024-03-12',
-                        eventDate: '2025-12-22',
-                        premium: 5,
-                        gold: 1,
-                        silver: 1,
-                        total: 7,
-                        status: 'confirmed'
-                    },
-                    {
-                        id: 24,
-                        audience: 'Ritu Singh',
-                        event: 'Classical Harmony',
-                        booked: '2024-03-15',
-                        eventDate: '2025-10-15',
-                        premium: 1,
-                        gold: 4,
-                        silver: 3,
-                        total: 8,
-                        status: 'pending'
-                    },
-                    {
-                        id: 25,
-                        audience: 'Manoj Kumar',
-                        event: 'Rock Legends',
-                        booked: '2024-03-18',
-                        eventDate: '2025-11-18',
-                        premium: 3,
-                        gold: 3,
-                        silver: 2,
-                        total: 8,
-                        status: 'confirmed'
-                    }
-                ];
-                
-                this.filteredTickets = [...this.tickets];
-                this.currentPage = 1;
-                this.pageSize = 10;
-                this.sortField = null;
-                this.sortDirection = 'asc';
-                this.sidebarVisible = true;
-                
-                this.init();
+      class TicketManager {
+        constructor() {
+          this.tickets = [
+            // Current Confirmed Bookings
+            {
+              id: 1,
+              audience: "Arjun Mehta",
+              event: "Rock Night 2024",
+              booked: "2024-01-16",
+              eventDate: "2025-12-20",
+              premium: 2,
+              gold: 3,
+              silver: 1,
+              total: 6,
+              status: "confirmed",
+            },
+            {
+              id: 2,
+              audience: "Kavya Nair",
+              event: "Jazz Evening",
+              booked: "2024-01-19",
+              eventDate: "2025-11-25",
+              premium: 1,
+              gold: 2,
+              silver: 2,
+              total: 5,
+              status: "confirmed",
+            },
+            {
+              id: 3,
+              audience: "Rohit Gupta",
+              event: "Classical Symphony",
+              booked: "2024-01-21",
+              eventDate: "2025-10-05",
+              premium: 3,
+              gold: 1,
+              silver: 0,
+              total: 4,
+              status: "confirmed",
+            },
+            {
+              id: 4,
+              audience: "Ananya Singh",
+              event: "Pop Fusion Night",
+              booked: "2024-01-23",
+              eventDate: "2025-10-10",
+              premium: 1,
+              gold: 4,
+              silver: 3,
+              total: 8,
+              status: "cancelled",
+            },
+            {
+              id: 5,
+              audience: "Deepak Joshi",
+              event: "Folk Music Festival",
+              booked: "2024-01-26",
+              eventDate: "2025-11-15",
+              premium: 0,
+              gold: 2,
+              silver: 5,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 6,
+              audience: "Priya Sharma",
+              event: "Bollywood Night",
+              booked: "2024-02-02",
+              eventDate: "2025-12-05",
+              premium: 4,
+              gold: 2,
+              silver: 1,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 7,
+              audience: "Vikram Singh",
+              event: "Metal Mayhem",
+              booked: "2024-02-04",
+              eventDate: "2025-10-25",
+              premium: 2,
+              gold: 1,
+              silver: 2,
+              total: 5,
+              status: "confirmed",
+            },
+            {
+              id: 8,
+              audience: "Sneha Reddy",
+              event: "Acoustic Sessions",
+              booked: "2024-02-06",
+              eventDate: "2025-11-08",
+              premium: 1,
+              gold: 3,
+              silver: 2,
+              total: 6,
+              status: "cancelled",
+            },
+            {
+              id: 9,
+              audience: "Raj Kumar",
+              event: "Electronic Dance Night",
+              booked: "2024-02-09",
+              eventDate: "2025-12-31",
+              premium: 5,
+              gold: 3,
+              silver: 2,
+              total: 10,
+              status: "confirmed",
+            },
+            {
+              id: 10,
+              audience: "Maya Krishnan",
+              event: "Indie Rock Fest",
+              booked: "2024-02-11",
+              eventDate: "2025-10-18",
+              premium: 2,
+              gold: 2,
+              silver: 3,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 11,
+              audience: "Suresh Babu",
+              event: "Blues & Soul",
+              booked: "2024-02-13",
+              eventDate: "2025-11-20",
+              premium: 1,
+              gold: 4,
+              silver: 1,
+              total: 6,
+              status: "confirmed",
+            },
+            {
+              id: 12,
+              audience: "Lakshmi Iyer",
+              event: "Reggae Vibes",
+              booked: "2024-02-16",
+              eventDate: "2025-12-15",
+              premium: 3,
+              gold: 2,
+              silver: 4,
+              total: 9,
+              status: "confirmed",
+            },
+            {
+              id: 13,
+              audience: "Amit Patel",
+              event: "Hip Hop Battle",
+              booked: "2024-02-18",
+              eventDate: "2025-10-28",
+              premium: 0,
+              gold: 5,
+              silver: 3,
+              total: 8,
+              status: "cancelled",
+            },
+            {
+              id: 14,
+              audience: "Nisha Agarwal",
+              event: "Country Music Night",
+              booked: "2024-02-20",
+              eventDate: "2025-11-12",
+              premium: 2,
+              gold: 3,
+              silver: 2,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 15,
+              audience: "Karan Johar",
+              event: "Opera Spectacular",
+              booked: "2024-02-22",
+              eventDate: "2025-12-08",
+              premium: 6,
+              gold: 1,
+              silver: 0,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 16,
+              audience: "Divya Rao",
+              event: "Punk Rock Revival",
+              booked: "2024-02-25",
+              eventDate: "2025-10-22",
+              premium: 1,
+              gold: 2,
+              silver: 4,
+              total: 7,
+              status: "cancelled",
+            },
+            {
+              id: 17,
+              audience: "Ashwin Reddy",
+              event: "World Music Fusion",
+              booked: "2024-02-27",
+              eventDate: "2025-11-30",
+              premium: 2,
+              gold: 4,
+              silver: 2,
+              total: 8,
+              status: "confirmed",
+            },
+            {
+              id: 18,
+              audience: "Meera Joshi",
+              event: "R&B Smooth Night",
+              booked: "2024-03-01",
+              eventDate: "2025-12-12",
+              premium: 3,
+              gold: 3,
+              silver: 1,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 19,
+              audience: "Vivek Sharma",
+              event: "Alternative Rock Show",
+              booked: "2024-03-03",
+              eventDate: "2025-10-30",
+              premium: 4,
+              gold: 2,
+              silver: 3,
+              total: 9,
+              status: "cancelled",
+            },
+            {
+              id: 20,
+              audience: "Pooja Nair",
+              event: "Disco Nights",
+              booked: "2024-03-05",
+              eventDate: "2025-11-22",
+              premium: 1,
+              gold: 3,
+              silver: 4,
+              total: 8,
+              status: "confirmed",
+            },
+            {
+              id: 21,
+              audience: "Rakesh Kumar",
+              event: "Folk Fusion Festival",
+              booked: "2024-03-08",
+              eventDate: "2025-12-18",
+              premium: 2,
+              gold: 5,
+              silver: 2,
+              total: 9,
+              status: "confirmed",
+            },
+            {
+              id: 22,
+              audience: "Sonia Kapoor",
+              event: "Jazz & Blues Night",
+              booked: "2024-03-10",
+              eventDate: "2025-11-25",
+              premium: 3,
+              gold: 2,
+              silver: 3,
+              total: 8,
+              status: "cancelled",
+            },
+            {
+              id: 23,
+              audience: "Harish Patel",
+              event: "Electronic Beats",
+              booked: "2024-03-12",
+              eventDate: "2025-12-22",
+              premium: 5,
+              gold: 1,
+              silver: 1,
+              total: 7,
+              status: "confirmed",
+            },
+            {
+              id: 24,
+              audience: "Ritu Singh",
+              event: "Classical Harmony",
+              booked: "2024-03-15",
+              eventDate: "2025-10-15",
+              premium: 1,
+              gold: 4,
+              silver: 3,
+              total: 8,
+              status: "cancelled",
+            },
+            {
+              id: 25,
+              audience: "Manoj Kumar",
+              event: "Rock Legends",
+              booked: "2024-03-18",
+              eventDate: "2025-11-18",
+              premium: 3,
+              gold: 3,
+              silver: 2,
+              total: 8,
+              status: "confirmed",
+            },
+          ];
+
+          this.filteredTickets = [...this.tickets];
+          this.currentPage = 1;
+          this.pageSize = 10;
+          this.sortField = null;
+          this.sortDirection = "asc";
+          this.sidebarVisible = true;
+
+          this.init();
+        }
+
+        init() {
+          this.setupSidebar();
+          this.setupEventListeners();
+          this.updateSummaryCards();
+          this.renderTable();
+        }
+
+        setupSidebar() {
+          const sidebarToggle = document.getElementById("sidebar-toggle");
+          const sidebar = document.getElementById("sidebar");
+          const sidebarOverlay = document.getElementById("sidebar-overlay");
+          const mainContent = document.getElementById("main-content");
+
+          const toggleSidebar = () => {
+            this.sidebarVisible = !this.sidebarVisible;
+
+            if (this.sidebarVisible) {
+              // Show sidebar
+              sidebar.classList.remove("-translate-x-full");
+              mainContent.classList.remove("ml-0");
+              mainContent.classList.add("ml-64");
+
+              // Hide overlay on larger screens, show on mobile
+              if (window.innerWidth < 1024) {
+                sidebarOverlay.classList.remove("hidden");
+              }
+            } else {
+              // Hide sidebar
+              sidebar.classList.add("-translate-x-full");
+              mainContent.classList.remove("ml-64");
+              mainContent.classList.add("ml-0");
+              sidebarOverlay.classList.add("hidden");
+            }
+          };
+
+          sidebarToggle?.addEventListener("click", toggleSidebar);
+          sidebarOverlay?.addEventListener("click", toggleSidebar);
+
+          document.getElementById('apply-date-filter').addEventListener('click', () => {
+  this.applyDateFilter();
+});
+
+          // Handle window resize
+          window.addEventListener("resize", () => {
+            if (window.innerWidth >= 1024) {
+              // Desktop: Hide overlay, keep sidebar state
+              sidebarOverlay.classList.add("hidden");
+            } else {
+              // Mobile: If sidebar is visible, show overlay
+              if (this.sidebarVisible) {
+                sidebarOverlay.classList.remove("hidden");
+              }
+            }
+          });
+
+          // Initialize proper state based on screen size
+          if (window.innerWidth < 1024) {
+            // Mobile: Start with sidebar hidden
+            this.sidebarVisible = false;
+            sidebar.classList.add("-translate-x-full");
+            mainContent.classList.remove("ml-64");
+            mainContent.classList.add("ml-0");
+          }
+        }
+
+        setupEventListeners() {
+          // Status filter buttons
+          document.querySelectorAll(".status-filter").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              this.setActiveFilter(e.target);
+              this.filterByStatus(e.target.dataset.status);
+            });
+          });
+
+          // Live search
+          document
+            .getElementById("live-search")
+            .addEventListener("input", () => {
+              this.performSearch();
+            });
+
+          
+
+          // Sorting
+          document.querySelectorAll(".sortable").forEach((header) => {
+            header.addEventListener("click", () => {
+              this.sortTickets(header.dataset.sort);
+            });
+          });
+
+          // Page size
+          document
+            .getElementById("page-size")
+            .addEventListener("change", (e) => {
+              this.pageSize = parseInt(e.target.value);
+              this.currentPage = 1;
+              this.renderTable();
+            });
+
+          // Analytics
+          document
+            .getElementById("analytics-btn")
+            .addEventListener("click", () => {
+              this.showAnalytics();
+            });
+
+          document
+            .getElementById("close-analytics")
+            .addEventListener("click", () => {
+              this.closeAnalytics();
+            });
+
+            document.getElementById('live-search').addEventListener('input', function () {
+  const searchTerm = this.value.toLowerCase();
+
+  if (!searchTerm) {
+    // Show all tickets
+    ticketManager.filteredTickets = [...ticketManager.tickets];
+  } else {
+    ticketManager.filteredTickets = ticketManager.tickets.filter(ticket => {
+      return (
+        ticket.audience.toLowerCase().includes(searchTerm) ||
+        ticket.event.toLowerCase().includes(searchTerm)
+      );
+    });
+  }
+
+  ticketManager.currentPage = 1;
+  ticketManager.renderTable();
+});
+
+        }
+
+        setActiveFilter(activeBtn) {
+          document.querySelectorAll(".status-filter").forEach((btn) => {
+            btn.className =
+              "status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors";
+          });
+          activeBtn.className =
+            "status-filter px-4 py-2 bg-primary text-white rounded-lg font-medium";
+        }
+
+        filterByStatus(status) {
+          if (status === "all") {
+            this.filteredTickets = [...this.tickets];
+          } else {
+            this.filteredTickets = this.tickets.filter(
+              (ticket) => ticket.status === status
+            );
+          }
+          this.currentPage = 1;
+          this.renderTable();
+        }
+
+        performSearch() {
+          const searchTerm = document
+            .getElementById("live-search")
+            .value.toLowerCase();
+          
+
+          if (!searchTerm) {
+            this.filteredTickets = [...this.tickets];
+          } else {
+            this.filteredTickets = this.tickets.filter((ticket) => {
+              switch (searchType) {
+                case "audience":
+                  return ticket.audience.toLowerCase().includes(searchTerm);
+                case "event":
+                  return ticket.event.toLowerCase().includes(searchTerm);
+                default:
+                  return false;
+              }
+            });
+          }
+
+          this.currentPage = 1;
+          this.renderTable();
+        }
+
+        sortTickets(field) {
+          if (this.sortField === field) {
+            this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+          } else {
+            this.sortField = field;
+            this.sortDirection = "asc";
+          }
+
+          this.filteredTickets.sort((a, b) => {
+            let aVal = a[field];
+            let bVal = b[field];
+
+            if (field === "booked" || field === "eventDate") {
+              aVal = new Date(aVal);
+              bVal = new Date(bVal);
+            } else if (typeof aVal === "number") {
+              // Already numbers
+            } else {
+              aVal = aVal.toString().toLowerCase();
+              bVal = bVal.toString().toLowerCase();
             }
 
-            init() {
-                this.setupSidebar();
-                this.setupEventListeners();
-                this.updateSummaryCards();
-                this.renderTable();
+            if (this.sortDirection === "asc") {
+              return aVal > bVal ? 1 : -1;
+            } else {
+              return aVal < bVal ? 1 : -1;
             }
+          });
 
-            setupSidebar() {
-                const sidebarToggle = document.getElementById('sidebar-toggle');
-                const sidebar = document.getElementById('sidebar');
-                const sidebarOverlay = document.getElementById('sidebar-overlay');
-                const mainContent = document.getElementById('main-content');
-                
-                const toggleSidebar = () => {
-                    this.sidebarVisible = !this.sidebarVisible;
-                    
-                    if (this.sidebarVisible) {
-                        // Show sidebar
-                        sidebar.classList.remove('-translate-x-full');
-                        mainContent.classList.remove('ml-0');
-                        mainContent.classList.add('ml-64');
-                        
-                        // Hide overlay on larger screens, show on mobile
-                        if (window.innerWidth < 1024) {
-                            sidebarOverlay.classList.remove('hidden');
-                        }
-                    } else {
-                        // Hide sidebar
-                        sidebar.classList.add('-translate-x-full');
-                        mainContent.classList.remove('ml-64');
-                        mainContent.classList.add('ml-0');
-                        sidebarOverlay.classList.add('hidden');
-                    }
-                };
-                
-                sidebarToggle?.addEventListener('click', toggleSidebar);
-                sidebarOverlay?.addEventListener('click', toggleSidebar);
-                
-                // Handle window resize
-                window.addEventListener('resize', () => {
-                    if (window.innerWidth >= 1024) {
-                        // Desktop: Hide overlay, keep sidebar state
-                        sidebarOverlay.classList.add('hidden');
-                    } else {
-                        // Mobile: If sidebar is visible, show overlay
-                        if (this.sidebarVisible) {
-                            sidebarOverlay.classList.remove('hidden');
-                        }
-                    }
-                });
-                
-                // Initialize proper state based on screen size
-                if (window.innerWidth < 1024) {
-                    // Mobile: Start with sidebar hidden
-                    this.sidebarVisible = false;
-                    sidebar.classList.add('-translate-x-full');
-                    mainContent.classList.remove('ml-64');
-                    mainContent.classList.add('ml-0');
-                }
+          this.updateSortIcons(field);
+          this.renderTable();
+        }
+
+        updateSortIcons(activeField) {
+          document.querySelectorAll(".sortable i").forEach((icon) => {
+            icon.className = "fas fa-sort ml-1";
+          });
+
+          const activeIcon = document.querySelector(
+            `[data-sort="${activeField}"] i`
+          );
+          if (activeIcon) {
+            activeIcon.className = `fas fa-sort-${
+              this.sortDirection === "asc" ? "up" : "down"
+            } ml-1`;
+          }
+        }
+
+        updateSummaryCards() {
+          const totalBookings = this.tickets.length;
+          const totalPremium = this.tickets.reduce(
+            (sum, ticket) => sum + ticket.premium,
+            0
+          );
+          const totalGold = this.tickets.reduce(
+            (sum, ticket) => sum + ticket.gold,
+            0
+          );
+          const totalSilver = this.tickets.reduce(
+            (sum, ticket) => sum + ticket.silver,
+            0
+          );
+
+          this.animateNumber("total-bookings", totalBookings);
+          this.animateNumber("premium-tickets", totalPremium);
+          this.animateNumber("gold-tickets", totalGold);
+          this.animateNumber("silver-tickets", totalSilver);
+        }
+
+        animateNumber(elementId, target) {
+          const element = document.getElementById(elementId);
+          if (!element) return;
+
+          let current = 0;
+          const increment = target / 20;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
             }
+            element.textContent = Math.floor(current);
+          }, 50);
+        }
 
-            setupEventListeners() {
-                // Status filter buttons
-                document.querySelectorAll('.status-filter').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        this.setActiveFilter(e.target);
-                        this.filterByStatus(e.target.dataset.status);
-                    });
-                });
+        renderTable() {
+          const tbody = document.getElementById("tickets-tbody");
+          const startIndex = (this.currentPage - 1) * this.pageSize;
+          const endIndex = startIndex + this.pageSize;
+          const pageTickets = this.filteredTickets.slice(startIndex, endIndex);
 
-                // Live search
-                document.getElementById('live-search').addEventListener('input', () => {
-                    this.performSearch();
-                });
-
-                document.getElementById('search-type').addEventListener('change', () => {
-                    this.performSearch();
-                });
-
-                // Sorting
-                document.querySelectorAll('.sortable').forEach(header => {
-                    header.addEventListener('click', () => {
-                        this.sortTickets(header.dataset.sort);
-                    });
-                });
-
-                // Page size
-                document.getElementById('page-size').addEventListener('change', (e) => {
-                    this.pageSize = parseInt(e.target.value);
-                    this.currentPage = 1;
-                    this.renderTable();
-                });
-
-                // Analytics
-                document.getElementById('analytics-btn').addEventListener('click', () => {
-                    this.showAnalytics();
-                });
-
-                document.getElementById('close-analytics').addEventListener('click', () => {
-                    this.closeAnalytics();
-                });
-            }
-
-            setActiveFilter(activeBtn) {
-                document.querySelectorAll('.status-filter').forEach(btn => {
-                    btn.className = 'status-filter px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors';
-                });
-                activeBtn.className = 'status-filter px-4 py-2 bg-primary text-white rounded-lg font-medium';
-            }
-
-            filterByStatus(status) {
-                if (status === 'all') {
-                    this.filteredTickets = [...this.tickets];
-                } else {
-                    this.filteredTickets = this.tickets.filter(ticket => ticket.status === status);
-                }
-                this.currentPage = 1;
-                this.renderTable();
-            }
-
-            performSearch() {
-                const searchTerm = document.getElementById('live-search').value.toLowerCase();
-                const searchType = document.getElementById('search-type').value;
-                
-                if (!searchTerm) {
-                    this.filteredTickets = [...this.tickets];
-                } else {
-                    this.filteredTickets = this.tickets.filter(ticket => {
-                        switch(searchType) {
-                            case 'audience':
-                                return ticket.audience.toLowerCase().includes(searchTerm);
-                            case 'event':
-                                return ticket.event.toLowerCase().includes(searchTerm);
-                            default:
-                                return false;
-                        }
-                    });
-                }
-                
-                this.currentPage = 1;
-                this.renderTable();
-            }
-
-            sortTickets(field) {
-                if (this.sortField === field) {
-                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-                } else {
-                    this.sortField = field;
-                    this.sortDirection = 'asc';
-                }
-
-                this.filteredTickets.sort((a, b) => {
-                    let aVal = a[field];
-                    let bVal = b[field];
-                    
-                    if (field === 'booked' || field === 'eventDate') {
-                        aVal = new Date(aVal);
-                        bVal = new Date(bVal);
-                    } else if (typeof aVal === 'number') {
-                        // Already numbers
-                    } else {
-                        aVal = aVal.toString().toLowerCase();
-                        bVal = bVal.toString().toLowerCase();
-                    }
-
-                    if (this.sortDirection === 'asc') {
-                        return aVal > bVal ? 1 : -1;
-                    } else {
-                        return aVal < bVal ? 1 : -1;
-                    }
-                });
-
-                this.updateSortIcons(field);
-                this.renderTable();
-            }
-
-            updateSortIcons(activeField) {
-                document.querySelectorAll('.sortable i').forEach(icon => {
-                    icon.className = 'fas fa-sort ml-1';
-                });
-                
-                const activeIcon = document.querySelector(`[data-sort="${activeField}"] i`);
-                if (activeIcon) {
-                    activeIcon.className = `fas fa-sort-${this.sortDirection === 'asc' ? 'up' : 'down'} ml-1`;
-                }
-            }
-
-            updateSummaryCards() {
-                const totalBookings = this.tickets.length;
-                const totalPremium = this.tickets.reduce((sum, ticket) => sum + ticket.premium, 0);
-                const totalGold = this.tickets.reduce((sum, ticket) => sum + ticket.gold, 0);
-                const totalSilver = this.tickets.reduce((sum, ticket) => sum + ticket.silver, 0);
-
-                this.animateNumber('total-bookings', totalBookings);
-                this.animateNumber('premium-tickets', totalPremium);
-                this.animateNumber('gold-tickets', totalGold);
-                this.animateNumber('silver-tickets', totalSilver);
-            }
-
-            animateNumber(elementId, target) {
-                const element = document.getElementById(elementId);
-                if (!element) return;
-
-                let current = 0;
-                const increment = target / 20;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    element.textContent = Math.floor(current);
-                }, 50);
-            }
-
-            renderTable() {
-                const tbody = document.getElementById('tickets-tbody');
-                const startIndex = (this.currentPage - 1) * this.pageSize;
-                const endIndex = startIndex + this.pageSize;
-                const pageTickets = this.filteredTickets.slice(startIndex, endIndex);
-
-                tbody.innerHTML = pageTickets.map((ticket, index) => `
-                    <tr class="hover:bg-accent transition-colors cursor-pointer" onclick="ticketManager.showTicketDetails(${ticket.id})">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${startIndex + index + 1}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${ticket.audience}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${ticket.event}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${ticket.booked}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${ticket.eventDate}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-amber-600 font-medium">${ticket.premium}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-medium">${ticket.gold}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-medium">${ticket.silver}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-success">${ticket.total}</td>
+          tbody.innerHTML = pageTickets
+            .map(
+              (ticket, index) => `
+                    <tr class="hover:bg-accent transition-colors cursor-pointer" onclick="ticketManager.showTicketDetails(${
+                      ticket.id
+                    })">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${
+                          startIndex + index + 1
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${
+                          ticket.audience
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${
+                          ticket.event
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${
+                          ticket.booked
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${
+                          ticket.eventDate
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-amber-600 font-medium">${
+                          ticket.premium
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-medium">${
+                          ticket.gold
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-medium">${
+                          ticket.silver
+                        }</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-success">${
+                          ticket.total
+                        }</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 py-1 text-xs font-medium rounded-full ${this.getStatusClass(ticket.status)}">
-                                ${ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${this.getStatusClass(
+                              ticket.status
+                            )}">
+                                ${
+                                  ticket.status.charAt(0).toUpperCase() +
+                                  ticket.status.slice(1)
+                                }
                             </span>
                         </td>
                     </tr>
-                `).join('');
+                `
+            )
+            .join("");
 
-                this.renderPagination();
-                this.updateShowingInfo();
-            }
+          this.renderPagination();
+          this.updateShowingInfo();
+        }
 
-            getStatusClass(status) {
-                switch(status) {
-                    case 'confirmed':
-                        return 'bg-success bg-opacity-10 text-success';
-                    case 'pending':
-                        return 'bg-yellow-100 text-yellow-800';
-                    case 'cancelled':
-                        return 'bg-red-100 text-red-800';
-                    default:
-                        return 'bg-gray-100 text-gray-800';
-                }
-            }
+        getStatusClass(status) {
+          switch (status) {
+            case "confirmed":
+              return "bg-success bg-opacity-10 text-success";
 
-            renderPagination() {
-                const totalPages = Math.ceil(this.filteredTickets.length / this.pageSize);
-                const pagination = document.getElementById('pagination');
-                
-                let paginationHTML = '';
-                
-                paginationHTML += `
-                    <button class="px-3 py-2 text-sm text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 ${this.currentPage === 1 ? 'disabled:opacity-50 cursor-not-allowed' : ''}" 
-                            ${this.currentPage === 1 ? 'disabled' : ''} 
-                            onclick="ticketManager.goToPage(${this.currentPage - 1})">
+            case "cancelled":
+              return "bg-red-100 text-red-800";
+            default:
+              return "bg-gray-100 text-gray-800";
+          }
+        }
+
+        renderPagination() {
+          const totalPages = Math.ceil(
+            this.filteredTickets.length / this.pageSize
+          );
+          const pagination = document.getElementById("pagination");
+
+          let paginationHTML = "";
+
+          paginationHTML += `
+                    <button class="px-3 py-2 text-sm text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 ${
+                      this.currentPage === 1
+                        ? "disabled:opacity-50 cursor-not-allowed"
+                        : ""
+                    }" 
+                            ${this.currentPage === 1 ? "disabled" : ""} 
+                            onclick="ticketManager.goToPage(${
+                              this.currentPage - 1
+                            })">
                         Previous
                     </button>
                 `;
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    if (i === this.currentPage) {
-                        paginationHTML += `<button class="px-3 py-2 text-sm text-white bg-primary border border-primary rounded-lg">${i}</button>`;
-                    } else {
-                        paginationHTML += `<button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50" onclick="ticketManager.goToPage(${i})">${i}</button>`;
-                    }
-                }
-                
-                paginationHTML += `
-                    <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 ${this.currentPage === totalPages ? 'disabled:opacity-50 cursor-not-allowed' : ''}" 
-                            ${this.currentPage === totalPages ? 'disabled' : ''} 
-                            onclick="ticketManager.goToPage(${this.currentPage + 1})">
+
+          for (let i = 1; i <= totalPages; i++) {
+            if (i === this.currentPage) {
+              paginationHTML += `<button class="px-3 py-2 text-sm text-white bg-primary border border-primary rounded-lg">${i}</button>`;
+            } else {
+              paginationHTML += `<button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50" onclick="ticketManager.goToPage(${i})">${i}</button>`;
+            }
+          }
+
+          paginationHTML += `
+                    <button class="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 ${
+                      this.currentPage === totalPages
+                        ? "disabled:opacity-50 cursor-not-allowed"
+                        : ""
+                    }" 
+                            ${
+                              this.currentPage === totalPages ? "disabled" : ""
+                            } 
+                            onclick="ticketManager.goToPage(${
+                              this.currentPage + 1
+                            })">
                         Next
                     </button>
                 `;
-                
-                pagination.innerHTML = paginationHTML;
-            }
 
-            updateShowingInfo() {
-                const startIndex = (this.currentPage - 1) * this.pageSize + 1;
-                const endIndex = Math.min(this.currentPage * this.pageSize, this.filteredTickets.length);
-                
-                document.getElementById('showing-start').textContent = startIndex;
-                document.getElementById('showing-end').textContent = endIndex;
-                document.getElementById('total-entries').textContent = this.filteredTickets.length;
-            }
-
-            goToPage(page) {
-                const totalPages = Math.ceil(this.filteredTickets.length / this.pageSize);
-                if (page >= 1 && page <= totalPages) {
-                    this.currentPage = page;
-                    this.renderTable();
-                }
-            }
-
-            showAnalytics() {
-                document.getElementById('analytics-modal').classList.remove('hidden');
-                
-                // Create charts
-                setTimeout(() => {
-                    this.createTicketChart();
-                    this.createTrendChart();
-                }, 100);
-            }
-
-            closeAnalytics() {
-                document.getElementById('analytics-modal').classList.add('hidden');
-            }
-
-            createTicketChart() {
-                const ctx = document.getElementById('ticket-chart').getContext('2d');
-                const totalPremium = this.tickets.reduce((sum, ticket) => sum + ticket.premium, 0);
-                const totalGold = this.tickets.reduce((sum, ticket) => sum + ticket.gold, 0);
-                const totalSilver = this.tickets.reduce((sum, ticket) => sum + ticket.silver, 0);
-
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Premium', 'Gold', 'Silver'],
-                        datasets: [{
-                            data: [totalPremium, totalGold, totalSilver],
-backgroundColor: ['#D97706', '#F59E0B', '#9CA3AF'],                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
-                });
-            }
-
-            createTrendChart() {
-                const ctx = document.getElementById('trend-chart').getContext('2d');
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                        datasets: [{
-                            label: 'Bookings',
-                            data: [45, 52, 48, 61, 55],
-                            borderColor: '#7c3aed',
-                            backgroundColor: '#7c3aed20',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-
-            showTicketDetails(ticketId) {
-                const ticket = this.tickets.find(t => t.id === ticketId);
-                if (ticket) {
-                    alert(`Ticket Details:\nAudience: ${ticket.audience}\nEvent: ${ticket.event}\nTotal Tickets: ${ticket.total}\nStatus: ${ticket.status}`);
-                }
-            }
+          pagination.innerHTML = paginationHTML;
         }
 
-        // Initialize ticket manager
-        let ticketManager;
-        document.addEventListener('DOMContentLoaded', () => {
-            ticketManager = new TicketManager();
-        });
-        function handleLogout() {
-    // Optional: Show confirmation dialog
-    if (confirm('Are you sure you want to logout?')) {
-        // Clear any stored admin session data if you have any
-        localStorage.removeItem('adminLoggedIn');
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminEmail');
-        // Add any other admin-related localStorage items you want to clear
-        
-        // Redirect to the login page
-        window.location.href = 'http://127.0.0.1:5500/index_.html';
+        updateShowingInfo() {
+          const startIndex = (this.currentPage - 1) * this.pageSize + 1;
+          const endIndex = Math.min(
+            this.currentPage * this.pageSize,
+            this.filteredTickets.length
+          );
+
+          document.getElementById("showing-start").textContent = startIndex;
+          document.getElementById("showing-end").textContent = endIndex;
+          document.getElementById("total-entries").textContent =
+            this.filteredTickets.length;
+        }
+
+        goToPage(page) {
+          const totalPages = Math.ceil(
+            this.filteredTickets.length / this.pageSize
+          );
+          if (page >= 1 && page <= totalPages) {
+            this.currentPage = page;
+            this.renderTable();
+          }
+        }
+
+        showAnalytics() {
+          document.getElementById("analytics-modal").classList.remove("hidden");
+
+          // Create charts
+          setTimeout(() => {
+            this.createTicketChart();
+            this.createTrendChart();
+          }, 100);
+        }
+
+        closeAnalytics() {
+          document.getElementById("analytics-modal").classList.add("hidden");
+        }
+
+        createTicketChart() {
+          const ctx = document.getElementById("ticket-chart").getContext("2d");
+          const totalPremium = this.tickets.reduce(
+            (sum, ticket) => sum + ticket.premium,
+            0
+          );
+          const totalGold = this.tickets.reduce(
+            (sum, ticket) => sum + ticket.gold,
+            0
+          );
+          const totalSilver = this.tickets.reduce(
+            (sum, ticket) => sum + ticket.silver,
+            0
+          );
+
+          new Chart(ctx, {
+            type: "doughnut",
+            data: {
+              labels: ["Premium", "Gold", "Silver"],
+              datasets: [
+                {
+                  data: [totalPremium, totalGold, totalSilver],
+                  backgroundColor: ["#D97706", "#F59E0B", "#9CA3AF"],
+                  borderWidth: 2,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                },
+              },
+            },
+          });
+        }
+        applyDateFilter() {
+  const filterType = document.getElementById("date-filter-type").value;
+  const startDateVal = document.getElementById("start-date").value;
+  const endDateVal = document.getElementById("end-date").value;
+
+  // Validation
+  if (!startDateVal && !endDateVal) {
+    alert("Please select at least one date (start or end) to apply filter.");
+    return;
+  }
+  if (startDateVal && endDateVal) {
+    const startDateCheck = new Date(startDateVal);
+    const endDateCheck = new Date(endDateVal);
+    if (startDateCheck > endDateCheck) {
+      alert("Start date cannot be later than end date.");
+      return;
     }
+  }
+
+  const startDate = startDateVal ? new Date(startDateVal) : null;
+  const endDate = endDateVal ? new Date(endDateVal) : null;
+
+  this.filteredTickets = this.tickets.filter((ticket) => {
+    if (filterType === "booked") {
+      const dateToCheck = new Date(ticket.booked);
+      if (startDate && dateToCheck < startDate) return false;
+      if (endDate && dateToCheck > endDate) return false;
+      return true;
+    } 
+    else if (filterType === "eventDate") {
+      const dateToCheck = new Date(ticket.eventDate);
+      if (startDate && dateToCheck < startDate) return false;
+      if (endDate && dateToCheck > endDate) return false;
+      return true;
+    } 
+    else if (filterType === "all") {
+      const bookedDate = new Date(ticket.booked);
+      const eventDate = new Date(ticket.eventDate);
+
+      const bookedInRange = (!startDate || bookedDate >= startDate) && (!endDate || bookedDate <= endDate);
+      const eventInRange = (!startDate || eventDate >= startDate) && (!endDate || eventDate <= endDate);
+
+      return bookedInRange || eventInRange;
+    }
+    return true;
+  });
+
+  this.currentPage = 1;
+  this.renderTable();
 }
 
+
+        createTrendChart() {
+          const ctx = document.getElementById("trend-chart").getContext("2d");
+
+          new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+              datasets: [
+                {
+                  label: "Bookings",
+                  data: [45, 52, 48, 61, 55],
+                  borderColor: "#7c3aed",
+                  backgroundColor: "#7c3aed20",
+                  tension: 0.4,
+                  fill: true,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        }
+
+        showTicketDetails(ticketId) {
+          const ticket = this.tickets.find((t) => t.id === ticketId);
+          if (ticket) {
+            alert(
+              `Ticket Details:\nAudience: ${ticket.audience}\nEvent: ${ticket.event}\nTotal Tickets: ${ticket.total}\nStatus: ${ticket.status}`
+            );
+          }
+        }
+      }
+
+      // Initialize ticket manager
+      let ticketManager;
+      document.addEventListener("DOMContentLoaded", () => {
+        ticketManager = new TicketManager();
+      });
+      function handleLogout() {
+        // Optional: Show confirmation dialog
+        if (confirm("Are you sure you want to logout?")) {
+          // Clear any stored admin session data if you have any
+          localStorage.removeItem("adminLoggedIn");
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("adminEmail");
+          // Add any other admin-related localStorage items you want to clear
+
+          // Redirect to the login page
+          window.location.href = "http://127.0.0.1:5500/index_.html";
+        }
+      }
     </script>
-</body>
+  </body>
 </html>

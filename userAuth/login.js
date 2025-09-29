@@ -80,7 +80,7 @@ function findUser(data, email, password) {
     const audience = data.Audience || [];
     const admin = data.admin || [];
     console.log(admin);
-    
+
     // Check in Organizers array
     let user = organizers.find(
         (user) =>
@@ -102,12 +102,12 @@ function findUser(data, email, password) {
     if (user) {
         return { user, role: "audience" };
     }
-    
-    if(admin[0].email == email, admin[0].password == password) {
-        window.location.href='/src/Admin/features/dashboard.html'
-         return { user, role: "admin" };
+
+    if (admin[0].email == email, admin[0].password == password) {
+        window.location.href = '/src/Admin/features/dashboard.html'
+        return { user, role: "admin" };
     }
-    
+
 
     if (user) {
         return { user, role: "admin" };
@@ -121,8 +121,8 @@ function findUser(data, email, password) {
 function showMessage(message, type = "success") {
     messageText.textContent = message;
     messageContainer.className = `mb-6 p-4 rounded-2xl text-center font-body ${type === "success"
-            ? "bg-green-50 border border-green-200 text-green-800"
-            : "bg-red-50 border border-red-200 text-red-800"
+        ? "bg-green-50 border border-green-200 text-green-800"
+        : "bg-red-50 border border-red-200 text-red-800"
         }`;
     messageContainer.classList.remove("hidden");
 
@@ -131,7 +131,7 @@ function showMessage(message, type = "success") {
     setTimeout(() => {
 
         if (type == "success") location.href = localStorage.getItem('curl')
-    },500)
+    }, 500)
     setTimeout(() => {
         messageContainer.classList.add("hidden");
     }, 5000);
@@ -335,23 +335,26 @@ loginForm.addEventListener("submit", async (e) => {
 
     if (data) {
         const result = findUser(data, email, password);
-        console.log(result);
-        
-        console.log(result.role);
-        if (result.role != 'organizer') {
-            localStorage.removeItem('currentorganizerId')
-            localStorage.removeItem('currentorganizerEmail')
-            localStorage.removeItem('currentorganizerName')
-            
-        }
-        else {
-            localStorage.removeItem('currentaudienceId')
-            localStorage.removeItem('currentaudienceEmail')
-            localStorage.removeItem('currentaudienceName')
-           
-        }
+
+
+
 
         if (result) {
+
+
+            if (result.role != 'organizer') {
+                localStorage.removeItem('currentorganizerId')
+                localStorage.removeItem('currentorganizerEmail')
+                localStorage.removeItem('currentorganizerName')
+
+            }
+            else {
+                localStorage.removeItem('currentaudienceId')
+                localStorage.removeItem('currentaudienceEmail')
+                localStorage.removeItem('currentaudienceName')
+
+            }
+
             const Id = `current${result.role}Id`;
             const name = `current${result.role}name`;
             const email = `current${result.role}email`;
@@ -380,14 +383,14 @@ loginForm.addEventListener("submit", async (e) => {
                 const signInBtn = document.getElementById('signInBtn');
                 const profileBtn = document.getElementById('profileBtn');
                 const profileName = document.getElementById('pname');
-                
+
                 if (signInBtn && profileBtn) {
                     signInBtn.classList.add('hidden');
                     profileBtn.classList.remove('hidden');
                     profileName.innerText = localStorage.getItem('currentaudienceName')
                 }
-                
-                
+
+
             }, 1500);
         } else {
             showMessage(

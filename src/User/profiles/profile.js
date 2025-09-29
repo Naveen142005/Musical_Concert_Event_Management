@@ -1,21 +1,21 @@
 // Profile data - replace with actual user data
 let profileData = {
-    firstName: 'Naveen',
-    lastName: 'Kumar M',
-    email: 'naveen142005m@gmail.com',
-    phone: '+91 8144787225',
-    dob: '1995-06-15',
-    gender: 'male',
-    address: '123 Music Street, Entertainment District',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    pincode: '400001',
-    genres: ['classical', 'rock', 'jazz'],
-    notifications: ['new_events', 'booking_updates'],
-    memberSince: 'Sep 2025',
-    totalBookings: 8,
-    upcomingEvents: 2,
-    totalSpent: 25400
+    firstName: localStorage.getItem('currentaudienceName'),
+    lastName: '',
+    email: localStorage.getItem('currentaudienceEmail'),
+    phone: '',
+    dob: '',
+    gender: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    genres: [''],
+    notifications: ['', ''],
+    memberSince: '',
+    totalBookings: 0,
+    upcomingEvents: 0,
+    totalSpent: 0
 };
 
 // Initialize page

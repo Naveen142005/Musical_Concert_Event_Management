@@ -1815,6 +1815,86 @@ document.getElementById('mobileBookButton').addEventListener('click', () => {
 
     initializeBookingsSystem();
     document.getElementById('successTicketCount').innerText = Number(p) + Number(g) + Number(s);
+     let name = localStorage.getItem('currentaudienceName');
+    let email = localStorage.getItem('currentaudienceEmail');
+
+    let newBookings = [];
+    let id = localStorage.getItem('selectedEventId');
+    let aid = 'TZ' + Math.random().toString(36).substr(2, 8).toUpperCase()
+    localStorage.setItem('tid', aid);
+    // Find the selected event from eventsData
+    let selectedEvent = eventsData.find(event => event.id === id);
+    
+    // Extract event details
+    let eventName = selectedEvent ? selectedEvent.name : '';
+    let eventDate = selectedEvent ? selectedEvent.date : '';
+    let eventTime = selectedEvent ? selectedEvent.time : '';
+    let eventImage = selectedEvent ? selectedEvent.image : '';
+    let eventVenue = selectedEvent ? selectedEvent.venue : '';
+    let eventBand = selectedEvent ? selectedEvent.band : '';
+    let eventCategory = selectedEvent ? selectedEvent.category : '';
+
+    let pq = document.getElementById('Premium') ? document.getElementById('Premium').innerText : '';
+    let gq = document.getElementById('Gold') ? document.getElementById('Gold').innerText : '';
+    let sq = document.getElementById('Silver') ? document.getElementById('Silver').innerText : '';
+
+    if (p > 0) newBookings.push({ 
+        BookingId: id, 
+        username: name, 
+        useremail: email, 
+        type: "premium", 
+        total: pq, 
+        quantity: p,
+        eventName: eventName,
+        eventDate: eventDate,
+        eventTime: eventTime,
+        eventImage: eventImage,
+        eventVenue: eventVenue,
+        eventBand: eventBand,
+        eventCategory: eventCategory,
+        aid:aid
+    });
+    
+    if (g > 0) newBookings.push({ 
+        BookingId: id, 
+        username: name, 
+        useremail: email, 
+        type: "gold", 
+        total: gq, 
+        quantity: g,
+        eventName: eventName,
+        eventDate: eventDate,
+        eventTime: eventTime,
+        eventImage: eventImage,
+        eventVenue: eventVenue,
+        eventBand: eventBand,
+        eventCategory: eventCategory,
+        aid:aid
+    });
+    
+    if (s > 0) newBookings.push({ 
+        BookingId: id, 
+        username: name, 
+        useremail: email, 
+        type: "silver", 
+        total: sq, 
+        quantity: s,
+        eventName: eventName,
+        eventDate: eventDate,
+        eventTime: eventTime,
+        eventImage: eventImage,
+        eventVenue: eventVenue,
+        eventBand: eventBand,
+        eventCategory: eventCategory,
+        aid:aid
+    });
+
+    let currentTicketBookings = JSON.parse(localStorage.getItem('TicketBookings')) || [];
+    currentTicketBookings.push(...newBookings);
+
+    localStorage.setItem('TicketBookings', JSON.stringify(currentTicketBookings));
+
+    console.log("Bookings saved:", currentTicketBookings);
 })
 // Update summary for both mobile and desktop
 function updateBookingSummary() {

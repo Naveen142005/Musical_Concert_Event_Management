@@ -2,10 +2,12 @@ let venuesData = [];
 let bandsData = [];
 let decorationData = [];
 
+
+
 function checkAuthentication() {
   const currentOrganizerId = localStorage.getItem('currentorganizerId');
   console.log("hwllo");
-  
+
   if (!currentOrganizerId) {
 
     alert('Please log in to access the booking system.');
@@ -17,7 +19,6 @@ function checkAuthentication() {
   console.log('User authenticated with ID:', currentOrganizerId);
   return true;
 }
-
 
 
 function app() {
@@ -60,6 +61,51 @@ function app() {
     email: false,
     mobile: false,
     concertTime: false
+  }
+
+
+  function fun(num) {
+
+    if (document.getElementById(`step_${num}`).classList.contains('completed') || document.getElementById(`step_${num}`).classList.contains('active')) {
+      showStep_fun(num)
+    }
+
+  }
+  window.fun = fun
+
+
+  
+  function showStep_fun(stepNumber) {
+    // Hide all steps
+    document.querySelectorAll(".step-content").forEach((step) => {
+      step.classList.add("hidden")
+    })
+
+    // Show current step
+    document.getElementById(`step${stepNumber}`).classList.remove("hidden")
+    document.getElementById(`step${stepNumber}`).classList.add("fade-in")
+
+    currentStep = stepNumber
+
+    // FIXED: Force decoration re-render when entering step 3
+    if (stepNumber === 3) {
+      setTimeout(() => {
+        const decorationCheckbox = document.getElementById('wantDecoration')
+        if (decorationCheckbox && decorationCheckbox.checked) {
+          forceRenderDecorations()
+        }
+      }, 200)
+    }
+
+    // Trigger calendar re-render with proper coloring when entering step 4
+    if (stepNumber === 4) {
+      setTimeout(() => {
+        renderCalendar()
+      }, 100)
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   // Utility Functions
@@ -466,16 +512,52 @@ function app() {
     return isValid;
   }
 
-  function storeEventBannerPhoto(bookingId, photoFile) {
-    if (photoFile) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        localStorage.setItem(`event_banner_${bookingId}`, e.target.result);
-        console.log('Event banner stored in localStorage for booking:', bookingId);
+  async function storeEventBannerPhoto(bookingId, photoFile) {
+    if (!bookingId || !photoFile) {
+      return { success: false, error: 'Missing required parameters' };
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('file', photoFile);
+      formData.append('upload_preset', 'web-upload'); // This will work now
+
+      console.log('Uploading to Cloudinary...');
+
+      const response = await fetch('https://api.cloudinary.com/v1_1/dyifzw0io/image/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Cloudinary error:', errorData);
+        throw new Error(`Upload failed: ${errorData.error?.message || response.status}`);
+      }
+
+      const result = await response.json();
+      const imageUrl = result.secure_url;
+
+      localStorage.setItem(bookingId, imageUrl);
+
+      console.log('✅ Image uploaded successfully:', imageUrl);
+
+      return {
+        success: true,
+        url: imageUrl,
+        publicId: result.public_id,
+        storageKey: bookingId
       };
-      reader.readAsDataURL(photoFile);
+
+    } catch (error) {
+      console.error('❌ Upload error:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
+
 
 
   // Filtering and Pagination Functions (keeping existing)
@@ -1223,6 +1305,10 @@ function app() {
     return isValid;
   }
 
+
+
+
+
   // Summary Generation (keeping existing)
   function generateSummary() {
     const summaryContent = document.getElementById("summaryContent")
@@ -1420,23 +1506,29 @@ function app() {
    */
   // showStep(7)
   async function submitToMockAPI(bookingData) {
+    document.getElementById('completeBooking').disabled = true
+    document.getElementById('completeBooking').innerText = 'completing booking...'
     const apiUrl = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2';
 
     try {
       // Generate booking ID
-      
+
       // Store banner photo in localStorage with booking ID
       // if (bookingData.basicDetails.eventBannerFile) {
+      const bookingId = `TCM-${Date.now()}`;
+      const t = document.getElementById('ticketBookingDate').value
+      localStorage.setItem(`ticketbookingdate_${bookingId}`, t);
 
-      //   storeEventBannerPhoto(bookingId, bookingData.basicDetails.eventBannerFile);
+      const res = await storeEventBannerPhoto(bookingId, bookingData.basicDetails.eventBannerFile);
+      console.log(res.success);
+
       // }
-      
+
       // First, fetch the current data from the API
       const currentResponse = await fetch(apiUrl);
       const currentData = await currentResponse.json();
-      
+
       // Format the booked slot
-      const bookingId = `TCM-${Date.now()}`;
       const bookedSlot = `${bookingData.eventDate}-${bookingData.eventTime.toLowerCase()}`;
 
       // Prepare the booking data with new fields
@@ -1615,12 +1707,12 @@ function app() {
     try {
       // Submit to MockAPI
       console.log(finalBooking);
-      
+
       await submitToMockAPI(finalBooking);
       document.getElementById('successModal').classList.remove('hidden');
       return true;
     } catch (error) {
-      alert('Failed to submit booking. Please try again.', error);
+      console.log('Failed to submit booking. Please try again.', error);
       return false;
     }
   }
@@ -1869,7 +1961,7 @@ function app() {
     document.getElementById("nextStep6").addEventListener("click", () => showStep(7))
 
     // Step 7 - Payment 
- 
+
     document.getElementById("prevStep7").addEventListener("click", () => showStep(6))
     document.getElementById("completeBooking").addEventListener("click", (event) => {
       if (
@@ -2075,6 +2167,8 @@ function app() {
 
   // Make the function globally available
   window.hideStepValidationError = hideStepValidationError;
+
+
 
   function checkStep2() {
     const hasSelection = bookingData.selections.venue || bookingData.selections.bands.length > 0;

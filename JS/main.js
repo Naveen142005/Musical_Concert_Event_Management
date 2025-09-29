@@ -350,8 +350,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('bookingsbtn').addEventListener('click', () => {
          const currentOrganizerId = localStorage.getItem('currentorganizerId');
         const currentAudienceId = localStorage.getItem('currentaudienceId');
+        // alert(currentAudienceId)
+        
         if (currentAudienceId) {
-            window.location.href = '/src/User/MyBookings.html/MYBOOKINGS.html'
+            window.location.href = '/src/User/MyBookings/MYBOOKINGS.html'
         }
         else {
             window.location.href = "src/Organizer/MyBookings/complete_bookings.html"
