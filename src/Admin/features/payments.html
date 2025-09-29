@@ -39,7 +39,7 @@
             </div>
         </div>
         
-        <nav class="mt-6">
+        <nav class="mt-6 flex flex-col h-[calc(100%-120px)]">
             <ul class="space-y-2 px-4">
                 <li>
                     <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
@@ -85,7 +85,7 @@
                 </li>
                  <li>
             <a
-              href="q.html"
+              href="query-management.html"
               class="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
             >
               <i class="fas fa-comments"></i>
@@ -100,6 +100,14 @@
                     </a>
                 </li>
             </ul>
+             <div class="px-4 pb-6 mt-auto">
+            <div class="border-t border-gray-200 pt-4">
+                <button onclick="handleLogout()" class="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full text-left">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
         </nav>
     </div>
 
@@ -1221,6 +1229,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             paymentManager = new PaymentManager();
         });
+
+        function handleLogout() {
+    // Optional: Show confirmation dialog
+    if (confirm('Are you sure you want to logout?')) {
+        // Clear any stored admin session data if you have any
+        localStorage.removeItem('adminLoggedIn');
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminEmail');
+        // Add any other admin-related localStorage items you want to clear
+        
+        // Redirect to the login page
+        window.location.href = 'http://127.0.0.1:5500/index_.html';
+    }
+}
+
     </script>
 </body>
 </html>

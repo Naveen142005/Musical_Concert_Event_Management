@@ -1,61 +1,136 @@
-// Sample booking data - replace with actual data from your backend
-const bookingsData = [
-    {
-        id: 'booking001',
-        eventId: 'evt102',
-        eventName: 'Electric Nights Festival',
-        eventImage: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&auto=format',
-        date: '2025-10-12',
-        time: '8:00 PM',
-        venue: 'Phoenix Arena, Mumbai',
-        band: 'Neon Pulse',
-        category: 'Electronic',
-        tickets: [
-            { type: 'Premium', quantity: 2, price: 2000 },
-            { type: 'Gold', quantity: 1, price: 1200 }
-        ],
-        totalAmount: 5200,
-        bookingDate: '2025-09-20',
-        status: 'confirmed',
-        bookingId: 'TGZ001234'
-    },
-    {
-        id: 'booking002',
-        eventId: 'evt105',
-        eventName: 'Pop Culture Celebration',
-        eventImage: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=600&fit=crop&auto=format',
-        date: '2025-11-02',
-        time: '8:30 PM',
-        venue: 'Crystal Palace, Delhi',
-        band: 'Vibrant Stars',
-        category: 'Pop',
-        tickets: [
-            { type: 'Silver', quantity: 4, price: 800 }
-        ],
-        totalAmount: 3200,
-        bookingDate: '2025-09-25',
-        status: 'confirmed',
-        bookingId: 'TGZ001235'
-    },
-    {
-        id: 'booking003',
-        eventId: 'evt101',
-        eventName: 'Symphony Under the Stars',
-        eventImage: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format',
-        date: '2025-09-15',
-        time: '7:00 PM',
-        venue: 'Grand Music Hall, Chennai',
-        band: 'Orchestra Nova',
-        category: 'Classical',
-        tickets: [
-            { type: 'Premium', quantity: 2, price: 1500 }
-        ],
-        totalAmount: 3000,
-        bookingDate: '2025-08-20',
-        status: 'completed',
-        bookingId: 'TGZ001230'
-    }
-];
+
+// const bookingsData = [
+//     {
+//         id: 'booking001',
+//         eventId: 'evt102',
+//         eventName: 'Electric Nights Festival',
+//         eventImage: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&auto=format',
+//         date: '2025-10-12',
+//         time: '8:00 PM',
+//         venue: 'Phoenix Arena, Mumbai',
+//         band: 'Neon Pulse',
+//         category: 'Electronic',
+//         tickets: [
+//             { type: 'Premium', quantity: 2, price: 2000 },
+//             { type: 'Gold', quantity: 1, price: 1200 }
+//         ],
+//         totalAmount: 5200,
+//         bookingDate: '2025-09-20',
+//         status: 'confirmed',
+//         bookingId: 'TGZ001234'
+//     },
+//     {
+//         id: 'booking002',
+//         eventId: 'evt105',
+//         eventName: 'Pop Culture Celebration',
+//         eventImage: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=600&fit=crop&auto=format',
+//         date: '2025-11-02',
+//         time: '8:30 PM',
+//         venue: 'Crystal Palace, Delhi',
+//         band: 'Vibrant Stars',
+//         category: 'Pop',
+//         tickets: [
+//             { type: 'Silver', quantity: 4, price: 800 }
+//         ],
+//         totalAmount: 3200,
+//         bookingDate: '2025-09-25',
+//         status: 'confirmed',
+//         bookingId: 'TGZ001235'
+//     },
+//     {
+//         id: 'booking003',
+//         eventId: 'evt101',
+//         eventName: 'Symphony Under the Stars',
+//         eventImage: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format',
+//         date: '2025-09-15',
+//         time: '7:00 PM',
+//         venue: 'Grand Music Hall, Chennai',
+//         band: 'Orchestra Nova',
+//         category: 'Classical',
+//         tickets: [
+//             { type: 'Premium', quantity: 2, price: 1500 }
+//         ],
+//         totalAmount: 3000,
+//         bookingDate: '2025-08-20',
+//         status: 'completed',
+//         bookingId: 'TGZ001230'
+//     }
+// ];
+
+let bookingsData = []
+function fun() {
+    let uname = localStorage.getItem('currentaudienceName');
+    let uemail = localStorage.getItem('currentaudienceEmail');
+
+    let allBookings = JSON.parse(localStorage.getItem('TicketBookings')) || [];
+    
+    // Filter bookings for current user
+    let userBookings = allBookings.filter(booking => 
+        booking.useremail === uemail && booking.username === uname
+    );
+    
+    // Group bookings by event (BookingId represents eventId)
+    let groupedBookings = {};
+    
+    userBookings.forEach(booking => {
+        let eventId = booking.BookingId;
+        
+        if (!groupedBookings[eventId]) {
+            // Add date comparison logic here
+            let eventDate = new Date(booking.eventDate);
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
+            eventDate.setHours(0, 0, 0, 0);
+            
+            // Determine status based on event date
+            let status = eventDate >= today ? 'confirmed' : 'completed';
+            
+            groupedBookings[eventId] = {
+                id: booking.aid || `AID-${Date.now()}`,
+                bookingId: eventId,
+                eventName: booking.eventName,
+                eventImage: booking.eventImage,
+                date: booking.eventDate,
+                time: booking.eventTime,
+                venue: booking.eventVenue,
+                band: booking.eventBand,
+                category: booking.eventCategory,
+                tickets: {},
+                totalAmount: 0,
+                bookingDate: new Date().toISOString().split('T')[0],
+                status: status, // Use the calculated status instead of hardcoded 'completed'
+                bookingId: booking.aid || `BOOK-${Date.now()}`
+            };
+        }
+        
+        // Rest of your ticket grouping code remains the same...
+        let ticketType = booking.type.charAt(0).toUpperCase() + booking.type.slice(1);
+        let ticketPrice = parseInt(booking.total.replace('₹', '').replace(',', ''));
+        let pricePerTicket = ticketPrice / booking.quantity;
+        
+        if (!groupedBookings[eventId].tickets[ticketType]) {
+            groupedBookings[eventId].tickets[ticketType] = {
+                type: ticketType,
+                quantity: 0,
+                price: pricePerTicket
+            };
+        }
+        
+        groupedBookings[eventId].tickets[ticketType].quantity += booking.quantity;
+        groupedBookings[eventId].totalAmount += ticketPrice;
+    });
+    
+    // Convert tickets object to array
+    let finalBookings = Object.values(groupedBookings).map(booking => ({
+        ...booking,
+        tickets: Object.values(booking.tickets)
+    }));
+    
+    console.log('User Bookings:', finalBookings);
+    bookingsData = finalBookings;
+    console.log(bookingsData);
+}
+
 
 let currentBookingToCancel = null;
 let currentTab = 'current';
@@ -72,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // document.getElementById('signInBtn').classList.remove('hidden');
         document.getElementById('profileBtn').classList.add('hidden');
     }
-
+    fun();
     checkLoginStatus();
     loadBookings();
     setupEventListeners();
@@ -161,15 +236,18 @@ function switchTab(tab) {
 
 // Load bookings
 function loadBookings() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time for accurate comparison
+    
     const currentBookings = bookingsData.filter(booking => {
         const eventDate = new Date(booking.date);
-        const today = new Date();
+        eventDate.setHours(0, 0, 0, 0);
         return eventDate >= today && booking.status === 'confirmed';
     });
     
     const pastBookings = bookingsData.filter(booking => {
         const eventDate = new Date(booking.date);
-        const today = new Date();
+        eventDate.setHours(0, 0, 0, 0);
         return eventDate < today || booking.status === 'completed' || booking.status === 'cancelled';
     });
     
@@ -198,7 +276,7 @@ function displayBookings(bookings, containerId) {
                     </svg>
                 </div>
                 <p class="text-slate-500">No ${containerId.includes('current') ? 'upcoming' : 'past'} bookings found</p>
-            </div>
+            </div> 
         `;
         return;
     }

@@ -1433,13 +1433,14 @@
 
       <!-- Events Grid -->
       <div id="eventsContainer" class="hidden">
-        <div
-          id="eventsGrid"
-          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
-        >
-          <!-- Event cards will be populated -->
-        </div>
-      </div>
+    <div
+        id="eventsGrid"
+        class="grid gap-6 md:gap-8 grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))]"
+    >
+        <!-- Event cards will be populated -->
+    </div>
+</div>
+
 
       <!-- No Results State -->
       <div id="noResults" class="text-center py-24 hidden">

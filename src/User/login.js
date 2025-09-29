@@ -79,6 +79,8 @@ function findUser(data, email, password) {
     const organizers = data.Organizers || [];
     const audience = data.Audience || [];
     const admin = data.admin || [];
+    console.log(admin);
+    
     // Check in Organizers array
     let user = organizers.find(
         (user) =>
@@ -101,12 +103,15 @@ function findUser(data, email, password) {
         return { user, role: "audience" };
     }
     
-    user = admin.find((user) => {
-        user.email.toLowerCase() === email.toLowerCase() &&
-            user.password === password
-    })
+    if(admin[0].email == email, admin[0].password == password) {
+        window.location.href='/src/Admin/features/dashboard.html'
+         return { user, role: "admin" };
+    }
+    
 
-    if (user) window.location.href='/src/Admin/features/dashboard.html'
+    if (user) {
+        return { user, role: "admin" };
+    }
     return null;
 }
 
@@ -325,6 +330,8 @@ loginForm.addEventListener("submit", async (e) => {
 
     if (data) {
         const result = findUser(data, email, password);
+        console.log(result);
+        
         console.log(result.role);
         if (result.role != 'organizer') {
             localStorage.removeItem('currentorganizerId')

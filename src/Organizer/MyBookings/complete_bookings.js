@@ -95,19 +95,110 @@
 let venuesData = [];
 let bandsData = [];
 let decorationData = [];
-let eventsBookings;
+let eventsBookings = [];
 
 async function getData() {
     const APIBASE = 'https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2'
     try {
         const res = await fetch(APIBASE)
         const data = await res.json()
-        eventsBookings = data;
+
+        data.EventsBookings.forEach((item) => {
+            if (item.organizerId == localStorage.getItem('currentorganizerId')) {
+                eventsBookings.push(item)
+            }
+        })
+
+        let ticketBookings = JSON.parse(localStorage.getItem('TicketBookings'))
+        console.log("____________________");
+
+        console.log(typeof ticketBookings);
+
+        eventsBookings.forEach(event => {
+
+            // Find all tickets that belong to this event
+            const ticketsForThisEvent = ticketBookings.filter(ticket =>
+                ticket.BookingId === event.bookingId
+            );
+
+            // If no tickets found, skip this event
+            if (ticketsForThisEvent.length === 0) {
+                return;
+            }
+
+            // Count different types of tickets
+            let premiumTickets = 0;
+            let goldTickets = 0;
+            let silverTickets = 0;
+            let totalMoney = 0;
+
+            // Go through each ticket and count them
+            ticketsForThisEvent.forEach(ticket => {
+                const ticketQuantity = ticket.quantity;
+                const ticketPrice = parseFloat(ticket.total.replace('₹', ''));
+
+                // Count by ticket type
+                if (ticket.type === 'premium') {
+                    premiumTickets += ticketQuantity;
+                } else if (ticket.type === 'gold') {
+                    goldTickets += ticketQuantity;
+                } else if (ticket.type === 'silver') {
+                    silverTickets += ticketQuantity;
+                }
+
+                // Add to total money
+                totalMoney += ticketPrice;
+            });
+
+            // Calculate total tickets sold
+            const totalTicketsSold = premiumTickets + goldTickets + silverTickets;
+
+            // Update the event with ticket information
+            event.registrations = {
+                total: totalTicketsSold,
+                premium: premiumTickets,
+                gold: goldTickets,
+                silver: silverTickets
+            };
+
+            event.ticketsSold = {
+                total: totalTicketsSold,
+                premium: premiumTickets,
+                gold: goldTickets,
+                silver: silverTickets,
+                revenue: totalMoney
+            };
+
+            // Add list of people who bought tickets
+            // Make sure you're mapping the properties correctly
+            event.registeredUsers = ticketsForThisEvent.map(ticket => ({
+                name: ticket.username,           // ✓ Correct
+                email: ticket.useremail,         // ✓ Correct  
+                ticketType: ticket.type,         // ✓ Correct
+                quantity: ticket.quantity,       // ✓ Should work
+                amount: ticket.total.replace('₹', '') // ✓ Remove ₹ symbol for display
+            }));
+        });
+        console.log("--------------------------->>>>>>>>>>>>>>");
+
+        console.log(eventsBookings);
+
+
+
+
+
+
+
+
         venuesData = data.Venues || []
         bandsData = data.Bands || []
         decorationData = data.Decorations || []
         console.log('Data loaded successfully:', { venuesData, bandsData, decorationData })
-        return data
+
+
+
+
+        return data;
     } catch (error) {
         console.error('Failed to load data:', error)
         // Use fallback empty arrays if API fails
@@ -155,7 +246,7 @@ function APP(eventData) {
     const pastBookings = [];
     console.log(eventsBookings);
 
-    eventsBookings.EventsBookings.forEach(booking => {
+    eventsBookings.forEach(booking => {
         if (booking.bookedSlots && booking.bookedSlots.length > 0) {
             const eventDateStr = booking.bookedSlots[0].split('-').slice(0, 3).join('-');
             const eventDate = new Date(eventDateStr);
@@ -320,7 +411,8 @@ function createCurrentEventCard(booking, index) {
 document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('currentorganizerId'))
         startApp();
-    else alert("Please login as a organizer.")
+    else
+        alert('Please login as organizer')
 });
 
 
@@ -660,7 +752,7 @@ document.addEventListener('click', (e) => {
 
 // Enhanced table sorting functionality
 function sortTable(column, tableId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
+    const booking = eventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking || !booking.registeredUsers) return;
 
     // Toggle sort direction
@@ -746,7 +838,7 @@ function updateSortHeaders(sortedColumn) {
 // View Details function with updated event date display
 
 function viewDetails(bookingId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
+    const booking = eventsBookings.find(b => b.bookingId === bookingId);
     if (!booking) return;
 
     // Fetch related data
@@ -891,9 +983,12 @@ function viewDetails(bookingId) {
 }
 
 
-// Enhanced View Registrations with sortable table
+// Add these variables at the top of your file
+let displayedUsers = 5; // Show first 5 users initially
+
+// Enhanced View Registrations with working Load More button
 function viewRegistrations(bookingId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
+    const booking = eventsBookings.find(b => b.bookingId === bookingId);
     console.log(booking);
 
     if (!booking.registrations) {
@@ -907,92 +1002,100 @@ function viewRegistrations(bookingId) {
     sortDirection = 'asc';
 
     let tableContent = `
-                <div class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div class="bg-primary/10 rounded-lg p-6 text-center border border-primary/20">
-                            <div class="text-3xl font-bold text-primary counter-animation" id="totalCounter">${booking.registrations.total}</div>
-                            <div class="text-sm text-muted-foreground mt-1">Total Tickets Sold</div>
-                        </div>
-                        <div class="bg-success/10 rounded-lg p-6 text-center border border-success/20">
-                            <div class="text-3xl font-bold text-success counter-animation" id="premiumCounter">${booking.registrations.premium}</div>
-                            <div class="text-sm text-muted-foreground mt-1">Premium Tickets</div>
-                        </div>
-                        <div class="bg-warning/10 rounded-lg p-6 text-center border border-warning/20">
-                            <div class="text-3xl font-bold text-warning counter-animation" id="goldCounter">${booking.registrations.gold}</div>
-                            <div class="text-sm text-muted-foreground mt-1">Gold Tickets</div>
-                        </div>
-                        <div class="bg-accent/50 rounded-lg p-6 text-center border border-accent">
-                            <div class="text-3xl font-bold text-accent-foreground counter-animation" id="silverCounter">${booking.registrations.silver}</div>
-                            <div class="text-sm text-muted-foreground mt-1">Silver Tickets</div>
-                        </div>
+        <div class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-primary/10 rounded-lg p-6 text-center border border-primary/20">
+                    <div class="text-3xl font-bold text-primary counter-animation" id="totalCounter">${booking.registrations.total}</div>
+                    <div class="text-sm text-muted-foreground mt-1">Total Tickets Sold</div>
+                </div>
+                <div class="bg-success/10 rounded-lg p-6 text-center border border-success/20">
+                    <div class="text-3xl font-bold text-success counter-animation" id="premiumCounter">${booking.registrations.premium}</div>
+                    <div class="text-sm text-muted-foreground mt-1">Premium Tickets</div>
+                </div>
+                <div class="bg-warning/10 rounded-lg p-6 text-center border border-warning/20">
+                    <div class="text-3xl font-bold text-warning counter-animation" id="goldCounter">${booking.registrations.gold}</div>
+                    <div class="text-sm text-muted-foreground mt-1">Gold Tickets</div>
+                </div>
+                <div class="bg-accent/50 rounded-lg p-6 text-center border border-accent">
+                    <div class="text-3xl font-bold text-accent-foreground counter-animation" id="silverCounter">${booking.registrations.silver}</div>
+                    <div class="text-sm text-muted-foreground mt-1">Silver Tickets</div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-lg font-semibold text-card-foreground">Registered Users</h4>
+                    <div class="text-sm text-muted-foreground">
+                        Click column headers to sort
                     </div>
+                </div>
+                <div class="bg-secondary/50 rounded-lg p-4">
+                    <div class="overflow-x-auto">
+                        <table id="registrationsTable" class="w-full mobile-table">
+                            <thead>
+                                <tr class="border-b border-border">
+                                    <th class="text-left py-3 px-2 text-muted-foreground sortable-header sorted-asc" onclick="sortTable('name', 'registrationsTable')">
+                                        Name
+                                    </th>
+                                    <th class="text-left py-3 px-2 text-muted-foreground hidden sm:table-cell">Email</th>
+                                    <th class="text-left py-3 px-2 text-muted-foreground">Ticket Type</th>
+                                    <th class="text-center py-3 px-2 text-muted-foreground hidden sm:table-cell">Quantity</th>
+                                    <th class="text-left py-3 px-2 text-muted-foreground sortable-header sorted-asc" onclick="sortTable('amount', 'registrationsTable')">
+                                        Amount
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+    `;
 
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <h4 class="text-lg font-semibold text-card-foreground">Registered Users</h4>
-                            <div class="text-sm text-muted-foreground">
-                                Click column headers to sort
-                            </div>
-                        </div>
-                        <div class="bg-secondary/50 rounded-lg p-4">
-                            <div class="overflow-x-auto">
-                                <table id="registrationsTable" class="w-full mobile-table">
-                                    <thead>
-                                        <tr class="border-b border-border">
-                                            <th class="text-left py-3 px-2 text-muted-foreground sortable-header sorted-asc" onclick="sortTable('name', 'registrationsTable')">
-                                                Name
-                                            </th>
-                                            <th class="text-left py-3 px-2 text-muted-foreground hidden sm:table-cell">Email</th>
-                                            <th class="text-left py-3 px-2 text-muted-foreground">Ticket Type</th>
-                                            <th class="text-center py-3 px-2 text-muted-foreground hidden sm:table-cell">Quantity</th>
-                                            <th class="text-left py-3 px-2 text-muted-foreground sortable-header sorted-asc" onclick="sortTable('amount', 'registrationsTable')">
-                                                Amount
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                `;
+    // Show only the first few users initially
+    const usersToShow = booking.registeredUsers.slice(0, displayedUsers);
 
-    // Render initial table with fixed variable usage
-    booking.registeredUsers.forEach((user, index) => {
+    usersToShow.forEach((user, index) => {
         let ticketTypeClass = '';
-        if (user.ticketType.toLowerCase() === 'premium') {
+        if (user.ticketType && user.ticketType.toLowerCase() === 'premium') {
             ticketTypeClass = 'bg-success/20 text-success';
-        } else if (user.ticketType.toLowerCase() === 'gold') {
+        } else if (user.ticketType && user.ticketType.toLowerCase() === 'gold') {
             ticketTypeClass = 'bg-warning/20 text-warning';
         } else {
             ticketTypeClass = 'bg-accent/50 text-accent-foreground';
         }
 
         tableContent += `
-                    <tr class="border-b border-border/50 table-row" style="animation-delay: ${index * 0.05}s">
-                        <td class="py-3 px-2 font-medium">${user.name}</td>
-                        <td class="py-3 px-2 text-muted-foreground break-all hidden sm:table-cell">${user.email}</td>
-                        <td class="py-3 px-2">
-                            <span class="px-2 py-1 ${ticketTypeClass} rounded text-xs font-medium">${user.ticketType}</span>
-                        </td>
-                        <td class="py-3 px-2 text-center font-medium hidden sm:table-cell">${user.quantity}</td>
-                        <td class="py-3 px-2 font-semibold text-primary">₹${user.amount}</td>
-                    </tr>
-                `;
+            <tr class="border-b border-border/50 table-row" style="animation-delay: ${index * 0.05}s">
+                <td class="py-3 px-2 font-medium">${user.name || 'N/A'}</td>
+                <td class="py-3 px-2 text-muted-foreground break-all hidden sm:table-cell">${user.email || 'N/A'}</td>
+                <td class="py-3 px-2">
+                    <span class="px-2 py-1 ${ticketTypeClass} rounded text-xs font-medium">${user.ticketType || 'N/A'}</span>
+                </td>
+                <td class="py-3 px-2 text-center font-medium hidden sm:table-cell">${user.quantity || 0}</td>
+                <td class="py-3 px-2 font-semibold text-primary">₹${user.amount || 0}</td>
+            </tr>
+        `;
     });
 
+    // Show/hide load more button based on remaining users
+    const hasMoreUsers = displayedUsers < booking.registeredUsers.length;
+    const loadMoreButton = hasMoreUsers ?
+        `<button onclick="loadMoreRegistrations('${bookingId}')" class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm">
+            Load More Registrations
+        </button>` : '';
+
     const finalContent = tableContent + `
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-border text-center">
-                                <div class="text-sm text-muted-foreground mb-2">
-                                    Showing ${booking.registeredUsers.length} of ${booking.registrations.total} registered users
-                                </div>
-                                <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                    Load More Registrations
-                                </button>
-                            </div>
-                        </div>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-border text-center">
+                        <div class="text-sm text-muted-foreground mb-2">
+    Showing ${Math.min(displayedUsers, booking.registeredUsers.length)} of ${booking.registeredUsers.length} registered users
+</div>
+
+                        ${loadMoreButton}
                     </div>
                 </div>
-            `;
+            </div>
+        </div>
+    `;
 
     document.getElementById('registrationContent').innerHTML = finalContent;
     document.getElementById('registrationModal').classList.remove('hidden');
@@ -1006,6 +1109,16 @@ function viewRegistrations(bookingId) {
     }, 100);
 }
 
+// Add this simple function to handle loading more registrations
+function loadMoreRegistrations(bookingId) {
+    console.log('Loading more registrations...');
+
+    // Increase the number of displayed users
+    displayedUsers += 5; // Load 5 more users each time
+
+    // Re-render the registration view with more users
+    viewRegistrations(bookingId);
+}
 
 
 // Animate counter
@@ -1026,7 +1139,7 @@ function animateCounter(elementId, target) {
 }
 
 function RescheduleEvent(bookingId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
+    const booking = eventsBookings.find(b => b.bookingId === bookingId);
     if (!booking) return;
 
     // Check if already Rescheduled maximum times
@@ -1195,7 +1308,7 @@ function renderRescheduleModal(booking, currentSlot) {
 }
 
 function changeReschedulePage(direction) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
+    const booking = eventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking) return;
 
     const totalPages = Math.ceil(Object.keys(availabilityData).length / daysPerPage);
@@ -1210,7 +1323,7 @@ function changeReschedulePage(direction) {
 
 // Select new slot
 function selectNewSlot(slotKey) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
+    const booking = eventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking) return;
 
     const [date, timeSlot] = [slotKey.split('-').slice(0, 3).join('-'), slotKey.split('-')[3]];
@@ -1246,7 +1359,7 @@ function selectNewSlot(slotKey) {
 }
 
 async function confirmReschedule(newSlot) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
+    const booking = eventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking) return;
 
     const oldSlot = booking.bookedSlots[0];
@@ -1300,7 +1413,7 @@ async function confirmReschedule(newSlot) {
 
 
 function updateBookingCard(bookingId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
+    const booking = eventsBookings.find(b => b.bookingId === bookingId);
     if (!booking) return;
 
 
@@ -1428,7 +1541,7 @@ function addNewSlotToResources(apiData, newSlot, booking) {
 
 
 function cancelEvent(bookingId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
+    const booking = eventsBookings.find(b => b.bookingId === bookingId);
     if (!booking) return;
 
     currentBookingId = bookingId;
@@ -1437,7 +1550,7 @@ function cancelEvent(bookingId) {
 }
 
 async function confirmCancel() {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === currentBookingId);
+    const booking = eventsBookings.find(b => b.bookingId === currentBookingId);
     if (!booking) return;
 
     const oldSlot = booking.bookedSlots[0];
@@ -1479,7 +1592,7 @@ async function confirmCancel() {
 
 
 function moveBookingToPast(bookingId) {
-    const booking = eventsBookings.EventsBookings.find(b => b.bookingId === bookingId);
+    const booking = eventsBookings.find(b => b.bookingId === bookingId);
     console.log(bookingId + "hello");
 
     if (!booking) return;

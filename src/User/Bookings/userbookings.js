@@ -118,6 +118,8 @@ let eventsData;
 let filteredEvents;
 async function getData() {
     try {
+        console.log("🚀 getData started - showing skeleton");
+        showLoadingSkeleton();
         const data = await fetch('https://68ca895b430c4476c349e4c0.mockapi.io/MusicEvent/EventData/2');
         const res = await data.json();
         console.log('API Response:', res);
@@ -129,33 +131,78 @@ async function getData() {
 
         const eventBookings = res.EventsBookings;
         console.log('Event Bookings:', eventBookings);
-
+        // const today = new Date().toISOString().split("T")[0];
+        const today = new Date(); // current datetime
         // Transform API data to match frontend format
+
+
         eventsData = eventBookings.map((item, index) => {
             let date, timeRaw;
-            if (item.bookedSlots && item.bookedSlots.length > 0) {
+
+            // Safe access to bookedSlots with null/undefined checks
+            if (item.bookedSlots && Array.isArray(item.bookedSlots) && item.bookedSlots.length > 0) {
                 let slot = item.bookedSlots[0];
-                let parts = slot.split("-");
-                timeRaw = parts.pop(); // last part = time
-                date = parts.join("-"); // rest = date
+                if (slot && typeof slot === 'string') {
+                    let parts = slot.split("-");
+                    timeRaw = parts.pop(); // last part = time
+                    date = parts.join("-"); // rest = date
+                }
             }
 
-            // Normalize time text
+            // Time mapping with safe access
             const timeMap = {
                 morning: "Morning",
                 afternoon: "Afternoon",
                 night: "Night"
             };
+
+            // Debug logging for specific event
+            if (item.eventName === "Mokka Event") {
+                console.log(date, timeRaw, "hello");
+            }
+
+            // Safe time mapping with fallback
             const time = timeMap[timeRaw?.toLowerCase()] || "N/A";
+
+            // Convert time text to 24h hour
+            const hourMap = { Morning: 7, Afternoon: 12, Night: 18 };
+            const eventHour = hourMap[time] || 0;
+
+            // Build event datetime with proper date validation
+            let eventDateTime = new Date();
+            if (date && date !== "N/A") {
+                try {
+                    eventDateTime = new Date(date);
+                    // Check if date is valid
+                    if (isNaN(eventDateTime.getTime())) {
+                        eventDateTime = new Date(); // fallback to current date
+                    }
+                } catch (error) {
+                    console.error("Date parsing error:", error);
+                    eventDateTime = new Date(); // fallback to current date
+                }
+            }
+
+            eventDateTime.setHours(eventHour, 0, 0, 0); // set hour, minutes, seconds, ms
+
+            // Simple past/future check with safe property access
+            console.log(item.bookingStatus);
+
+            const isPast = eventDateTime < today || item.bookingStatus === "cancelled";
+
+            // Define fallback maps if not already defined
+            const safeBandMap = bandMap || {};
+            const safeVenueMap = venueMap || {};
+            const safeDecorMap = decorMap || {};
 
             return {
                 id: item.bookingId || `evt${index + 1}`,
-                name: item.eventName,
+                name: item.eventName || "Unnamed Event",
                 date: date || item.bookingDate?.slice(0, 10) || "2025-10-01",
                 time: time,
-                band: bandMap[item.bandId] || "Unknown Band",
-                venue: venueMap[item.venueId] || "Unknown Venue",
-                decoration: decorMap[item.decorId] || null,
+                band: safeBandMap[item.bandId] || "Unknown Band",
+                venue: safeVenueMap[item.venueId] || "Unknown Venue",
+                decoration: safeDecorMap[item.decorId] || null,
                 category: item.category || "General",
                 description: item.eventDescription || "An amazing musical event",
                 duration: item.duration || "2 hours",
@@ -165,12 +212,15 @@ async function getData() {
                     gold: item.ticketPrices?.goldPrice || 1000,
                     silver: item.ticketPrices?.silverPrice || 500
                 },
-                availableTickets: item.availableTickets || 100
+                availableTickets: item.availableTickets || 100,
+                isPast: isPast
             };
         });
+
         filteredEvents = [...eventsData];
         // console.log('Transformed Events Data:', apiEventsData);
-        hideLoadingSkeleton();
+        console.log("🎯 Hiding skeleton and showing data");
+        //
         displayEvents();
         // eventsData = apiEventsData;
         // Start the app with API data
@@ -178,6 +228,7 @@ async function getData() {
 
 
     } catch (error) {
+        hideLoadingSkeleton();
         console.error('Error fetching events data:', error);
         console.log('Using static fallback data');
         // Fallback to static data if API fails
@@ -187,7 +238,7 @@ async function getData() {
 
 // Application State
 
-let displayedEvents = 6;
+let displayedEvents = 50;
 let currentBookingEvent = null;
 let searchTimeout = null;
 let ticketSelections = {};
@@ -201,12 +252,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const profileBtn = document.getElementById('profileBtn');
     const profileName = document.getElementById('pname');
     console.log("helloooo");
-    
-    
+
+
     if (localStorage.getItem('currentaudienceId') || localStorage.getItem('currentorganizerId')) {
         console.log("hkhkjh");
         console.log(localStorage.getItem('currentorganizerId') + localStorage.getItem('currentorganizerName'));
-        
+
         signInBtn.classList.add('hidden');
         profileBtn.classList.remove('hidden');
         if (localStorage.getItem('currentaudienceName'))
@@ -220,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //     profileName.innerText = localStorage.getItem('currentorganizerName')
     // }
     feather.replace();
-    showLoadingSkeleton();
+
 
     // Store initial page in history
     navigationHistory.push({
@@ -250,6 +301,9 @@ function goBack() {
     }
 }
 
+
+
+
 // Setup Event Listeners
 function setupEventListeners() {
     document.getElementById('searchInput').addEventListener('input', handleSearch);
@@ -266,37 +320,195 @@ function setupEventListeners() {
     });
 }
 
+
 // Loading Skeleton
 function showLoadingSkeleton() {
+    // Hide actual content first
+    const eventsContainer = document.getElementById('eventsContainer');
+    if (eventsContainer) {
+        eventsContainer.classList.add('hidden');
+    }
+
     const skeleton = document.getElementById('loadingSkeleton');
+    if (!skeleton) {
+        console.error('Loading skeleton element not found');
+        return;
+    }
+
     skeleton.innerHTML = '';
 
     for (let i = 0; i < 6; i++) {
         skeleton.innerHTML += `
-                    <div class="card-elegant stagger-animation" style="--stagger-delay: ${i * 100}ms;">
-                        <div class="w-full h-64 skeleton-shimmer"></div>
-                        <div class="p-8">
-                            <div class="w-3/4 h-7 skeleton-shimmer rounded-xl mb-4"></div>
-                            <div class="w-1/2 h-5 skeleton-shimmer rounded-lg mb-3"></div>
-                            <div class="w-2/3 h-5 skeleton-shimmer rounded-lg mb-6"></div>
-                            <div class="w-full h-14 skeleton-shimmer rounded-2xl"></div>
-                        </div>
-                    </div>
-                `;
+            <div class="card-elegant stagger-animation" style="--stagger-delay: ${i * 100}ms;">
+                <div class="w-full h-64 skeleton-shimmer"></div>
+                <div class="p-8">
+                    <div class="w-3/4 h-7 skeleton-shimmer rounded-xl mb-4"></div>
+                    <div class="w-1/2 h-5 skeleton-shimmer rounded-lg mb-3"></div>
+                    <div class="w-2/3 h-5 skeleton-shimmer rounded-lg mb-6"></div>
+                    <div class="w-full h-14 skeleton-shimmer rounded-2xl"></div>
+                </div>
+            </div>
+        `;
     }
 
     skeleton.classList.remove('hidden');
 }
 
 function hideLoadingSkeleton() {
-    document.getElementById('loadingSkeleton').classList.add('hidden');
-    document.getElementById('eventsContainer').classList.remove('hidden');
-}
+    const skeleton = document.getElementById('loadingSkeleton');
+    if (skeleton) {
+        skeleton.classList.add('hidden');
+    }
 
+    // Show actual content
+    const eventsContainer = document.getElementById('eventsContainer');
+    if (eventsContainer) {
+        eventsContainer.classList.remove('hidden');
+    }
+}
 // Enhanced Display Events with Perfect Spacing and Alignment
 
 // Update the displayEvents function with Hero Icons
 // Add this function to your JavaScript file
+
+// Function to retrieve all bookings from localStorage
+function getMyBookings() {
+    console.log("__________________________________________");
+    
+    try {
+        // Get stored bookings from localStorage
+        const storedBookings = localStorage.getItem('TicketBookings');
+        
+        if (!storedBookings) {
+            console.log('No bookings found in localStorage');
+            return [];
+        }
+
+        // Parse the stored JSON
+        const rawBookings = JSON.parse(storedBookings);
+        
+        // Transform raw booking data to your desired format
+        const formattedBookings = rawBookings.map((booking, index) => {
+            // Find the event details from eventsData
+            const eventDetails = eventsData.find(event => event.id === booking.BookingId);
+            
+            if (!eventDetails) {
+                console.warn(`Event not found for booking ID: ${booking.BookingId}`);
+                return null;
+            }
+
+            // Calculate total amount based on ticket type and quantity
+            let totalAmount = 0;
+            const tickets = [];
+
+            if (booking.type === 'premium' && booking.quantity > 0) {
+                totalAmount = eventDetails.tickets.premium * booking.quantity;
+                tickets.push({ 
+                    type: 'Premium', 
+                    quantity: booking.quantity, 
+                    price: eventDetails.tickets.premium 
+                });
+            } else if (booking.type === 'gold' && booking.quantity > 0) {
+                totalAmount = eventDetails.tickets.gold * booking.quantity;
+                tickets.push({ 
+                    type: 'Gold', 
+                    quantity: booking.quantity, 
+                    price: eventDetails.tickets.gold 
+                });
+            } else if (booking.type === 'silver' && booking.quantity > 0) {
+                totalAmount = eventDetails.tickets.silver * booking.quantity;
+                tickets.push({ 
+                    type: 'Silver', 
+                    quantity: booking.quantity, 
+                    price: eventDetails.tickets.silver 
+                });
+            }
+
+            // Generate booking reference if not exists
+            const bookingId = `TGZ${String(index + 1).padStart(6, '0')}`;
+
+            return {
+                id: `booking${String(index + 1).padStart(3, '0')}`,
+                eventId: booking.BookingId,
+                eventName: eventDetails.name,
+                eventImage: eventDetails.image,
+                date: eventDetails.date,
+                time: eventDetails.time,
+                venue: eventDetails.venue,
+                band: eventDetails.band,
+                category: eventDetails.category,
+                tickets: tickets,
+                totalAmount: totalAmount,
+                bookingDate: new Date().toISOString().split('T')[0], // Current date as booking date
+                status: 'confirmed',
+                bookingId: bookingId,
+                username: booking.username || 'Guest',
+                userEmail: booking.useremail || ''
+            };
+        }).filter(booking => booking !== null); // Remove any null entries
+
+        return formattedBookings;
+    } catch (error) {
+        console.error('Error retrieving bookings:', error);
+        return [];
+    }
+}
+
+// Function to get a specific booking by ID
+function getBookingById(bookingId) {
+    const allBookings = getMyBookings();
+    return allBookings.find(booking => booking.bookingId === bookingId);
+}
+
+// Function to get bookings for current user
+function getCurrentUserBookings() {
+    const currentUsername = localStorage.getItem('currentaudienceName');
+    if (!currentUsername) {
+        console.log('No user logged in');
+        return [];
+    }
+
+    const allBookings = getMyBookings();
+    return allBookings.filter(booking => booking.username === currentUsername);
+}
+
+// Function to display all bookings (for testing)
+function displayMyBookings() {
+    const bookings = getMyBookings();
+    
+    console.log(`Found ${bookings.length} booking(s):`);
+    
+    bookings.forEach((booking, index) => {
+        console.log(`\n--- Booking ${index + 1} ---`);
+        console.log('Booking Data:', booking);
+    });
+    
+    return bookings;
+}
+
+// Initialize and check for existing bookings
+function initializeBookingsSystem() {
+    // Ensure TicketBookings exists in localStorage
+    if (!localStorage.getItem('TicketBookings')) {
+        localStorage.setItem('TicketBookings', JSON.stringify([]));
+        console.log('Initialized empty TicketBookings array in localStorage');
+    }
+    
+    // Display current bookings
+    const bookings = getMyBookings();
+    console.log('Current bookings:', bookings);
+    
+    return bookings;
+}
+
+// Usage Examples:
+// const myBookings = getMyBookings();
+// const userBookings = getCurrentUserBookings();
+// const specificBooking = getBookingById('TGZ000001');
+
+
+
+
 function getTicketBadgeClass(availableTickets) {
     if (availableTickets === 0) {
         return 'bg-red-500/90 text-white';
@@ -309,30 +521,34 @@ function getTicketBadgeClass(availableTickets) {
     }
 }
 
-// Your existing displayEvents function comes after this
 function displayEvents() {
     const grid = document.getElementById('eventsGrid');
     const eventsToShow = filteredEvents.slice(0, displayedEvents);
 
-    grid.innerHTML = eventsToShow.map((event, index) => `
-        <div class="card-elegant gentle-hover content-fade-in stagger-animation" style="--stagger-delay: ${index * 150}ms">
-            <div class="relative overflow-hidden">
-                <img src="${event.image}" alt="${event.name}" class="w-full h-64 object-cover image-elegant" loading="lazy">
+    // Generate the HTML content
+    const htmlContent = eventsToShow.map((event, index) => `
+        <div class="h-fit card-elegant gentle-hover content-fade-in stagger-animation" 
+             style="--stagger-delay: ${index * 150}ms; ${event.isPast ? 'display:none;' : ''}" >
+            <div class="relative overflow-hidden rounded-t-2xl">
+                <img src="${event.image}" 
+                     alt="${event.name}" 
+                     class="w-full h-48 sm:h-56 md:h-64 object-cover image-elegant" 
+                     loading="lazy">
                 
                 <!-- Category badge -->
-                <div class="absolute top-6 left-6">
+                <div class="absolute top-4 left-4">
                     <span class="px-3 py-1 text-xs font-body font-semibold bg-white/90 backdrop-blur text-slate-700 rounded-full">
                         ${event.category}
                     </span>
                 </div>
 
                 <!-- Available tickets badge -->
-                <div class="absolute top-6 right-6">
+                <div class="absolute top-4 right-4">
                     <span class="px-3 py-1 text-xs font-body font-semibold ${getTicketBadgeClass(event.availableTickets)} backdrop-blur rounded-full flex items-center space-x-1">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
                         </svg>
-                        <span>${event.availableTickets === 0 ? 'Sold Out' : event.availableTickets + ' left'}</span>
+                        <span class="text-xs">${event.availableTickets === 0 ? 'Sold Out' : event.availableTickets + ' left'}</span>
                     </span>
                 </div>
 
@@ -346,49 +562,51 @@ function displayEvents() {
                 ` : ''}
             </div>
             
-            <div class="p-8">
-                <h3 class="text-2xl font-display font-bold text-slate-900 element-spacing leading-tight">${event.name}</h3>
-                <p class="font-body text-slate-600 element-spacing text-sm leading-relaxed">${event.description}</p>
-                
-                <div class="space-y-3 text-spacing">
-                    <div class="vertical-center">
-                        <div class="icon-wrapper">
-                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
-                        <span class="font-body text-slate-600">${formatDate(event.date)} ${event.time}</span>
-                    </div>
+            <div class="p-4 sm:p-6 md:p-8 flex flex-col h-full">
+                <div class="flex-grow">
+                    <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold text-slate-900 element-spacing leading-tight mb-2">${event.name}</h3>
+                    <p class="font-body text-slate-600 element-spacing text-sm leading-relaxed mb-4 line-clamp-2">${event.description}</p>
                     
-                    <div class="vertical-center">
-                        <div class="icon-wrapper">
-                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
-                            </svg>
+                    <div class="space-y-2 sm:space-y-3 text-spacing mb-6">
+                        <div class="vertical-center">
+                            <div class="icon-wrapper">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-body text-slate-600 text-sm truncate">${formatDate(event.date)} ${event.time}</span>
                         </div>
-                        <span class="font-body text-slate-600">${event.band}</span>
-                    </div>
-                    
-                    <div class="vertical-center">
-                        <div class="icon-wrapper">
-                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
+                        
+                        <div class="vertical-center">
+                            <div class="icon-wrapper">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                                </svg>
+                            </div>
+                            <span class="font-body text-slate-600 text-sm truncate">${event.band}</span>
                         </div>
-                        <span class="font-body text-slate-600">${event.venue}</span>
+                        
+                        <div class="vertical-center">
+                            <div class="icon-wrapper">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-body text-slate-600 text-sm truncate">${event.venue}</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="flex items-center justify-between">
-                    <div>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-auto">
+                    <div class="flex-shrink-0">
                         <p class="font-body text-slate-500 text-sm mb-1">Starting from</p>
-                        <p class="text-2xl font-display font-bold price-highlight">₹${event.tickets.silver}</p>
+                        <p class="text-xl sm:text-2xl font-display font-bold price-highlight">₹${event.tickets.silver}</p>
                     </div>
                     <button onclick="handleBookingClick('${event.id}')" 
-                        class="button-primary px-8 py-3 rounded-2xl font-display center transition-all duration-300 ${event.availableTickets === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''}"
+                        class="button-primary px-6 sm:px-8 py-2.5 sm:py-3 rounded-2xl font-display center transition-all duration-300 text-sm sm:text-base w-full sm:w-auto flex-shrink-0 ${event.availableTickets === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''}"
                         ${event.availableTickets === 0 ? 'disabled' : ''}>
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
                         </svg>
                         ${event.availableTickets === 0 ? 'Sold Out' : 'Book Now'}
@@ -398,24 +616,40 @@ function displayEvents() {
         </div>
     `).join('');
 
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
-    console.log(loadMoreBtn);
+    // Insert HTML into DOM
+    grid.innerHTML = htmlContent;
 
-    loadMoreBtn.classList.toggle('hidden', displayedEvents >= filteredEvents.length);
+    // Use requestAnimationFrame to wait for DOM rendering to complete
+    requestAnimationFrame(() => {
+        // This runs after the browser has painted the DOM
+        requestAnimationFrame(() => {
+            // Double RAF ensures rendering is completely done
+            hideLoadingSkeleton();
+            
+            // Handle load more button
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (loadMoreBtn) {
+                loadMoreBtn.classList.toggle('hidden', displayedEvents >= filteredEvents.length);
+            }
+            
+            console.log('✅ Events displayed and skeleton hidden');
+        });
+    });
 }
+
 
 // Authentication check function
 function checkUserAuthentication() {
     const currentOrganizerId = localStorage.getItem('currentorganizerId');
     const currentAudienceId = localStorage.getItem('currentaudienceId');
 
-    
+
     if (currentOrganizerId) {
         showAuthMessage('Organizers cannot book tickets. Please login as an audience member to book tickets.', 'warning');
         // return { authenticated: true, userType: 'organizer' };
     }
     if (!currentOrganizerId && !currentAudienceId) {
-         showAuthMessage('Please login as an audience', 'warning');
+        showAuthMessage('Please login as an audience', 'warning');
         return { authenticated: false, userType: null };
     }
 
@@ -429,9 +663,6 @@ function checkUserAuthentication() {
 // Handle booking click with authentication check
 function handleBookingClick(eventId) {
     const auth = checkUserAuthentication();
-
-    
-
     if (auth.userType === 'audience') {
         // Valid audience user - proceed with booking
         openBookingModal(eventId);
@@ -536,18 +767,22 @@ document.head.insertAdjacentHTML('beforeend', authMessageStyles);
 
 
 
-// Enhanced Search Functionality
 function handleSearch(e) {
+    
+    
     const query = e.target.value.toLowerCase().trim();
     const loader = document.getElementById('searchLoader');
-
-    loader.classList.remove('hidden');
+    
+    if (loader) {
+        loader.classList.remove('hidden');
+    }
 
     if (searchTimeout) clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
-        loader.classList.add('hidden');
-
+        if (loader) 
+            loader.classList.add('hidden');
+        
         filteredEvents = query === '' ? [...eventsData] :
             eventsData.filter(event =>
                 event.name.toLowerCase().includes(query) ||
@@ -555,14 +790,14 @@ function handleSearch(e) {
                 event.venue.toLowerCase().includes(query) ||
                 event.category.toLowerCase().includes(query) ||
                 event.description.toLowerCase().includes(query)
-            );
+        );
 
         displayedEvents = 6;
         updateEventCount();
 
-        if (filteredEvents.length === 0) {
+        if (filteredEvents.length === 0) 
             showNoResults();
-        } else {
+         else {
             hideNoResults();
             displayEvents();
         }
@@ -600,32 +835,7 @@ function loadmoreevents() {
     displayEvents();
 }
 
-// // Enhanced Booking Modal
-// function openBookingModal(eventId) {
-//     // Add to navigation history
-//     navigationHistory.push({
-//         page: 'booking',
-//         eventId: eventId,
-//         timestamp: Date.now()
-//     });
 
-//     const currentUser = localStorage.getItem('currentaudienceName');
-//     if (!currentUser) {
-//         document.getElementById('loginModal').classList.remove('hidden');
-//         return;
-//     }
-
-//     const event = eventsData.find(e => e.id === eventId);
-//     if (!event) return;
-
-//     currentBookingEvent = event;
-//     ticketSelections = { premium: 0, gold: 0, silver: 0 };
-
-//     populateBookingModal(event);
-//     document.getElementById('bookingModal').classList.remove('hidden');
-//     document.getElementById('liveSummaryContainer').classList.remove('hidden');
-//     document.body.style.overflow = 'hidden';
-// }
 
 function populateBookingModal(event) {
     // Enhanced event information with proper spacing
@@ -854,7 +1064,7 @@ function processPayment() {
                                 modal.classList.remove('hidden');
 
                                 setTimeout(() => {
-                                    document.getElementById('bookingReference').textContent = 'TZ' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                                    document.getElementById('bookingReference').textContent = localStorage.getItem('tid');
                                     document.getElementById('successEventName').textContent = eventTitle;
                                     document.getElementById('successEventDate').textContent = new Date().toLocaleDateString();
                                     document.getElementById('successEventVenue').textContent = 'Concert Venue';
@@ -1385,7 +1595,7 @@ function openBookingModal(eventId) {
     document.getElementById('summaryToggleIcon').setAttribute('data-feather', 'chevron-up');
 
     // Load event data into modal
-    loadEventDataIntoModal(event);
+    loadEventDataIntoModal(event, eventId);
 
     // Initialize summary
     updateBookingSummary();
@@ -1395,8 +1605,11 @@ function openBookingModal(eventId) {
 }
 
 // Load event data into the booking modal
-function loadEventDataIntoModal(event) {
+function loadEventDataIntoModal(event, id) {
     // Populate event info
+    console.log(event + "  ehelooojdkj");
+
+    localStorage.setItem('selectedEventId', id)
     document.getElementById('modalEventInfo').innerHTML = `
         <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-6">
             <div class="flex items-start space-x-4">
@@ -1495,21 +1708,97 @@ function changeQuantity(ticketType, price, change) {
 }
 
 document.getElementById('desktopBookButton').addEventListener('click', () => {
-    document.getElementById('successTotalAmount').innerText = document.getElementById('desktopTotalAmount').innerText;
-    let p = document.getElementById('qty-premium').innerText;
-    let g = document.getElementById('qty-gold').innerText
-    let s = document.getElementById('qty-silver').innerText
+    let total = document.getElementById('desktopTotalAmount').innerText;
+    document.getElementById('successTotalAmount').innerText = total;
 
+    let p = Number(document.getElementById('qty-premium').innerText);
+    let g = Number(document.getElementById('qty-gold').innerText);
+    let s = Number(document.getElementById('qty-silver').innerText);
 
-    console.log("hwlloooo");
+    document.getElementById('successTicketCount').innerText = p + g + s;
 
-    console.log(p);
-    // console.log(typeof p);
+    let name = localStorage.getItem('currentaudienceName');
+    let email = localStorage.getItem('currentaudienceEmail');
 
+    let newBookings = [];
+    let id = localStorage.getItem('selectedEventId');
+    let aid = 'TZ' + Math.random().toString(36).substr(2, 8).toUpperCase()
+    localStorage.setItem('tid', aid);
+    // Find the selected event from eventsData
+    let selectedEvent = eventsData.find(event => event.id === id);
+    
+    // Extract event details
+    let eventName = selectedEvent ? selectedEvent.name : '';
+    let eventDate = selectedEvent ? selectedEvent.date : '';
+    let eventTime = selectedEvent ? selectedEvent.time : '';
+    let eventImage = selectedEvent ? selectedEvent.image : '';
+    let eventVenue = selectedEvent ? selectedEvent.venue : '';
+    let eventBand = selectedEvent ? selectedEvent.band : '';
+    let eventCategory = selectedEvent ? selectedEvent.category : '';
 
-    document.getElementById('successTicketCount').innerText = Number(p) + Number(g) + Number(s);
+    let pq = document.getElementById('Premium') ? document.getElementById('Premium').innerText : '';
+    let gq = document.getElementById('Gold') ? document.getElementById('Gold').innerText : '';
+    let sq = document.getElementById('Silver') ? document.getElementById('Silver').innerText : '';
 
-})
+    if (p > 0) newBookings.push({ 
+        BookingId: id, 
+        username: name, 
+        useremail: email, 
+        type: "premium", 
+        total: pq, 
+        quantity: p,
+        eventName: eventName,
+        eventDate: eventDate,
+        eventTime: eventTime,
+        eventImage: eventImage,
+        eventVenue: eventVenue,
+        eventBand: eventBand,
+        eventCategory: eventCategory,
+        aid:aid
+    });
+    
+    if (g > 0) newBookings.push({ 
+        BookingId: id, 
+        username: name, 
+        useremail: email, 
+        type: "gold", 
+        total: gq, 
+        quantity: g,
+        eventName: eventName,
+        eventDate: eventDate,
+        eventTime: eventTime,
+        eventImage: eventImage,
+        eventVenue: eventVenue,
+        eventBand: eventBand,
+        eventCategory: eventCategory,
+        aid:aid
+    });
+    
+    if (s > 0) newBookings.push({ 
+        BookingId: id, 
+        username: name, 
+        useremail: email, 
+        type: "silver", 
+        total: sq, 
+        quantity: s,
+        eventName: eventName,
+        eventDate: eventDate,
+        eventTime: eventTime,
+        eventImage: eventImage,
+        eventVenue: eventVenue,
+        eventBand: eventBand,
+        eventCategory: eventCategory,
+        aid:aid
+    });
+
+    let currentTicketBookings = JSON.parse(localStorage.getItem('TicketBookings')) || [];
+    currentTicketBookings.push(...newBookings);
+
+    localStorage.setItem('TicketBookings', JSON.stringify(currentTicketBookings));
+
+    console.log("Bookings saved:", currentTicketBookings);
+    initializeBookingsSystem();
+});
 
 
 document.getElementById('mobileBookButton').addEventListener('click', () => {
@@ -1524,7 +1813,7 @@ document.getElementById('mobileBookButton').addEventListener('click', () => {
     console.log(p);
     // console.log(typeof p);
 
-
+    initializeBookingsSystem();
     document.getElementById('successTicketCount').innerText = Number(p) + Number(g) + Number(s);
 })
 // Update summary for both mobile and desktop
@@ -1565,7 +1854,7 @@ function updateBookingSummary() {
                             <p class="font-medium text-slate-900">${ticketName}</p>
                             <p class="text-sm text-slate-600">${ticket.quantity} × ₹${ticket.price}</p>
                         </div>
-                        <span class="font-semibold text-slate-900">₹${ticket.quantity * ticket.price}</span>
+                        <span class="font-semibold text-slate-900 " id = "${ticketName}">₹${ticket.quantity * ticket.price}</span>
                     </div>
                 `;
                 mobileDetails.innerHTML += ticketHTML;
